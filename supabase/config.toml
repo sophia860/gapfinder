@@ -1,1 +1,10 @@
 project_id = "ciqvmwqypfpjzpyonmxb"
+
+[functions.gapfriend-chat]
+verify_jwt = true
+
+[functions.gapfriend-simulate]
+verify_jwt = true
+
+[functions.gapfriend-content]
+verify_jwt = true
