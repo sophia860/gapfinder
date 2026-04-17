@@ -74,13 +74,14 @@ function Onboarding() {
   if (!user) return null;
 
   async function handleModeNext(selected: UserMode) {
+    if (!user) return;
     setMode(selected);
     await updateProfile.mutateAsync({ user_id: user.id, mode: selected });
     setStep("details");
   }
 
   async function handleFinish() {
-    if (!mode) return;
+    if (!mode || !user) return;
     await updateProfile.mutateAsync({
       user_id: user.id,
       mode,
