@@ -427,16 +427,16 @@ function Landing() {
               title: "Ship it",
               body: "Vibe-code a website with AI or jump into a full coding workspace. No code required, but full power available.",
             },
-          ].map((s) => (
-            <div key={s.n}>
+          ].map((s, i) => (
+            <Reveal key={s.n} delayMs={i * 60}>
               <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
                 {s.n}
               </p>
               <h3 className="mt-3 font-serif text-2xl font-medium">{s.title}</h3>
               <p className="mt-2 text-muted-foreground leading-relaxed">{s.body}</p>
-            </div>
-          </Reveal>
-        ))}
+            </Reveal>
+          ))}
+        </section>
       </section>
 
       {/* Why GapFriend pillars */}
