@@ -571,6 +571,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          parked_at: string | null
           resume_note: string | null
           resume_note_updated_at: string | null
           tagline: string | null
@@ -583,6 +584,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          parked_at?: string | null
           resume_note?: string | null
           resume_note_updated_at?: string | null
           tagline?: string | null
@@ -595,6 +597,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          parked_at?: string | null
           resume_note?: string | null
           resume_note_updated_at?: string | null
           tagline?: string | null
@@ -870,7 +873,7 @@ export type Database = {
       chat_role: "user" | "assistant" | "system"
       comment_target: "campaign" | "post"
       gap_status: "suggested" | "selected" | "dismissed"
-      reaction_kind: "like" | "love" | "fire" | "clap"
+      reaction_kind: "like" | "love" | "fire" | "clap" | "heart"
       reaction_target: "campaign" | "post" | "comment"
       simulation_verdict: "strong" | "needs_work" | "kill"
       task_column: "later" | "this_week" | "in_progress" | "done"
@@ -1018,7 +1021,7 @@ export const Constants = {
       chat_role: ["user", "assistant", "system"],
       comment_target: ["campaign", "post"],
       gap_status: ["suggested", "selected", "dismissed"],
-      reaction_kind: ["like", "love", "fire", "clap"],
+      reaction_kind: ["like", "love", "fire", "clap", "heart"],
       reaction_target: ["campaign", "post", "comment"],
       simulation_verdict: ["strong", "needs_work", "kill"],
       task_column: ["later", "this_week", "in_progress", "done"],
