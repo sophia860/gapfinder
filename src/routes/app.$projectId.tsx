@@ -5,6 +5,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/gapfriend/AppSidebar";
 import { CopilotBubble } from "@/components/gapfriend/CopilotBubble";
 import { StageStepper } from "@/components/gapfriend/StageStepper";
+import { ResumeBanner } from "@/components/gapfriend/ResumeBanner";
+import { BackstagePanel } from "@/components/gapfriend/BackstagePanel";
 import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/app/$projectId")({
@@ -22,6 +24,8 @@ const SECTION_LABELS: Record<string, string> = {
   capital: "Capital",
   content: "Content",
   simulator: "Simulator",
+  vibe: "Vibe coding",
+  code: "Coding space",
 };
 
 function ProjectShell() {
@@ -93,12 +97,16 @@ function ProjectShell() {
                 )}
               </nav>
             </div>
-            <div className="hidden md:block">
-              <StageStepper projectId={projectId} />
+            <div className="flex items-center gap-2">
+              <div className="hidden md:block">
+                <StageStepper projectId={projectId} />
+              </div>
+              <BackstagePanel projectId={projectId} />
             </div>
           </header>
 
           <main className="flex-1 overflow-y-auto">
+            <ResumeBanner projectId={projectId} />
             <Outlet />
           </main>
         </div>

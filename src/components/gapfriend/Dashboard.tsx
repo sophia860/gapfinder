@@ -8,7 +8,9 @@ import {
   useContentPieces,
   useBrief,
   useGapCards,
+  useProfile,
 } from "@/lib/queries";
+import { useAuth } from "@/lib/auth";
 import {
   Sparkles,
   Globe,
@@ -21,6 +23,7 @@ import {
   Loader2,
   Check,
   X,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,12 +31,17 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
+import { deriveNextAction } from "@/lib/next-action";
 
 interface Props {
   projectId: string;
 }
 
 export function Dashboard({ projectId }: Props) {
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  const isDev = profile?.mode === "developer";
   const { data: project } = useProject(projectId);
   const { data: identity } = useIdentity(projectId);
   const { data: money } = useMoney(projectId);
@@ -88,8 +96,37 @@ export function Dashboard({ projectId }: Props) {
   const suggestedGaps = gaps?.filter((g) => g.status === "suggested") ?? [];
   const selectedGap = gaps?.find((g) => g.status === "selected");
 
+  const nextAction = deriveNextAction({ projectId, gaps, brief, identity, tasks });
+
   return (
     <div className="px-6 lg:px-12 py-10 max-w-5xl mx-auto space-y-8 pb-20">
+      {/* Your next 1 thing */}
+      {nextAction && (
+        <section
+          aria-label="Your next 1 thing"
+          className="bg-sage/10 border border-sage/30 rounded-2xl p-5 md:p-6 flex items-start gap-4"
+        >
+          <div className="size-10 rounded-xl bg-sage/20 text-sage flex items-center justify-center shrink-0">
+            <ArrowRight className="size-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-sage">
+              Your next 1 thing
+            </p>
+            <h2 className="mt-1 font-serif text-xl md:text-2xl font-medium leading-tight">
+              {nextAction.label}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">{nextAction.hint}</p>
+          </div>
+          <Link to={nextAction.to} className="shrink-0">
+            <Button size="sm" className="rounded-full">
+              Do it
+              <ArrowRight className="size-3.5 ml-1" />
+            </Button>
+          </Link>
+        </section>
+      )}
+
       {/* Identity hero */}
       <section className="bg-card rounded-3xl border border-border p-8 md:p-10 shadow-warm-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-72 h-72 bg-terracotta-soft/40 rounded-bl-[120px] -mr-10 -mt-10 pointer-events-none" />
@@ -405,6 +442,52 @@ export function Dashboard({ projectId }: Props) {
             <Empty>Use the composer below to turn a draft into SEO + a thread.</Empty>
           )}
         </Card>
+
+        <Card
+          icon={Sparkles}
+          title="Start building"
+          subtitle="vibe or code"
+          className="md:col-span-2 lg:col-span-3"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a
+              href={`/app/${projectId}/vibe`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-terracotta-soft flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Sparkles className="size-5 text-terracotta" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Vibe Coding</h4>
+                  <p className="text-xs text-muted-foreground">For non-coders</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Describe what you want to build and I'll generate it from your project's brief and
+                identity. No code required.
+              </p>
+            </a>
+            <a
+              href={`/app/${projectId}/code`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-muted flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Beaker className="size-5" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Coding Space</h4>
+                  <p className="text-xs text-muted-foreground">For developers</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Full in-browser IDE with file explorer, code editor, and live preview. Write or
+                tweak code directly.
+              </p>
+            </a>
+          </div>
+        </Card>
       </section>
 
       {/* Simulator + content composer */}
@@ -489,7 +572,7 @@ function Simulator({
       });
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
-      setResult((data as { simulation: typeof result }).simulation as never);
+      setResult((data as { simulation: NonNullable<typeof result> }).simulation);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Simulation failed");
     } finally {
@@ -588,7 +671,7 @@ function ContentComposer({ projectId }: { projectId: string }) {
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const piece = (data as { piece: typeof result }).piece;
-      setResult(piece as never);
+      setResult(piece as NonNullable<typeof result>);
       qc.invalidateQueries({ queryKey: ["content", projectId] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Couldn't compose");

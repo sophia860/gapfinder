@@ -27,24 +27,31 @@ function AppGate() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (
-      !profileLoading &&
-      profile &&
-      !profile.onboarding_completed &&
-      location.pathname !== "/app/onboarding"
-    ) {
+    if (profileLoading) return;
+    if (!user) return;
+    // Treat a missing profile row as "needs onboarding" so users aren't
+    // stranded on /app with no UI when the profile trigger hasn't run yet.
+    const needsOnboarding = !profile || !profile.onboarding_completed;
+    if (needsOnboarding && location.pathname !== "/app/onboarding") {
       navigate({ to: "/app/onboarding" });
     }
-  }, [profile, profileLoading, location.pathname, navigate]);
+  }, [user, profile, profileLoading, location.pathname, navigate]);
 
   // Auto-create first project after onboarding if none
   useEffect(() => {
     if (!user || !profile?.onboarding_completed) return;
     if (projectsLoading) return;
     if ((projects?.length ?? 0) === 0 && !createProject.isPending) {
-      createProject.mutate({ user_id: user.id, working_name: "My first venture" });
+      createProject.mutate(
+        { user_id: user.id, working_name: "My first venture" },
+        {
+          onError: (err) => {
+            console.error("auto-create project failed", err);
+          },
+        },
+      );
     }
-  }, [user, profile, projects, projectsLoading, createProject]);
+  }, [user, profile, projects, projectsLoading]); // createProject omitted intentionally — stable mutation object
 
   if (loading || profileLoading) {
     return (
