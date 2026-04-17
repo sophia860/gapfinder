@@ -56,10 +56,11 @@ export function useProjects(userId: string | undefined) {
     queryKey: ["projects", userId],
     enabled: !!userId,
     queryFn: async () => {
+      if (!userId) throw new Error("userId is required");
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .eq("user_id", userId!)
+        .eq("user_id", userId)
         .eq("archived", false)
         .order("created_at", { ascending: true });
       if (error) throw error;
