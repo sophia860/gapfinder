@@ -39,8 +39,7 @@ export function useUpdateProfile() {
       const { user_id, ...rest } = patch;
       const { data, error } = await supabase
         .from("profiles")
-        .update(rest)
-        .eq("user_id", user_id)
+        .upsert({ user_id, ...rest }, { onConflict: "user_id" })
         .select()
         .single();
       if (error) throw error;
@@ -59,6 +58,7 @@ export function useProjects(userId: string | undefined) {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
+        .eq("user_id", userId!)
         .eq("archived", false)
         .order("created_at", { ascending: true });
       if (error) throw error;

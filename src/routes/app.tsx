@@ -28,7 +28,7 @@ function AppLayout() {
 
   // Force onboarding if not complete
   useEffect(() => {
-    if (!profileLoading && profile && !profile.onboarding_completed && location.pathname !== "/app/onboarding") {
+    if (!profileLoading && profile && !profile.onboarding_completed && !profile.mode && location.pathname !== "/app/onboarding") {
       navigate({ to: "/app/onboarding" });
     }
   }, [profile, profileLoading, location.pathname, navigate]);
@@ -40,7 +40,7 @@ function AppLayout() {
     if ((projects?.length ?? 0) === 0 && !createProject.isPending) {
       createProject.mutate({ user_id: user.id, working_name: "My first venture" });
     }
-  }, [user, profile, projects, projectsLoading, createProject]);
+  }, [user, profile, projects, projectsLoading]); // createProject omitted intentionally — stable mutation object
 
   // Pick active project from URL or first
   useEffect(() => {

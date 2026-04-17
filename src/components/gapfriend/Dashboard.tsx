@@ -379,7 +379,7 @@ function Simulator({ projectId, brief }: { projectId: string; brief: { persona?:
       });
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
-      setResult((data as { simulation: typeof result }).simulation as never);
+      setResult((data as { simulation: NonNullable<typeof result> }).simulation);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Simulation failed");
     } finally {
@@ -458,7 +458,7 @@ function ContentComposer({ projectId }: { projectId: string }) {
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const piece = (data as { piece: typeof result }).piece;
-      setResult(piece as never);
+      setResult(piece as NonNullable<typeof result>);
       qc.invalidateQueries({ queryKey: ["content", projectId] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Couldn't compose");
