@@ -307,3 +307,82 @@ export function useGapCards(projectId: string | undefined) {
     },
   });
 }
+
+/* ---------- backstage (background reasoning AI) ---------- */
+export type BackstageInsight = Database["public"]["Tables"]["backstage_insights"]["Row"];
+export type BackstageMemory = Database["public"]["Tables"]["backstage_memory"]["Row"];
+export type BackstageKind = Database["public"]["Enums"]["backstage_kind"];
+export type BackstageStatus = Database["public"]["Enums"]["backstage_status"];
+
+export function useBackstageInsights(projectId: string | undefined) {
+  return useQuery({
+    queryKey: ["backstage-insights", projectId],
+    enabled: !!projectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("backstage_insights")
+        .select("*")
+        .eq("project_id", projectId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as BackstageInsight[];
+    },
+  });
+}
+
+export function useBackstageMemory(userId: string | undefined) {
+  return useQuery({
+    queryKey: ["backstage-memory", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("backstage_memory")
+        .select("*")
+        .eq("user_id", userId!)
+        .order("updated_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as BackstageMemory[];
+    },
+  });
+}
+
+export function useUpdateInsightStatus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { id: string; project_id: string; status: BackstageStatus }) => {
+      const { data, error } = await supabase
+        .from("backstage_insights")
+        .update({ status: input.status })
+        .eq("id", input.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) =>
+      qc.invalidateQueries({ queryKey: ["backstage-insights", vars.project_id] }),
+  });
+}
+
+export function useTriggerBackstage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { projectId: string; trigger?: string }) => {
+      const { data, error } = await supabase.functions.invoke("gapfriend-backstage", {
+        body: { projectId: input.projectId, trigger: input.trigger ?? "idle" },
+      });
+      if (error) throw error;
+      if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
+      return data as {
+        ok?: boolean;
+        skipped?: boolean;
+        insights_added?: number;
+        observations_added?: number;
+      };
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["backstage-insights", vars.projectId] });
+      qc.invalidateQueries({ queryKey: ["backstage-memory"] });
+    },
+  });
+}
