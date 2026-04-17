@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ArrowRight, Briefcase, Palette, TrendingUp } from "lucide-react";
+import { ArrowRight, Briefcase, Palette, TrendingUp, Code2 } from "lucide-react";
 
 export const Route = createFileRoute("/app/onboarding")({
   component: Onboarding,
@@ -40,6 +40,13 @@ const MODES: {
     tagline: "I want to expand.",
     body: "You're already selling. You want to find adjacent products, new segments, or test a new mini-product.",
     icon: TrendingUp,
+  },
+  {
+    id: "developer",
+    title: "Developer / builder",
+    tagline: "I want to ship something people pay for.",
+    body: "You can code. You want concrete, underserved niches — SaaS tools, APIs, CLIs, extensions, OSS-to-product — not generic startup ideas.",
+    icon: Code2,
   },
 ];
 
@@ -112,6 +119,14 @@ const QUESTIONS: Record<
       label: "What would expansion look like for you?",
       placeholder: "e.g. a B2B line, a digital product, a subscription, a new market",
     },
+  ],
+  developer: [
+    { key: "stack", label: "What's your stack — what do you reach for first?", placeholder: "e.g. TypeScript + Next.js + Postgres, or Python + FastAPI" },
+    { key: "domains", label: "Domains or industries you actually understand?", placeholder: "e.g. devops, fintech APIs, e-commerce, indie game dev, biotech tooling" },
+    { key: "oss_or_projects", label: "Any OSS, side projects, or things you've shipped?", placeholder: "e.g. a CLI with 200 stars, a Chrome extension with 1k users, nothing yet" },
+    { key: "build_speed", label: "How fast can you realistically ship a v1?", placeholder: "e.g. weekend MVPs, 2–4 weeks for a polished tool, slower with day job" },
+    { key: "constraints", label: "Time + money you can put in over the next 3 months?", placeholder: "e.g. ~15 hours/week, $200 infra budget" },
+    { key: "monetization", label: "How would you prefer to make money?", placeholder: "e.g. SaaS subscription, one-time license, paid OSS sponsor tier, API metered, B2B contracts" },
   ],
 };
 

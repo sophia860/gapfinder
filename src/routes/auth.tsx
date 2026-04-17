@@ -35,13 +35,24 @@ function AuthPage() {
     setSubmitting(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/app` },
         });
         if (error) throw error;
-        toast.success("Welcome to GapFriend.");
+        // When email confirmation is required, signUp returns no session.
+        // An empty `identities` array means an account already exists.
+        const identities = data.user?.identities ?? [];
+        if (data.session) {
+          toast.success("Welcome to GapFriend.");
+        } else if (identities.length === 0) {
+          toast.error("An account already exists for this email. Try signing in.");
+          setMode("signin");
+        } else {
+          toast.success("Check your email to confirm your account.");
+          setPassword("");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;

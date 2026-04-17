@@ -841,7 +841,7 @@ export const Constants = {
       reaction_target: ["campaign", "post", "comment"],
       simulation_verdict: ["strong", "needs_work", "kill"],
       task_column: ["later", "this_week", "in_progress", "done"],
-      user_mode: ["solo_founder", "freelancer", "existing_business"],
+      user_mode: ["solo_founder", "freelancer", "existing_business", "developer"],
     },
   },
 } as const;

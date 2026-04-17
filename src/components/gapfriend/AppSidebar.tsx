@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useProjects, useCreateProject, useProfile } from "@/lib/queries";
 import {
@@ -38,8 +39,6 @@ import {
   Lightbulb,
   Users,
   Globe,
-  Wand2,
-  Code2,
 } from "lucide-react";
 
 interface Props {
@@ -88,13 +87,6 @@ export function AppSidebar({ projectId }: Props) {
         { title: "Money", to: `/app/${projectId}/money`, icon: Coins },
         { title: "Capital", to: `/app/${projectId}/capital`, icon: Rocket },
         { title: "Crowdfund", to: `/app/${projectId}/crowdfund`, icon: HandCoins },
-      ],
-    },
-    {
-      label: "Build",
-      items: [
-        { title: "Vibe coding", to: `/app/${projectId}/vibe`, icon: Wand2 },
-        { title: "Coding space", to: `/app/${projectId}/code`, icon: Code2 },
       ],
     },
     {
@@ -159,11 +151,15 @@ export function AppSidebar({ projectId }: Props) {
               <DropdownMenuItem
                 onSelect={async () => {
                   if (!user) return;
-                  const proj = await createProject.mutateAsync({
-                    user_id: user.id,
-                    working_name: "New venture",
-                  });
-                  navigate({ to: "/app/$projectId", params: { projectId: proj.id } });
+                  try {
+                    const proj = await createProject.mutateAsync({
+                      user_id: user.id,
+                      working_name: "New venture",
+                    });
+                    navigate({ to: "/app/$projectId", params: { projectId: proj.id } });
+                  } catch (err) {
+                    toast.error(err instanceof Error ? err.message : "Couldn't create project");
+                  }
                 }}
                 className="cursor-pointer"
               >

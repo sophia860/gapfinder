@@ -5,7 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/gapfriend/AppSidebar";
 import { CopilotBubble } from "@/components/gapfriend/CopilotBubble";
 import { StageStepper } from "@/components/gapfriend/StageStepper";
-import { ResumeBanner } from "@/components/gapfriend/ResumeBanner";
+import { BackstagePanel } from "@/components/gapfriend/BackstagePanel";
 import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/app/$projectId")({
@@ -108,6 +108,7 @@ function ProjectShell() {
         </div>
 
         <CopilotBubble projectId={projectId} projectName={project.working_name} />
+        <BackstagePanel projectId={projectId} />
       </div>
     </SidebarProvider>
   );

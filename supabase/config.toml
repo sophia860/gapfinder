@@ -9,5 +9,5 @@ verify_jwt = false
 [functions.gapfriend-content]
 verify_jwt = false
 
-[functions.gapfriend-resume]
+[functions.gapfriend-backstage]
 verify_jwt = false

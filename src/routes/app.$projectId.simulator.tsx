@@ -76,7 +76,11 @@ function SimulatorPage() {
         />
         <div className="flex justify-end">
           <Button className="rounded-full" disabled={busy || !idea.trim()} onClick={run}>
-            {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Beaker className="size-4 mr-2" />}
+            {busy ? (
+              <Loader2 className="size-4 mr-2 animate-spin" />
+            ) : (
+              <Beaker className="size-4 mr-2" />
+            )}
             Run simulation
           </Button>
         </div>
@@ -91,7 +95,12 @@ function SimulatorPage() {
         ) : (
           <div className="space-y-3">
             {sims.map((s) => {
-              const reactions = (s.reactions as Array<{ from?: string; text?: string }> | null) ?? [];
+              const reactions =
+                (s.reactions as Array<{
+                  name?: string;
+                  reaction?: string;
+                  would_pay?: boolean;
+                }> | null) ?? [];
               const verdictColor =
                 s.verdict === "strong"
                   ? "bg-sage/15 text-sage border-sage/30"
@@ -99,10 +108,7 @@ function SimulatorPage() {
                     ? "bg-destructive/15 text-destructive border-destructive/30"
                     : "bg-muted text-muted-foreground border-border";
               return (
-                <details
-                  key={s.id}
-                  className="bg-card rounded-2xl border border-border p-5"
-                >
+                <details key={s.id} className="bg-card rounded-2xl border border-border p-5">
                   <summary className="cursor-pointer flex items-start justify-between gap-3">
                     <span className="font-serif text-base font-medium flex-1">
                       {s.idea?.slice(0, 100)}
@@ -130,20 +136,27 @@ function SimulatorPage() {
                         <div className="space-y-2">
                           {reactions.map((r, i) => (
                             <div key={i} className="p-3 rounded-xl bg-muted/40">
-                              {r.from && (
-                                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1">
-                                  {r.from}
+                              {(r.name || typeof r.would_pay === "boolean") && (
+                                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-2">
+                                  {r.name && <span>{r.name}</span>}
+                                  {typeof r.would_pay === "boolean" && (
+                                    <span
+                                      className={
+                                        r.would_pay ? "text-sage" : "text-muted-foreground"
+                                      }
+                                    >
+                                      · {r.would_pay ? "would pay" : "wouldn't pay"}
+                                    </span>
+                                  )}
                                 </div>
                               )}
-                              <p>{r.text}</p>
+                              <p>{r.reaction}</p>
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
-                    {s.objections && (
-                      <Block label="Objections">{s.objections}</Block>
-                    )}
+                    {s.objections && <Block label="Objections">{s.objections}</Block>}
                     {s.hooks && <Block label="Hooks">{s.hooks}</Block>}
                     {s.recommendation && <Block label="Recommendation">{s.recommendation}</Block>}
                   </div>
