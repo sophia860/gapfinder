@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { GapValidator } from "@/components/gapfriend/GapValidator";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -452,6 +453,9 @@ export function Dashboard({ projectId }: Props) {
           </div>
         </Card>
       </section>
+
+      {/* AI gap validator (structured "build / iterate / kill" report) */}
+      <GapValidator projectId={projectId} />
 
       {/* Simulator + content composer */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
