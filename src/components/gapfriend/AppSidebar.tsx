@@ -39,6 +39,7 @@ import {
   Lightbulb,
   Users,
   Globe,
+  HandCoins,
 } from "lucide-react";
 
 interface Props {

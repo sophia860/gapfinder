@@ -165,7 +165,7 @@ function CreateCampaignPanel({
     story: string | null;
     goal_amount: number;
     currency: string;
-    deadline: string | null;
+    deadline_at: string | null;
     category: string | null;
     cover_url: string | null;
     status: CampaignStatus;
@@ -296,7 +296,7 @@ function CreateCampaignPanel({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: null,
               status: "draft",
@@ -315,7 +315,7 @@ function CreateCampaignPanel({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: null,
               status: "live",
@@ -348,7 +348,7 @@ function EditCampaignForm({
   const [goal, setGoal] = useState<number>(Number(campaign.goal_amount ?? 0));
   const [currency, setCurrency] = useState(campaign.currency);
   const [deadline, setDeadline] = useState(
-    campaign.deadline ? new Date(campaign.deadline).toISOString().slice(0, 10) : "",
+    campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "",
   );
   const [category, setCategory] = useState(campaign.category ?? "");
   const [coverUrl, setCoverUrl] = useState(campaign.cover_url ?? "");
@@ -361,7 +361,7 @@ function EditCampaignForm({
     setStory(campaign.story ?? "");
     setGoal(Number(campaign.goal_amount ?? 0));
     setCurrency(campaign.currency);
-    setDeadline(campaign.deadline ? new Date(campaign.deadline).toISOString().slice(0, 10) : "");
+    setDeadline(campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "");
     setCategory(campaign.category ?? "");
     setCoverUrl(campaign.cover_url ?? "");
     setStatus(campaign.status);
@@ -484,7 +484,7 @@ function EditCampaignForm({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: coverUrl.trim() || null,
               status,

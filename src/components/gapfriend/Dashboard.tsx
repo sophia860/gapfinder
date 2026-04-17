@@ -8,7 +8,9 @@ import {
   useContentPieces,
   useBrief,
   useGapCards,
+  useProfile,
 } from "@/lib/queries";
+import { useAuth } from "@/lib/auth";
 import {
   Sparkles,
   Globe,
