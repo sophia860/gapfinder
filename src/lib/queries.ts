@@ -59,6 +59,7 @@ export function useProjects(userId: string | undefined) {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
+        .eq("user_id", userId!)
         .eq("archived", false)
         .order("created_at", { ascending: true });
       if (error) throw error;

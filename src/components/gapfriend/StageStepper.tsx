@@ -20,7 +20,7 @@ export function useDerivedStage(projectId: string): Stage {
       .length ?? 0) > 0;
 
   if (briefLocked && hasActiveTasks) return "execute";
-  if (briefLocked) return "execute";
+  if (briefLocked) return "decide";
   if (gaps?.some((g) => g.status === "selected")) return "decide";
   return "discover";
 }
