@@ -16,6 +16,16 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppProjectIdRouteImport } from './routes/app.$projectId'
 import { Route as AppProjectIdIndexRouteImport } from './routes/app.$projectId.index'
+import { Route as AppProjectIdSimulatorRouteImport } from './routes/app.$projectId.simulator'
+import { Route as AppProjectIdRoadmapRouteImport } from './routes/app.$projectId.roadmap'
+import { Route as AppProjectIdMoneyRouteImport } from './routes/app.$projectId.money'
+import { Route as AppProjectIdIdentityRouteImport } from './routes/app.$projectId.identity'
+import { Route as AppProjectIdGapsRouteImport } from './routes/app.$projectId.gaps'
+import { Route as AppProjectIdContentRouteImport } from './routes/app.$projectId.content'
+import { Route as AppProjectIdChannelsRouteImport } from './routes/app.$projectId.channels'
+import { Route as AppProjectIdCapitalRouteImport } from './routes/app.$projectId.capital'
+import { Route as AppProjectIdBriefRouteImport } from './routes/app.$projectId.brief'
+import { Route as AppProjectIdBoardRouteImport } from './routes/app.$projectId.board'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -52,6 +62,56 @@ const AppProjectIdIndexRoute = AppProjectIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
+const AppProjectIdSimulatorRoute = AppProjectIdSimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdRoadmapRoute = AppProjectIdRoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdMoneyRoute = AppProjectIdMoneyRouteImport.update({
+  id: '/money',
+  path: '/money',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdIdentityRoute = AppProjectIdIdentityRouteImport.update({
+  id: '/identity',
+  path: '/identity',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdGapsRoute = AppProjectIdGapsRouteImport.update({
+  id: '/gaps',
+  path: '/gaps',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdContentRoute = AppProjectIdContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdChannelsRoute = AppProjectIdChannelsRouteImport.update({
+  id: '/channels',
+  path: '/channels',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCapitalRoute = AppProjectIdCapitalRouteImport.update({
+  id: '/capital',
+  path: '/capital',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdBriefRoute = AppProjectIdBriefRouteImport.update({
+  id: '/brief',
+  path: '/brief',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdBoardRoute = AppProjectIdBoardRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +120,16 @@ export interface FileRoutesByFullPath {
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/': typeof AppIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,6 +137,16 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app': typeof AppIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesById {
@@ -77,6 +157,16 @@ export interface FileRoutesById {
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/': typeof AppIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,9 +178,34 @@ export interface FileRouteTypes {
     | '/app/$projectId'
     | '/app/onboarding'
     | '/app/'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/content'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
     | '/app/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/app/onboarding' | '/app' | '/app/$projectId'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/onboarding'
+    | '/app'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/content'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
+    | '/app/$projectId'
   id:
     | '__root__'
     | '/'
@@ -99,6 +214,16 @@ export interface FileRouteTypes {
     | '/app/$projectId'
     | '/app/onboarding'
     | '/app/'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/content'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
     | '/app/$projectId/'
   fileRoutesById: FileRoutesById
 }
@@ -159,14 +284,104 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdIndexRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/app/$projectId/simulator': {
+      id: '/app/$projectId/simulator'
+      path: '/simulator'
+      fullPath: '/app/$projectId/simulator'
+      preLoaderRoute: typeof AppProjectIdSimulatorRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/roadmap': {
+      id: '/app/$projectId/roadmap'
+      path: '/roadmap'
+      fullPath: '/app/$projectId/roadmap'
+      preLoaderRoute: typeof AppProjectIdRoadmapRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/money': {
+      id: '/app/$projectId/money'
+      path: '/money'
+      fullPath: '/app/$projectId/money'
+      preLoaderRoute: typeof AppProjectIdMoneyRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/identity': {
+      id: '/app/$projectId/identity'
+      path: '/identity'
+      fullPath: '/app/$projectId/identity'
+      preLoaderRoute: typeof AppProjectIdIdentityRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/gaps': {
+      id: '/app/$projectId/gaps'
+      path: '/gaps'
+      fullPath: '/app/$projectId/gaps'
+      preLoaderRoute: typeof AppProjectIdGapsRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/content': {
+      id: '/app/$projectId/content'
+      path: '/content'
+      fullPath: '/app/$projectId/content'
+      preLoaderRoute: typeof AppProjectIdContentRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/channels': {
+      id: '/app/$projectId/channels'
+      path: '/channels'
+      fullPath: '/app/$projectId/channels'
+      preLoaderRoute: typeof AppProjectIdChannelsRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/capital': {
+      id: '/app/$projectId/capital'
+      path: '/capital'
+      fullPath: '/app/$projectId/capital'
+      preLoaderRoute: typeof AppProjectIdCapitalRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/brief': {
+      id: '/app/$projectId/brief'
+      path: '/brief'
+      fullPath: '/app/$projectId/brief'
+      preLoaderRoute: typeof AppProjectIdBriefRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/board': {
+      id: '/app/$projectId/board'
+      path: '/board'
+      fullPath: '/app/$projectId/board'
+      preLoaderRoute: typeof AppProjectIdBoardRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
   }
 }
 
 interface AppProjectIdRouteChildren {
+  AppProjectIdBoardRoute: typeof AppProjectIdBoardRoute
+  AppProjectIdBriefRoute: typeof AppProjectIdBriefRoute
+  AppProjectIdCapitalRoute: typeof AppProjectIdCapitalRoute
+  AppProjectIdChannelsRoute: typeof AppProjectIdChannelsRoute
+  AppProjectIdContentRoute: typeof AppProjectIdContentRoute
+  AppProjectIdGapsRoute: typeof AppProjectIdGapsRoute
+  AppProjectIdIdentityRoute: typeof AppProjectIdIdentityRoute
+  AppProjectIdMoneyRoute: typeof AppProjectIdMoneyRoute
+  AppProjectIdRoadmapRoute: typeof AppProjectIdRoadmapRoute
+  AppProjectIdSimulatorRoute: typeof AppProjectIdSimulatorRoute
   AppProjectIdIndexRoute: typeof AppProjectIdIndexRoute
 }
 
 const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
+  AppProjectIdBoardRoute: AppProjectIdBoardRoute,
+  AppProjectIdBriefRoute: AppProjectIdBriefRoute,
+  AppProjectIdCapitalRoute: AppProjectIdCapitalRoute,
+  AppProjectIdChannelsRoute: AppProjectIdChannelsRoute,
+  AppProjectIdContentRoute: AppProjectIdContentRoute,
+  AppProjectIdGapsRoute: AppProjectIdGapsRoute,
+  AppProjectIdIdentityRoute: AppProjectIdIdentityRoute,
+  AppProjectIdMoneyRoute: AppProjectIdMoneyRoute,
+  AppProjectIdRoadmapRoute: AppProjectIdRoadmapRoute,
+  AppProjectIdSimulatorRoute: AppProjectIdSimulatorRoute,
   AppProjectIdIndexRoute: AppProjectIdIndexRoute,
 }
 
@@ -196,3 +411,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

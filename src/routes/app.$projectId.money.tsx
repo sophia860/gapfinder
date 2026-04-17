@@ -1,4 +1,4 @@
-import { createFileRoute } from "@antml:parameter>
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMoney } from "@/lib/queries";
 import { DollarSign, Loader2 } from "lucide-react";
