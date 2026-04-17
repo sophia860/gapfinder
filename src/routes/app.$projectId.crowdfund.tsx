@@ -165,7 +165,7 @@ function CreateCampaignPanel({
     story: string | null;
     goal_amount: number;
     currency: string;
-    deadline: string | null;
+    deadline_at: string | null;
     category: string | null;
     cover_url: string | null;
     status: CampaignStatus;
@@ -296,7 +296,7 @@ function CreateCampaignPanel({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: null,
               status: "draft",
@@ -315,7 +315,7 @@ function CreateCampaignPanel({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: null,
               status: "live",
@@ -484,7 +484,7 @@ function EditCampaignForm({
               story: story.trim() || null,
               goal_amount: goal || 0,
               currency,
-              deadline: deadline ? new Date(deadline).toISOString() : null,
+              deadline_at: deadline ? new Date(deadline).toISOString() : null,
               category: category.trim() || null,
               cover_url: coverUrl.trim() || null,
               status,
