@@ -38,6 +38,8 @@ import {
   Lightbulb,
   Users,
   Globe,
+  Wand2,
+  Code2,
 } from "lucide-react";
 
 interface Props {
@@ -85,6 +87,13 @@ export function AppSidebar({ projectId }: Props) {
         { title: "Board", to: `/app/${projectId}/board`, icon: KanbanSquare },
         { title: "Money", to: `/app/${projectId}/money`, icon: Coins },
         { title: "Capital", to: `/app/${projectId}/capital`, icon: Rocket },
+      ],
+    },
+    {
+      label: "Build",
+      items: [
+        { title: "Vibe coding", to: `/app/${projectId}/vibe`, icon: Wand2 },
+        { title: "Coding space", to: `/app/${projectId}/code`, icon: Code2 },
       ],
     },
     {

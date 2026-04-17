@@ -22,6 +22,8 @@ const SECTION_LABELS: Record<string, string> = {
   capital: "Capital",
   content: "Content",
   simulator: "Simulator",
+  vibe: "Vibe coding",
+  code: "Coding space",
 };
 
 function ProjectShell() {
