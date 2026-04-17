@@ -70,7 +70,7 @@
 
   --shadow-warm-sm: 0 1px 2px 0 oklch(0.25 0.04 40 / 0.04);
   --shadow-warm: 0 4px 20px -4px oklch(0.25 0.04 40 / 0.06);
-  --shadow-warm-lg: 0 10px 40px -10px oklch(0.25 0.04 40 / 0.10);
+  --shadow-warm-lg: 0 10px 40px -10px oklch(0.25 0.04 40 / 0.1);
 }
 
 :root {
@@ -112,7 +112,7 @@
   --chart-2: var(--ochre);
   --chart-3: var(--sage);
   --chart-4: oklch(0.55 0.12 30);
-  --chart-5: oklch(0.65 0.10 200);
+  --chart-5: oklch(0.65 0.1 200);
 
   --sidebar: var(--paper);
   --sidebar-foreground: var(--ink);
@@ -137,7 +137,7 @@
   --secondary-foreground: oklch(0.96 0.012 75);
   --muted: oklch(0.26 0.015 40);
   --muted-foreground: oklch(0.72 0.018 45);
-  --accent: oklch(0.30 0.04 35);
+  --accent: oklch(0.3 0.04 35);
   --accent-foreground: oklch(0.92 0.045 40);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.984 0.003 247.858);
@@ -151,7 +151,8 @@
     border-color: var(--color-border);
   }
 
-  html, body {
+  html,
+  body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
@@ -159,7 +160,11 @@
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
   }

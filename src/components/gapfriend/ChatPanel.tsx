@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { useChatMessages } from "@/lib/queries";
+import { useChatMessages, useProfile } from "@/lib/queries";
+import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Send, Sparkles, Loader2 } from "lucide-react";
@@ -12,6 +13,9 @@ interface Props {
 
 export function ChatPanel({ projectId, projectName }: Props) {
   const { data: messages } = useChatMessages(projectId);
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  const isDev = profile?.mode === "developer";
   const qc = useQueryClient();
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -31,7 +35,16 @@ export function ChatPanel({ projectId, projectName }: Props) {
     // Optimistic user bubble
     qc.setQueryData(["chat", projectId], (old: unknown) => {
       const list = (old as Array<Record<string, unknown>>) ?? [];
-      return [...list, { id: `tmp-${Date.now()}`, project_id: projectId, role: "user", content: text, created_at: new Date().toISOString() }];
+      return [
+        ...list,
+        {
+          id: `tmp-${Date.now()}`,
+          project_id: projectId,
+          role: "user",
+          content: text,
+          created_at: new Date().toISOString(),
+        },
+      ];
     });
 
     try {
@@ -74,8 +87,11 @@ export function ChatPanel({ projectId, projectName }: Props) {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-5">
         {!hasMessages && (
           <div className="bg-muted/60 rounded-2xl rounded-tl-sm p-4 text-sm leading-relaxed">
-            Hey — I'm GapFriend, your honest co-pilot. I can help you find a gap, pressure-test ideas with synthetic customers, name your thing, work out the money, and turn advice into tasks.
-            <br /><br />
+            Hey — I'm GapFriend, your honest co-pilot. I can help you find a gap, pressure-test
+            ideas with synthetic customers, name your thing, work out the money, and turn advice
+            into tasks.
+            <br />
+            <br />
             What do you want to look at first?
           </div>
         )}
@@ -100,11 +116,18 @@ export function ChatPanel({ projectId, projectName }: Props) {
 
       <div className="p-4 border-t border-border shrink-0 space-y-3">
         <div className="flex flex-wrap gap-2">
-          {[
-            "Suggest 3 market gaps for me",
-            "Help me write an opportunity brief",
-            "What should I do this week?",
-          ].map((q) => (
+          {(isDev
+            ? [
+                "Find SaaS gaps for devs",
+                "What can I build in a weekend?",
+                "Show me underserved dev tool niches",
+              ]
+            : [
+                "Suggest 3 market gaps for me",
+                "Help me write an opportunity brief",
+                "What should I do this week?",
+              ]
+          ).map((q) => (
             <button
               key={q}
               onClick={() => setInput(q)}
@@ -128,7 +151,11 @@ export function ChatPanel({ projectId, projectName }: Props) {
             disabled={!input.trim() || sending}
             className="absolute right-1.5 top-1/2 -translate-y-1/2 size-8 rounded-full bg-terracotta text-primary-foreground flex items-center justify-center hover:bg-terracotta/90 transition-colors disabled:opacity-40"
           >
-            {sending ? <Loader2 className="size-3.5 animate-spin" /> : <Send className="size-3.5" />}
+            {sending ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : (
+              <Send className="size-3.5" />
+            )}
           </button>
         </form>
       </div>

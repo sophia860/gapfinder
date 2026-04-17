@@ -12,8 +12,26 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CommunityIndexRouteImport } from './routes/community.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as CommunityCampaignIdRouteImport } from './routes/community.$campaignId'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
+import { Route as AppProjectIdRouteImport } from './routes/app.$projectId'
+import { Route as AppProjectIdIndexRouteImport } from './routes/app.$projectId.index'
+import { Route as CommunityProfileUserIdRouteImport } from './routes/community.profile.$userId'
+import { Route as AppProjectIdVibeRouteImport } from './routes/app.$projectId.vibe'
+import { Route as AppProjectIdSimulatorRouteImport } from './routes/app.$projectId.simulator'
+import { Route as AppProjectIdRoadmapRouteImport } from './routes/app.$projectId.roadmap'
+import { Route as AppProjectIdMoneyRouteImport } from './routes/app.$projectId.money'
+import { Route as AppProjectIdIdentityRouteImport } from './routes/app.$projectId.identity'
+import { Route as AppProjectIdGapsRouteImport } from './routes/app.$projectId.gaps'
+import { Route as AppProjectIdCrowdfundRouteImport } from './routes/app.$projectId.crowdfund'
+import { Route as AppProjectIdContentRouteImport } from './routes/app.$projectId.content'
+import { Route as AppProjectIdCodeRouteImport } from './routes/app.$projectId.code'
+import { Route as AppProjectIdChannelsRouteImport } from './routes/app.$projectId.channels'
+import { Route as AppProjectIdCapitalRouteImport } from './routes/app.$projectId.capital'
+import { Route as AppProjectIdBriefRouteImport } from './routes/app.$projectId.brief'
+import { Route as AppProjectIdBoardRouteImport } from './routes/app.$projectId.board'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -30,50 +48,264 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityIndexRoute = CommunityIndexRouteImport.update({
+  id: '/community/',
+  path: '/community/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const CommunityCampaignIdRoute = CommunityCampaignIdRouteImport.update({
+  id: '/community/$campaignId',
+  path: '/community/$campaignId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppOnboardingRoute = AppOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProjectIdRoute = AppProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProjectIdIndexRoute = AppProjectIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const CommunityProfileUserIdRoute = CommunityProfileUserIdRouteImport.update({
+  id: '/community/profile/$userId',
+  path: '/community/profile/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppProjectIdVibeRoute = AppProjectIdVibeRouteImport.update({
+  id: '/vibe',
+  path: '/vibe',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdSimulatorRoute = AppProjectIdSimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdRoadmapRoute = AppProjectIdRoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdMoneyRoute = AppProjectIdMoneyRouteImport.update({
+  id: '/money',
+  path: '/money',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdIdentityRoute = AppProjectIdIdentityRouteImport.update({
+  id: '/identity',
+  path: '/identity',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdGapsRoute = AppProjectIdGapsRouteImport.update({
+  id: '/gaps',
+  path: '/gaps',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCrowdfundRoute = AppProjectIdCrowdfundRouteImport.update({
+  id: '/crowdfund',
+  path: '/crowdfund',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdContentRoute = AppProjectIdContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCodeRoute = AppProjectIdCodeRouteImport.update({
+  id: '/code',
+  path: '/code',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdChannelsRoute = AppProjectIdChannelsRouteImport.update({
+  id: '/channels',
+  path: '/channels',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCapitalRoute = AppProjectIdCapitalRouteImport.update({
+  id: '/capital',
+  path: '/capital',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdBriefRoute = AppProjectIdBriefRouteImport.update({
+  id: '/brief',
+  path: '/brief',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdBoardRoute = AppProjectIdBoardRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
+  '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app': typeof AppIndexRoute
+  '/community': typeof CommunityIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
+  '/app/$projectId': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
+  '/app/$projectId/board': typeof AppProjectIdBoardRoute
+  '/app/$projectId/brief': typeof AppProjectIdBriefRoute
+  '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
+  '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
+  '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
+  '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
+  '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/auth' | '/app/onboarding' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/$projectId'
+    | '/app/onboarding'
+    | '/community/$campaignId'
+    | '/app/'
+    | '/community/'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/code'
+    | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
+    | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
+    | '/app/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/app/onboarding' | '/app'
-  id: '__root__' | '/' | '/app' | '/auth' | '/app/onboarding' | '/app/'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/onboarding'
+    | '/community/$campaignId'
+    | '/app'
+    | '/community'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/code'
+    | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
+    | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
+    | '/app/$projectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/$projectId'
+    | '/app/onboarding'
+    | '/community/$campaignId'
+    | '/app/'
+    | '/community/'
+    | '/app/$projectId/board'
+    | '/app/$projectId/brief'
+    | '/app/$projectId/capital'
+    | '/app/$projectId/channels'
+    | '/app/$projectId/code'
+    | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
+    | '/app/$projectId/gaps'
+    | '/app/$projectId/identity'
+    | '/app/$projectId/money'
+    | '/app/$projectId/roadmap'
+    | '/app/$projectId/simulator'
+    | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
+    | '/app/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CommunityCampaignIdRoute: typeof CommunityCampaignIdRoute
+  CommunityIndexRoute: typeof CommunityIndexRoute
+  CommunityProfileUserIdRoute: typeof CommunityProfileUserIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,12 +331,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community/': {
+      id: '/community/'
+      path: '/community'
+      fullPath: '/community/'
+      preLoaderRoute: typeof CommunityIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/community/$campaignId': {
+      id: '/community/$campaignId'
+      path: '/community/$campaignId'
+      fullPath: '/community/$campaignId'
+      preLoaderRoute: typeof CommunityCampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/onboarding': {
       id: '/app/onboarding'
@@ -113,15 +359,167 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOnboardingRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/$projectId': {
+      id: '/app/$projectId'
+      path: '/$projectId'
+      fullPath: '/app/$projectId'
+      preLoaderRoute: typeof AppProjectIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/$projectId/': {
+      id: '/app/$projectId/'
+      path: '/'
+      fullPath: '/app/$projectId/'
+      preLoaderRoute: typeof AppProjectIdIndexRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/community/profile/$userId': {
+      id: '/community/profile/$userId'
+      path: '/community/profile/$userId'
+      fullPath: '/community/profile/$userId'
+      preLoaderRoute: typeof CommunityProfileUserIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/$projectId/vibe': {
+      id: '/app/$projectId/vibe'
+      path: '/vibe'
+      fullPath: '/app/$projectId/vibe'
+      preLoaderRoute: typeof AppProjectIdVibeRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/simulator': {
+      id: '/app/$projectId/simulator'
+      path: '/simulator'
+      fullPath: '/app/$projectId/simulator'
+      preLoaderRoute: typeof AppProjectIdSimulatorRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/roadmap': {
+      id: '/app/$projectId/roadmap'
+      path: '/roadmap'
+      fullPath: '/app/$projectId/roadmap'
+      preLoaderRoute: typeof AppProjectIdRoadmapRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/money': {
+      id: '/app/$projectId/money'
+      path: '/money'
+      fullPath: '/app/$projectId/money'
+      preLoaderRoute: typeof AppProjectIdMoneyRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/identity': {
+      id: '/app/$projectId/identity'
+      path: '/identity'
+      fullPath: '/app/$projectId/identity'
+      preLoaderRoute: typeof AppProjectIdIdentityRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/gaps': {
+      id: '/app/$projectId/gaps'
+      path: '/gaps'
+      fullPath: '/app/$projectId/gaps'
+      preLoaderRoute: typeof AppProjectIdGapsRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/crowdfund': {
+      id: '/app/$projectId/crowdfund'
+      path: '/crowdfund'
+      fullPath: '/app/$projectId/crowdfund'
+      preLoaderRoute: typeof AppProjectIdCrowdfundRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/content': {
+      id: '/app/$projectId/content'
+      path: '/content'
+      fullPath: '/app/$projectId/content'
+      preLoaderRoute: typeof AppProjectIdContentRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/code': {
+      id: '/app/$projectId/code'
+      path: '/code'
+      fullPath: '/app/$projectId/code'
+      preLoaderRoute: typeof AppProjectIdCodeRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/channels': {
+      id: '/app/$projectId/channels'
+      path: '/channels'
+      fullPath: '/app/$projectId/channels'
+      preLoaderRoute: typeof AppProjectIdChannelsRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/capital': {
+      id: '/app/$projectId/capital'
+      path: '/capital'
+      fullPath: '/app/$projectId/capital'
+      preLoaderRoute: typeof AppProjectIdCapitalRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/brief': {
+      id: '/app/$projectId/brief'
+      path: '/brief'
+      fullPath: '/app/$projectId/brief'
+      preLoaderRoute: typeof AppProjectIdBriefRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/board': {
+      id: '/app/$projectId/board'
+      path: '/board'
+      fullPath: '/app/$projectId/board'
+      preLoaderRoute: typeof AppProjectIdBoardRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
   }
 }
 
+interface AppProjectIdRouteChildren {
+  AppProjectIdBoardRoute: typeof AppProjectIdBoardRoute
+  AppProjectIdBriefRoute: typeof AppProjectIdBriefRoute
+  AppProjectIdCapitalRoute: typeof AppProjectIdCapitalRoute
+  AppProjectIdChannelsRoute: typeof AppProjectIdChannelsRoute
+  AppProjectIdCodeRoute: typeof AppProjectIdCodeRoute
+  AppProjectIdContentRoute: typeof AppProjectIdContentRoute
+  AppProjectIdCrowdfundRoute: typeof AppProjectIdCrowdfundRoute
+  AppProjectIdGapsRoute: typeof AppProjectIdGapsRoute
+  AppProjectIdIdentityRoute: typeof AppProjectIdIdentityRoute
+  AppProjectIdMoneyRoute: typeof AppProjectIdMoneyRoute
+  AppProjectIdRoadmapRoute: typeof AppProjectIdRoadmapRoute
+  AppProjectIdSimulatorRoute: typeof AppProjectIdSimulatorRoute
+  AppProjectIdVibeRoute: typeof AppProjectIdVibeRoute
+  AppProjectIdIndexRoute: typeof AppProjectIdIndexRoute
+}
+
+const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
+  AppProjectIdBoardRoute: AppProjectIdBoardRoute,
+  AppProjectIdBriefRoute: AppProjectIdBriefRoute,
+  AppProjectIdCapitalRoute: AppProjectIdCapitalRoute,
+  AppProjectIdChannelsRoute: AppProjectIdChannelsRoute,
+  AppProjectIdCodeRoute: AppProjectIdCodeRoute,
+  AppProjectIdContentRoute: AppProjectIdContentRoute,
+  AppProjectIdCrowdfundRoute: AppProjectIdCrowdfundRoute,
+  AppProjectIdGapsRoute: AppProjectIdGapsRoute,
+  AppProjectIdIdentityRoute: AppProjectIdIdentityRoute,
+  AppProjectIdMoneyRoute: AppProjectIdMoneyRoute,
+  AppProjectIdRoadmapRoute: AppProjectIdRoadmapRoute,
+  AppProjectIdSimulatorRoute: AppProjectIdSimulatorRoute,
+  AppProjectIdVibeRoute: AppProjectIdVibeRoute,
+  AppProjectIdIndexRoute: AppProjectIdIndexRoute,
+}
+
+const AppProjectIdRouteWithChildren = AppProjectIdRoute._addFileChildren(
+  AppProjectIdRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppProjectIdRoute: typeof AppProjectIdRouteWithChildren
   AppOnboardingRoute: typeof AppOnboardingRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppProjectIdRoute: AppProjectIdRouteWithChildren,
   AppOnboardingRoute: AppOnboardingRoute,
   AppIndexRoute: AppIndexRoute,
 }
@@ -132,7 +530,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  CommunityCampaignIdRoute: CommunityCampaignIdRoute,
+  CommunityIndexRoute: CommunityIndexRoute,
+  CommunityProfileUserIdRoute: CommunityProfileUserIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
