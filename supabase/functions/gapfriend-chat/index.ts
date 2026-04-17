@@ -354,7 +354,8 @@ function json(body: unknown, status = 200) {
 }
 
 async function runTool(
-  supabase: ReturnType<typeof createClient>,
+  // deno-lint-ignore no-explicit-any
+  supabase: any,
   projectId: string,
   name: string,
   args: Record<string, unknown>,
