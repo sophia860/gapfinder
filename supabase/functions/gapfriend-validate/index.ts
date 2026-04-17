@@ -46,7 +46,7 @@ Verdict rules (apply mechanically, then sanity-check):
 - "build"   → average score ≥ 4 AND differentiation_angle ≥ 3 AND no score is 1.
 - "iterate" → everything else (the default).
 
-\`next_steps\` MUST be exactly 3 items. Each must be a concrete action the founder can do this week (under ~5 hours), not a vague aspiration.`;
+\`next_steps\` MUST be exactly 3 items. Each must be a concrete action the founder can do this week (under ~5 hours), not a vague aspiration. Examples of the right shape: "Post a 200-word problem statement in r/freelance and count replies in 72h", "Email 5 people from your LinkedIn who fit the persona and ask for a 15-min call", "Build a one-page Carrd describing the offer and run $20 of Reddit ads to it". Avoid: "Do market research", "Talk to users", "Build an MVP".`;
 
 const RUBRIC = `SCORING RUBRIC
 
