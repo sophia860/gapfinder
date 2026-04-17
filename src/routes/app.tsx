@@ -44,7 +44,7 @@ function AppGate() {
     if ((projects?.length ?? 0) === 0 && !createProject.isPending) {
       createProject.mutate({ user_id: user.id, working_name: "My first venture" });
     }
-  }, [user, profile, projects, projectsLoading, createProject]);
+  }, [user, profile, projects, projectsLoading]); // createProject omitted intentionally — stable mutation object
 
   if (loading || profileLoading) {
     return (
