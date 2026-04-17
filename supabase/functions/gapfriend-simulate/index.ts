@@ -17,7 +17,8 @@ Deno.serve(async (req) => {
     if (!LOVABLE_API_KEY) return json({ error: "AI not configured" }, 500);
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_KEY = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
+    const SUPABASE_KEY =
+      Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
       global: { headers: { Authorization: authHeader } },
     });
@@ -33,44 +34,47 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "You roleplay 3 distinct synthetic customers from the given persona. Be honest, specific, and plausible. Include genuine objections. End with a verdict.",
+            content:
+              "You roleplay 3 distinct synthetic customers from the given persona. Be honest, specific, and plausible. Include genuine objections. End with a verdict.",
           },
           {
             role: "user",
             content: `Idea: ${idea}\nPersona: ${persona ?? "the project's stated target persona"}\n\nReact as 3 different individuals. Then give the founder honest objections, suggested hooks, and a verdict.`,
           },
         ],
-        tools: [{
-          type: "function",
-          function: {
-            name: "return_simulation",
-            description: "Return the customer simulation result.",
-            parameters: {
-              type: "object",
-              properties: {
-                reactions: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    properties: {
-                      name: { type: "string" },
-                      reaction: { type: "string" },
-                      would_pay: { type: "boolean" },
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "return_simulation",
+              description: "Return the customer simulation result.",
+              parameters: {
+                type: "object",
+                properties: {
+                  reactions: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string" },
+                        reaction: { type: "string" },
+                        would_pay: { type: "boolean" },
+                      },
+                      required: ["name", "reaction", "would_pay"],
+                      additionalProperties: false,
                     },
-                    required: ["name", "reaction", "would_pay"],
-                    additionalProperties: false,
                   },
+                  objections: { type: "string" },
+                  hooks: { type: "string" },
+                  verdict: { type: "string", enum: ["strong", "needs_work", "kill"] },
+                  recommendation: { type: "string" },
                 },
-                objections: { type: "string" },
-                hooks: { type: "string" },
-                verdict: { type: "string", enum: ["strong", "needs_work", "kill"] },
-                recommendation: { type: "string" },
+                required: ["reactions", "objections", "hooks", "verdict", "recommendation"],
+                additionalProperties: false,
               },
-              required: ["reactions", "objections", "hooks", "verdict", "recommendation"],
-              additionalProperties: false,
             },
           },
-        }],
+        ],
         tool_choice: { type: "function", function: { name: "return_simulation" } },
       }),
     });
@@ -110,5 +114,8 @@ Deno.serve(async (req) => {
 });
 
 function json(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 }

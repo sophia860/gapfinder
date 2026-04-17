@@ -56,9 +56,11 @@ export function useProjects(userId: string | undefined) {
     queryKey: ["projects", userId],
     enabled: !!userId,
     queryFn: async () => {
+      if (!userId) throw new Error("userId is required");
       const { data, error } = await supabase
         .from("projects")
         .select("*")
+        .eq("user_id", userId)
         .eq("archived", false)
         .order("created_at", { ascending: true });
       if (error) throw error;
@@ -163,7 +165,12 @@ export function useUpdateTask() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...patch }: Partial<Task> & { id: string }) => {
-      const { data, error } = await supabase.from("tasks").update(patch).eq("id", id).select().single();
+      const { data, error } = await supabase
+        .from("tasks")
+        .update(patch)
+        .eq("id", id)
+        .select()
+        .single();
       if (error) throw error;
       return data;
     },

@@ -13,7 +13,13 @@ export const Route = createFileRoute("/app/onboarding")({
   component: Onboarding,
 });
 
-const MODES: { id: UserMode; title: string; tagline: string; body: string; icon: typeof Briefcase }[] = [
+const MODES: {
+  id: UserMode;
+  title: string;
+  tagline: string;
+  body: string;
+  icon: typeof Briefcase;
+}[] = [
   {
     id: "solo_founder",
     title: "Solo / non-dev founder",
@@ -37,24 +43,75 @@ const MODES: { id: UserMode; title: string; tagline: string; body: string; icon:
   },
 ];
 
-const QUESTIONS: Record<UserMode, { key: string; label: string; placeholder: string; multiline?: boolean }[]> = {
+const QUESTIONS: Record<
+  UserMode,
+  { key: string; label: string; placeholder: string; multiline?: boolean }[]
+> = {
   solo_founder: [
-    { key: "interests", label: "What industries or topics genuinely interest you?", placeholder: "e.g. fitness for desk workers, indie publishing, sustainable packaging" },
-    { key: "skills", label: "What are you actually good at — or comfortable enough with?", placeholder: "e.g. writing, sales calls, design, no-code tools" },
-    { key: "constraints", label: "How much time and money can you put in over the next 3 months?", placeholder: "e.g. ~10 hours/week, $500 budget" },
-    { key: "stage", label: "Where are you right now?", placeholder: "e.g. just exploring, have one rough idea, ready to launch something small" },
+    {
+      key: "interests",
+      label: "What industries or topics genuinely interest you?",
+      placeholder: "e.g. fitness for desk workers, indie publishing, sustainable packaging",
+    },
+    {
+      key: "skills",
+      label: "What are you actually good at — or comfortable enough with?",
+      placeholder: "e.g. writing, sales calls, design, no-code tools",
+    },
+    {
+      key: "constraints",
+      label: "How much time and money can you put in over the next 3 months?",
+      placeholder: "e.g. ~10 hours/week, $500 budget",
+    },
+    {
+      key: "stage",
+      label: "Where are you right now?",
+      placeholder: "e.g. just exploring, have one rough idea, ready to launch something small",
+    },
   ],
   freelancer: [
-    { key: "discipline", label: "What do you do, in plain words?", placeholder: "e.g. I design brand identities for small wellness companies" },
-    { key: "current_clients", label: "Who are your current (or past) clients?", placeholder: "e.g. mostly local restaurants found via referrals" },
-    { key: "rate", label: "Your typical price / rate, and ideal monthly income?", placeholder: "e.g. $2,500 per project, would love $8k/month" },
-    { key: "constraints", label: "What's getting in your way right now?", placeholder: "e.g. inconsistent leads, undercharging, no clear niche" },
+    {
+      key: "discipline",
+      label: "What do you do, in plain words?",
+      placeholder: "e.g. I design brand identities for small wellness companies",
+    },
+    {
+      key: "current_clients",
+      label: "Who are your current (or past) clients?",
+      placeholder: "e.g. mostly local restaurants found via referrals",
+    },
+    {
+      key: "rate",
+      label: "Your typical price / rate, and ideal monthly income?",
+      placeholder: "e.g. $2,500 per project, would love $8k/month",
+    },
+    {
+      key: "constraints",
+      label: "What's getting in your way right now?",
+      placeholder: "e.g. inconsistent leads, undercharging, no clear niche",
+    },
   ],
   existing_business: [
-    { key: "what_you_sell", label: "What does your business sell today?", placeholder: "e.g. handmade leather goods sold on Etsy + own shop" },
-    { key: "customers", label: "Who buys from you?", placeholder: "e.g. mid-30s urban professionals shopping for gifts" },
-    { key: "metrics", label: "Roughly, what does the business look like?", placeholder: "e.g. 80 orders/month, $12k revenue, 1 employee" },
-    { key: "ambition", label: "What would expansion look like for you?", placeholder: "e.g. a B2B line, a digital product, a subscription, a new market" },
+    {
+      key: "what_you_sell",
+      label: "What does your business sell today?",
+      placeholder: "e.g. handmade leather goods sold on Etsy + own shop",
+    },
+    {
+      key: "customers",
+      label: "Who buys from you?",
+      placeholder: "e.g. mid-30s urban professionals shopping for gifts",
+    },
+    {
+      key: "metrics",
+      label: "Roughly, what does the business look like?",
+      placeholder: "e.g. 80 orders/month, $12k revenue, 1 employee",
+    },
+    {
+      key: "ambition",
+      label: "What would expansion look like for you?",
+      placeholder: "e.g. a B2B line, a digital product, a subscription, a new market",
+    },
   ],
 };
 
@@ -65,7 +122,9 @@ function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState<"mode" | "details">(profile?.mode ? "details" : "mode");
   const [mode, setMode] = useState<UserMode | null>(profile?.mode ?? null);
-  const [pitch, setPitch] = useState<string>(((profile?.profile_answers as Record<string, string>) ?? {}).pitch ?? "");
+  const [pitch, setPitch] = useState<string>(
+    ((profile?.profile_answers as Record<string, string>) ?? {}).pitch ?? "",
+  );
   const [answers, setAnswers] = useState<Record<string, string>>(() => {
     const a = (profile?.profile_answers as Record<string, string>) ?? {};
     return a;
@@ -109,7 +168,8 @@ function Onboarding() {
               First — which best describes you?
             </h1>
             <p className="mt-3 text-muted-foreground text-lg max-w-2xl">
-              I'll tailor the questions, the gap suggestions, and the dashboard to fit how you actually work.
+              I'll tailor the questions, the gap suggestions, and the dashboard to fit how you
+              actually work.
             </p>
 
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -139,20 +199,28 @@ function Onboarding() {
 
         {step === "details" && mode && (
           <div>
-            <button onClick={() => setStep("mode")} className="text-sm text-muted-foreground hover:text-foreground mb-6">
+            <button
+              onClick={() => setStep("mode")}
+              className="text-sm text-muted-foreground hover:text-foreground mb-6"
+            >
               ← Change
             </button>
-            <p className="font-mono text-xs uppercase tracking-widest text-terracotta">A few quick questions</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-terracotta">
+              A few quick questions
+            </p>
             <h1 className="mt-3 font-serif text-4xl md:text-5xl font-medium tracking-tight text-balance">
               Tell me a little about your situation.
             </h1>
             <p className="mt-3 text-muted-foreground text-lg max-w-2xl">
-              Short answers are fine. I'll remember all of this so I can give you advice that actually fits.
+              Short answers are fine. I'll remember all of this so I can give you advice that
+              actually fits.
             </p>
 
             <div className="mt-10 space-y-6 bg-card border border-border rounded-2xl p-6 md:p-8 shadow-warm-sm">
               <div>
-                <Label htmlFor="pitch" className="font-serif text-base font-medium">In one or two sentences, what are you hoping to do?</Label>
+                <Label htmlFor="pitch" className="font-serif text-base font-medium">
+                  In one or two sentences, what are you hoping to do?
+                </Label>
                 <Textarea
                   id="pitch"
                   value={pitch}
@@ -164,7 +232,9 @@ function Onboarding() {
 
               {QUESTIONS[mode].map((q) => (
                 <div key={q.key}>
-                  <Label htmlFor={q.key} className="font-serif text-base font-medium">{q.label}</Label>
+                  <Label htmlFor={q.key} className="font-serif text-base font-medium">
+                    {q.label}
+                  </Label>
                   {q.multiline ? (
                     <Textarea
                       id={q.key}
@@ -187,7 +257,12 @@ function Onboarding() {
             </div>
 
             <div className="mt-8 flex justify-end">
-              <Button onClick={handleFinish} disabled={updateProfile.isPending} size="lg" className="rounded-full px-7">
+              <Button
+                onClick={handleFinish}
+                disabled={updateProfile.isPending}
+                size="lg"
+                className="rounded-full px-7"
+              >
                 {updateProfile.isPending ? "Saving…" : "Take me to my workspace"}
                 <ArrowRight className="ml-2 size-4" />
               </Button>

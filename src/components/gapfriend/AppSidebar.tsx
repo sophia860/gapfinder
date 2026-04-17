@@ -89,9 +89,7 @@ export function AppSidebar({ projectId }: Props) {
     },
     {
       label: "Library",
-      items: [
-        { title: "Content", to: `/app/${projectId}/content`, icon: Pencil },
-      ],
+      items: [{ title: "Content", to: `/app/${projectId}/content`, icon: Pencil }],
     },
   ];
 
@@ -99,7 +97,10 @@ export function AppSidebar({ projectId }: Props) {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-2">
-          <Link to="/app" className="size-8 rounded-lg bg-terracotta-soft text-terracotta flex items-center justify-center shrink-0">
+          <Link
+            to="/app"
+            className="size-8 rounded-lg bg-terracotta-soft text-terracotta flex items-center justify-center shrink-0"
+          >
             <Sparkles className="size-4" />
           </Link>
           {!collapsed && (
@@ -116,7 +117,9 @@ export function AppSidebar({ projectId }: Props) {
                 <span className="size-6 rounded-md bg-terracotta-soft text-terracotta flex items-center justify-center font-serif text-xs font-medium shrink-0">
                   {(activeProject?.working_name ?? "?").slice(0, 1).toUpperCase()}
                 </span>
-                <span className="font-medium truncate flex-1 text-left">{activeProject?.working_name ?? "Loading…"}</span>
+                <span className="font-medium truncate flex-1 text-left">
+                  {activeProject?.working_name ?? "Loading…"}
+                </span>
                 <ChevronDown className="size-3.5 text-muted-foreground shrink-0" />
               </button>
             </DropdownMenuTrigger>
@@ -137,13 +140,19 @@ export function AppSidebar({ projectId }: Props) {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => navigate({ to: "/app" })} className="cursor-pointer">
+              <DropdownMenuItem
+                onSelect={() => navigate({ to: "/app" })}
+                className="cursor-pointer"
+              >
                 <Users className="size-4 mr-2" /> All projects
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={async () => {
                   if (!user) return;
-                  const proj = await createProject.mutateAsync({ user_id: user.id, working_name: "New venture" });
+                  const proj = await createProject.mutateAsync({
+                    user_id: user.id,
+                    working_name: "New venture",
+                  });
                   navigate({ to: "/app/$projectId", params: { projectId: proj.id } });
                 }}
                 className="cursor-pointer"
@@ -187,17 +196,24 @@ export function AppSidebar({ projectId }: Props) {
                 {(profile?.display_name ?? user?.email ?? "?").slice(0, 1)}
               </span>
               {!collapsed && (
-                <span className="truncate flex-1 text-left">{profile?.display_name ?? user?.email}</span>
+                <span className="truncate flex-1 text-left">
+                  {profile?.display_name ?? user?.email}
+                </span>
               )}
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <div className="px-2 py-1.5">
-              <div className="text-sm font-medium truncate">{profile?.display_name ?? user?.email}</div>
+              <div className="text-sm font-medium truncate">
+                {profile?.display_name ?? user?.email}
+              </div>
               <div className="text-xs text-muted-foreground truncate">{user?.email}</div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => navigate({ to: "/app/onboarding" })} className="cursor-pointer">
+            <DropdownMenuItem
+              onSelect={() => navigate({ to: "/app/onboarding" })}
+              className="cursor-pointer"
+            >
               <Sparkles className="size-4 mr-2" /> Re-do onboarding
             </DropdownMenuItem>
             <DropdownMenuItem
