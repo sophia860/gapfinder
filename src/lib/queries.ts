@@ -24,6 +24,7 @@ export type ReactionTarget = Database["public"]["Enums"]["reaction_target"];
 export type ReactionKind = Database["public"]["Enums"]["reaction_kind"];
 export type UserMode = Database["public"]["Enums"]["user_mode"];
 export type TaskColumn = Database["public"]["Enums"]["task_column"];
+// Vibe coding tables not yet provisioned in the database. Types intentionally omitted.
 
 /* ---------- profile ---------- */
 export function useProfile(userId: string | undefined) {
