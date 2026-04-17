@@ -6,8 +6,6 @@ export const Route = createFileRoute("/app/$projectId/roadmap")({
 });
 
 function RoadmapPage() {
-  const { projectId } = Route.useParams();
-
   return (
     <div className="px-6 lg:px-12 py-10 max-w-5xl mx-auto space-y-8 pb-20">
       {/* Header */}
