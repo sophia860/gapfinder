@@ -1,7 +1,27 @@
 import { useState } from "react";
-import { useProject, useIdentity, useMoney, useChannels, useTasks, useContentPieces, useBrief, useGapCards, useProfile } from "@/lib/queries";
-import { useAuth } from "@/lib/auth";
-import { Sparkles, Globe, DollarSign, ListChecks, Pencil, Radio, Lightbulb, Beaker, Loader2, Check, X } from "lucide-react";
+import {
+  useProject,
+  useIdentity,
+  useMoney,
+  useChannels,
+  useTasks,
+  useContentPieces,
+  useBrief,
+  useGapCards,
+} from "@/lib/queries";
+import {
+  Sparkles,
+  Globe,
+  DollarSign,
+  ListChecks,
+  Pencil,
+  Radio,
+  Lightbulb,
+  Beaker,
+  Loader2,
+  Check,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -93,34 +113,46 @@ export function Dashboard({ projectId }: Props) {
             </p>
           )}
           <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl">
-            {brief?.angle || project?.description || "No description yet. Pick a gap and write your opportunity brief — GapFriend will help shape this into something real."}
+            {brief?.angle ||
+              project?.description ||
+              "No description yet. Pick a gap and write your opportunity brief — GapFriend will help shape this into something real."}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button
               className="rounded-full"
               disabled={!!busyAction}
-              onClick={() => askGapFriend(
-                isDev
-                  ? "Suggest 5 specific developer-shippable market gaps for me based on my stack, domains, and shipped projects. Focus on SaaS tools, APIs, CLIs, extensions, OSS-to-product, dev infra glue, or B2B integrations between dev tools. For each, include a concrete demand signal, a typical pricing band, and a first-ship approach in why_gap or problem. Use the add_gap_cards tool."
-                  : "Suggest 5 specific market gaps for me based on my profile and project so far. Use the add_gap_cards tool.",
-                "gaps",
-              )}
+              onClick={() =>
+                askGapFriend(
+                  "Suggest 5 specific market gaps for me based on my profile and project so far. Use the add_gap_cards tool.",
+                  "gaps",
+                )
+              }
             >
-              {busyAction === "gaps" ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Lightbulb className="size-4 mr-2" />}
+              {busyAction === "gaps" ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Lightbulb className="size-4 mr-2" />
+              )}
               Find market gaps
             </Button>
             <Button
               variant="outline"
               className="rounded-full"
               disabled={!!busyAction}
-              onClick={() => askGapFriend(
-                identity?.chosen_name
-                  ? "Refine the identity (name, tagline, positioning, 5 domain options) for this project. Use save_identity."
-                  : "Suggest 5 name options, 5 domain options, a tagline, and a positioning sentence for this project. Use save_identity.",
-                "identity",
-              )}
+              onClick={() =>
+                askGapFriend(
+                  identity?.chosen_name
+                    ? "Refine the identity (name, tagline, positioning, 5 domain options) for this project. Use save_identity."
+                    : "Suggest 5 name options, 5 domain options, a tagline, and a positioning sentence for this project. Use save_identity.",
+                  "identity",
+                )
+              }
             >
-              {busyAction === "identity" ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Sparkles className="size-4 mr-2" />}
+              {busyAction === "identity" ? (
+                <Loader2 className="size-4 mr-2 animate-spin" />
+              ) : (
+                <Sparkles className="size-4 mr-2" />
+              )}
               {identity?.chosen_name ? "Refine identity" : "Help me name it"}
             </Button>
           </div>
@@ -135,7 +167,9 @@ export function Dashboard({ projectId }: Props) {
               <Lightbulb className="size-4" />
             </div>
             <div>
-              <h2 className="font-serif text-2xl font-medium leading-tight">Market gaps to consider</h2>
+              <h2 className="font-serif text-2xl font-medium leading-tight">
+                Market gaps to consider
+              </h2>
               <p className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mt-1">
                 pick one to turn into a brief
               </p>
@@ -143,18 +177,24 @@ export function Dashboard({ projectId }: Props) {
           </div>
           {selectedGap && (
             <div className="mb-5 p-4 rounded-2xl bg-sage/10 border border-sage/30">
-              <div className="text-[10px] uppercase tracking-widest font-mono text-sage mb-1">Currently exploring</div>
+              <div className="text-[10px] uppercase tracking-widest font-mono text-sage mb-1">
+                Currently exploring
+              </div>
               <h3 className="font-serif text-lg font-medium">{selectedGap.title}</h3>
-              {selectedGap.problem && <p className="text-sm text-muted-foreground mt-1.5">{selectedGap.problem}</p>}
+              {selectedGap.problem && (
+                <p className="text-sm text-muted-foreground mt-1.5">{selectedGap.problem}</p>
+              )}
               <Button
                 size="sm"
                 variant="outline"
                 className="rounded-full mt-3"
                 disabled={!!busyAction}
-                onClick={() => askGapFriend(
-                  `Turn the selected gap "${selectedGap.title}" into a tight opportunity brief (persona, problem, angle, business_model). Use save_opportunity_brief. Then add 3 concrete validation tasks for this week using add_tasks.`,
-                  "brief",
-                )}
+                onClick={() =>
+                  askGapFriend(
+                    `Turn the selected gap "${selectedGap.title}" into a tight opportunity brief (persona, problem, angle, business_model). Use save_opportunity_brief. Then add 3 concrete validation tasks for this week using add_tasks.`,
+                    "brief",
+                  )
+                }
               >
                 {busyAction === "brief" ? <Loader2 className="size-3.5 mr-2 animate-spin" /> : null}
                 Turn into a brief + tasks
@@ -163,7 +203,10 @@ export function Dashboard({ projectId }: Props) {
           )}
           <div className="grid md:grid-cols-2 gap-3">
             {suggestedGaps.map((g) => (
-              <div key={g.id} className="p-4 rounded-2xl border border-border bg-background flex flex-col">
+              <div
+                key={g.id}
+                className="p-4 rounded-2xl border border-border bg-background flex flex-col"
+              >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <h4 className="font-serif text-base font-medium leading-snug">{g.title}</h4>
                   {g.difficulty && (
@@ -172,14 +215,33 @@ export function Dashboard({ projectId }: Props) {
                     </span>
                   )}
                 </div>
-                {g.persona && <p className="text-xs text-muted-foreground"><span className="font-medium text-foreground/80">Who:</span> {g.persona}</p>}
-                {g.problem && <p className="text-xs text-muted-foreground mt-1"><span className="font-medium text-foreground/80">Problem:</span> {g.problem}</p>}
-                {g.why_gap && <p className="text-xs text-muted-foreground mt-1 italic">{g.why_gap}</p>}
+                {g.persona && (
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-medium text-foreground/80">Who:</span> {g.persona}
+                  </p>
+                )}
+                {g.problem && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    <span className="font-medium text-foreground/80">Problem:</span> {g.problem}
+                  </p>
+                )}
+                {g.why_gap && (
+                  <p className="text-xs text-muted-foreground mt-1 italic">{g.why_gap}</p>
+                )}
                 <div className="flex gap-2 mt-3">
-                  <Button size="sm" className="rounded-full h-7 text-xs" onClick={() => setGapStatus(g.id, "selected")}>
+                  <Button
+                    size="sm"
+                    className="rounded-full h-7 text-xs"
+                    onClick={() => setGapStatus(g.id, "selected")}
+                  >
                     <Check className="size-3 mr-1" /> Pick this
                   </Button>
-                  <Button size="sm" variant="ghost" className="rounded-full h-7 text-xs" onClick={() => setGapStatus(g.id, "dismissed")}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-full h-7 text-xs"
+                    onClick={() => setGapStatus(g.id, "dismissed")}
+                  >
                     <X className="size-3 mr-1" /> Pass
                   </Button>
                 </div>
@@ -195,12 +257,16 @@ export function Dashboard({ projectId }: Props) {
           {identity?.chosen_domain ? (
             <div className="p-3 rounded-xl bg-sage/15 border border-sage/30 flex items-center justify-between">
               <span className="font-mono text-sm">{identity.chosen_domain}</span>
-              <span className="text-[10px] uppercase tracking-wider text-sage font-semibold">Chosen</span>
+              <span className="text-[10px] uppercase tracking-wider text-sage font-semibold">
+                Chosen
+              </span>
             </div>
           ) : identity?.name_options && (identity.name_options as unknown[]).length > 0 ? (
             <ul className="space-y-1.5">
               {(identity.name_options as string[]).slice(0, 4).map((n) => (
-                <li key={n} className="text-sm font-serif">{n}</li>
+                <li key={n} className="text-sm font-serif">
+                  {n}
+                </li>
               ))}
             </ul>
           ) : (
@@ -216,7 +282,12 @@ export function Dashboard({ projectId }: Props) {
             <button
               className="text-[10px] font-mono uppercase tracking-widest text-terracotta hover:underline disabled:opacity-50"
               disabled={!!busyAction}
-              onClick={() => askGapFriend("Recommend 3 channels (online or offline) for me to be visible on, with rationale, pros, cons, and a starter guide. Use save_channels.", "channels")}
+              onClick={() =>
+                askGapFriend(
+                  "Recommend 3 channels (online or offline) for me to be visible on, with rationale, pros, cons, and a starter guide. Use save_channels.",
+                  "channels",
+                )
+              }
             >
               {busyAction === "channels" ? "…" : channels?.length ? "Refresh" : "Suggest"}
             </button>
@@ -227,8 +298,16 @@ export function Dashboard({ projectId }: Props) {
               {channels.slice(0, 3).map((c) => (
                 <li key={c.id} className="text-sm">
                   <span className="font-medium">{c.name}</span>
-                  {c.is_primary && <span className="ml-2 text-[10px] font-mono uppercase tracking-wider text-terracotta">primary</span>}
-                  {c.rationale && <span className="block text-xs text-muted-foreground mt-0.5">{c.rationale}</span>}
+                  {c.is_primary && (
+                    <span className="ml-2 text-[10px] font-mono uppercase tracking-wider text-terracotta">
+                      primary
+                    </span>
+                  )}
+                  {c.rationale && (
+                    <span className="block text-xs text-muted-foreground mt-0.5">
+                      {c.rationale}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -245,7 +324,12 @@ export function Dashboard({ projectId }: Props) {
             <button
               className="text-[10px] font-mono uppercase tracking-widest text-terracotta hover:underline disabled:opacity-50"
               disabled={!!busyAction}
-              onClick={() => askGapFriend("Propose realistic money settings — currency, monthly income_target, price_per_unit, hours_per_week, and 3 scenarios (lean/realistic/ambitious) with units and revenue. Use save_money.", "money")}
+              onClick={() =>
+                askGapFriend(
+                  "Propose realistic money settings — currency, monthly income_target, price_per_unit, hours_per_week, and 3 scenarios (lean/realistic/ambitious) with units and revenue. Use save_money.",
+                  "money",
+                )
+              }
             >
               {busyAction === "money" ? "…" : money ? "Refresh" : "Suggest"}
             </button>
@@ -257,7 +341,8 @@ export function Dashboard({ projectId }: Props) {
                 {money.currency} {Number(money.income_target).toLocaleString()}
               </div>
               <p className="text-sm text-muted-foreground mt-2">
-                ~{Math.ceil(Number(money.income_target) / Number(money.price_per_unit))} sales at {money.currency} {Number(money.price_per_unit).toLocaleString()} each.
+                ~{Math.ceil(Number(money.income_target) / Number(money.price_per_unit))} sales at{" "}
+                {money.currency} {Number(money.price_per_unit).toLocaleString()} each.
               </p>
             </>
           ) : (
@@ -274,7 +359,12 @@ export function Dashboard({ projectId }: Props) {
             <button
               className="text-[10px] font-mono uppercase tracking-widest text-terracotta hover:underline disabled:opacity-50"
               disabled={!!busyAction}
-              onClick={() => askGapFriend("Based on everything we know, add 3 concrete tasks for THIS WEEK. Use add_tasks with column_name=this_week.", "tasks")}
+              onClick={() =>
+                askGapFriend(
+                  "Based on everything we know, add 3 concrete tasks for THIS WEEK. Use add_tasks with column_name=this_week.",
+                  "tasks",
+                )
+              }
             >
               {busyAction === "tasks" ? "…" : "Plan my week"}
             </button>
@@ -288,11 +378,16 @@ export function Dashboard({ projectId }: Props) {
                 </span>
                 <div className="mt-2 space-y-1.5">
                   {tasksByCol[col].slice(0, 4).map((t) => (
-                    <div key={t.id} className={`bg-background p-2.5 rounded-lg text-xs font-medium ${col === "in_progress" ? "border-l-2 border-terracotta" : "border border-border/50"}`}>
+                    <div
+                      key={t.id}
+                      className={`bg-background p-2.5 rounded-lg text-xs font-medium ${col === "in_progress" ? "border-l-2 border-terracotta" : "border border-border/50"}`}
+                    >
                       {t.title}
                     </div>
                   ))}
-                  {tasksByCol[col].length === 0 && <div className="text-xs text-muted-foreground italic">Nothing here yet</div>}
+                  {tasksByCol[col].length === 0 && (
+                    <div className="text-xs text-muted-foreground italic">Nothing here yet</div>
+                  )}
                 </div>
               </div>
             ))}
@@ -305,13 +400,59 @@ export function Dashboard({ projectId }: Props) {
               {content.slice(0, 3).map((c) => (
                 <li key={c.id} className="flex items-start gap-2">
                   <span className="size-1.5 rounded-full bg-terracotta/50 mt-1.5 shrink-0" />
-                  <span className="truncate">{c.title || (c.source_text?.slice(0, 60) + "…")}</span>
+                  <span className="truncate">{c.title || c.source_text?.slice(0, 60) + "…"}</span>
                 </li>
               ))}
             </ul>
           ) : (
             <Empty>Use the composer below to turn a draft into SEO + a thread.</Empty>
           )}
+        </Card>
+
+        <Card
+          icon={Sparkles}
+          title="Start building"
+          subtitle="vibe or code"
+          className="md:col-span-2 lg:col-span-3"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a
+              href={`/app/${projectId}/vibe`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-terracotta-soft flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Sparkles className="size-5 text-terracotta" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Vibe Coding</h4>
+                  <p className="text-xs text-muted-foreground">For non-coders</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Describe what you want to build and I'll generate it from your project's brief and
+                identity. No code required.
+              </p>
+            </a>
+            <a
+              href={`/app/${projectId}/code`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-muted flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Beaker className="size-5" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Coding Space</h4>
+                  <p className="text-xs text-muted-foreground">For developers</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Full in-browser IDE with file explorer, code editor, and live preview. Write or
+                tweak code directly.
+              </p>
+            </a>
+          </div>
         </Card>
       </section>
 
@@ -342,7 +483,9 @@ function Card({
   action?: React.ReactNode;
 }) {
   return (
-    <div className={`bg-card rounded-2xl border border-border p-6 shadow-warm-sm hover:shadow-warm transition-shadow ${className}`}>
+    <div
+      className={`bg-card rounded-2xl border border-border p-6 shadow-warm-sm hover:shadow-warm transition-shadow ${className}`}
+    >
       <div className="flex items-start gap-3 mb-4">
         <div className="size-9 rounded-xl bg-terracotta-soft text-terracotta flex items-center justify-center shrink-0">
           <Icon className="size-4" />
@@ -352,7 +495,11 @@ function Card({
             <h3 className="font-serif text-lg font-medium leading-tight">{title}</h3>
             {action}
           </div>
-          {subtitle && <p className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mt-1">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mt-1">
+              {subtitle}
+            </p>
+          )}
         </div>
       </div>
       {children}
@@ -364,7 +511,13 @@ function Empty({ children }: { children: React.ReactNode }) {
   return <div className="text-sm text-muted-foreground italic leading-relaxed">{children}</div>;
 }
 
-function Simulator({ projectId, brief }: { projectId: string; brief: { persona?: string | null } | null | undefined }) {
+function Simulator({
+  projectId,
+  brief,
+}: {
+  projectId: string;
+  brief: { persona?: string | null } | null | undefined;
+}) {
   const [idea, setIdea] = useState("");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<{
@@ -385,7 +538,7 @@ function Simulator({ projectId, brief }: { projectId: string; brief: { persona?:
       });
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
-      setResult((data as { simulation: typeof result }).simulation as never);
+      setResult((data as { simulation: NonNullable<typeof result> }).simulation);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Simulation failed");
     } finally {
@@ -400,7 +553,9 @@ function Simulator({ projectId, brief }: { projectId: string; brief: { persona?:
           <Beaker className="size-4" />
         </div>
         <div>
-          <h3 className="font-serif text-lg font-medium leading-tight">Synthetic customer simulator</h3>
+          <h3 className="font-serif text-lg font-medium leading-tight">
+            Synthetic customer simulator
+          </h3>
           <p className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mt-1">
             stress-test an idea
           </p>
@@ -413,31 +568,45 @@ function Simulator({ projectId, brief }: { projectId: string; brief: { persona?:
         className="min-h-20"
       />
       <Button onClick={run} disabled={busy || !idea.trim()} className="rounded-full mt-3">
-        {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Beaker className="size-4 mr-2" />}
+        {busy ? (
+          <Loader2 className="size-4 mr-2 animate-spin" />
+        ) : (
+          <Beaker className="size-4 mr-2" />
+        )}
         Run simulation
       </Button>
       {result && (
         <div className="mt-5 space-y-3">
           <div className="flex items-center gap-2">
-            <span className={`text-[10px] uppercase tracking-widest font-mono px-2 py-1 rounded ${
-              result.verdict === "strong" ? "bg-sage/20 text-sage" :
-              result.verdict === "kill" ? "bg-destructive/15 text-destructive" :
-              "bg-muted text-muted-foreground"
-            }`}>
+            <span
+              className={`text-[10px] uppercase tracking-widest font-mono px-2 py-1 rounded ${
+                result.verdict === "strong"
+                  ? "bg-sage/20 text-sage"
+                  : result.verdict === "kill"
+                    ? "bg-destructive/15 text-destructive"
+                    : "bg-muted text-muted-foreground"
+              }`}
+            >
               {result.verdict.replace("_", " ")}
             </span>
           </div>
           <div className="space-y-2">
             {result.reactions.map((r, i) => (
               <div key={i} className="text-sm bg-muted/40 rounded-xl p-3">
-                <div className="font-medium text-xs">{r.name} · {r.would_pay ? "would pay" : "wouldn't pay"}</div>
+                <div className="font-medium text-xs">
+                  {r.name} · {r.would_pay ? "would pay" : "wouldn't pay"}
+                </div>
                 <p className="text-muted-foreground mt-1">{r.reaction}</p>
               </div>
             ))}
           </div>
           <div className="text-sm">
-            <p><span className="font-medium">Objections:</span> {result.objections}</p>
-            <p className="mt-1.5"><span className="font-medium">Hooks:</span> {result.hooks}</p>
+            <p>
+              <span className="font-medium">Objections:</span> {result.objections}
+            </p>
+            <p className="mt-1.5">
+              <span className="font-medium">Hooks:</span> {result.hooks}
+            </p>
             <p className="mt-1.5 italic text-muted-foreground">{result.recommendation}</p>
           </div>
         </div>
@@ -450,7 +619,11 @@ function ContentComposer({ projectId }: { projectId: string }) {
   const [draft, setDraft] = useState("");
   const [title, setTitle] = useState("");
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<{ title: string; seo_version: string; thread_frames: string[] } | null>(null);
+  const [result, setResult] = useState<{
+    title: string;
+    seo_version: string;
+    thread_frames: string[];
+  } | null>(null);
   const qc = useQueryClient();
 
   async function run() {
@@ -464,7 +637,7 @@ function ContentComposer({ projectId }: { projectId: string }) {
       if (error) throw error;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const piece = (data as { piece: typeof result }).piece;
-      setResult(piece as never);
+      setResult(piece as NonNullable<typeof result>);
       qc.invalidateQueries({ queryKey: ["content", projectId] });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Couldn't compose");
@@ -499,22 +672,34 @@ function ContentComposer({ projectId }: { projectId: string }) {
         className="min-h-24"
       />
       <Button onClick={run} disabled={busy || !draft.trim()} className="rounded-full mt-3">
-        {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Pencil className="size-4 mr-2" />}
+        {busy ? (
+          <Loader2 className="size-4 mr-2 animate-spin" />
+        ) : (
+          <Pencil className="size-4 mr-2" />
+        )}
         Compose
       </Button>
       {result && (
         <div className="mt-5 space-y-4 text-sm">
           <div>
-            <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mb-1">SEO version</div>
+            <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mb-1">
+              SEO version
+            </div>
             <h4 className="font-serif text-base font-medium mb-1">{result.title}</h4>
-            <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">{result.seo_version}</p>
+            <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
+              {result.seo_version}
+            </p>
           </div>
           <div>
-            <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mb-1">Thread</div>
+            <div className="text-[10px] uppercase tracking-widest font-mono text-muted-foreground mb-1">
+              Thread
+            </div>
             <ol className="space-y-2">
               {result.thread_frames.map((f, i) => (
                 <li key={i} className="bg-muted/40 rounded-xl p-3">
-                  <span className="font-mono text-[10px] text-muted-foreground">{i + 1}/{result.thread_frames.length}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground">
+                    {i + 1}/{result.thread_frames.length}
+                  </span>
                   <p className="mt-1">{f}</p>
                 </li>
               ))}

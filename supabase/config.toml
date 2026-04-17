@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.gapfriend-content]
 verify_jwt = false
+
+[functions.gapfriend-backstage]
+verify_jwt = false

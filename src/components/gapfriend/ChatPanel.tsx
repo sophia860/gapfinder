@@ -35,7 +35,16 @@ export function ChatPanel({ projectId, projectName }: Props) {
     // Optimistic user bubble
     qc.setQueryData(["chat", projectId], (old: unknown) => {
       const list = (old as Array<Record<string, unknown>>) ?? [];
-      return [...list, { id: `tmp-${Date.now()}`, project_id: projectId, role: "user", content: text, created_at: new Date().toISOString() }];
+      return [
+        ...list,
+        {
+          id: `tmp-${Date.now()}`,
+          project_id: projectId,
+          role: "user",
+          content: text,
+          created_at: new Date().toISOString(),
+        },
+      ];
     });
 
     try {
@@ -78,8 +87,11 @@ export function ChatPanel({ projectId, projectName }: Props) {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-5">
         {!hasMessages && (
           <div className="bg-muted/60 rounded-2xl rounded-tl-sm p-4 text-sm leading-relaxed">
-            Hey — I'm GapFriend, your honest co-pilot. I can help you find a gap, pressure-test ideas with synthetic customers, name your thing, work out the money, and turn advice into tasks.
-            <br /><br />
+            Hey — I'm GapFriend, your honest co-pilot. I can help you find a gap, pressure-test
+            ideas with synthetic customers, name your thing, work out the money, and turn advice
+            into tasks.
+            <br />
+            <br />
             What do you want to look at first?
           </div>
         )}
@@ -139,7 +151,11 @@ export function ChatPanel({ projectId, projectName }: Props) {
             disabled={!input.trim() || sending}
             className="absolute right-1.5 top-1/2 -translate-y-1/2 size-8 rounded-full bg-terracotta text-primary-foreground flex items-center justify-center hover:bg-terracotta/90 transition-colors disabled:opacity-40"
           >
-            {sending ? <Loader2 className="size-3.5 animate-spin" /> : <Send className="size-3.5" />}
+            {sending ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : (
+              <Send className="size-3.5" />
+            )}
           </button>
         </form>
       </div>

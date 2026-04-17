@@ -1,4 +1,10 @@
-import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
+import {
+  Outlet,
+  Link,
+  createRootRouteWithContext,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
@@ -37,18 +43,34 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "GapFriend — find a real gap, build something honest" },
-      { name: "description", content: "An AI co-pilot that helps solo founders, freelancers, and small teams find market gaps and turn them into a tiny business." },
+      {
+        name: "description",
+        content:
+          "An AI co-pilot that helps solo founders, freelancers, and small teams find market gaps and turn them into a tiny business.",
+      },
       { name: "author", content: "GapFriend" },
-      { property: "og:title", content: "GapFriend" },
-      { property: "og:description", content: "Find a real gap. Kill bad ideas early. Build something honest." },
+      { property: "og:title", content: "GapFriend — find a real gap, build something honest" },
+      {
+        property: "og:description",
+        content: "Find a real gap. Kill bad ideas early. Build something honest.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "GapFriend — find a real gap, build something honest" },
+      { name: "description", content: "GapFriend is an AI-powered co-pilot for project execution and funding." },
+      { property: "og:description", content: "GapFriend is an AI-powered co-pilot for project execution and funding." },
+      { name: "twitter:description", content: "GapFriend is an AI-powered co-pilot for project execution and funding." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/41fde877-f36e-4ae6-892b-1414eafd666a/id-preview-5f1cc28f--56eff0b5-e578-4791-9982-f1648c6afdb2.lovable.app-1776450900334.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/41fde877-f36e-4ae6-892b-1414eafd666a/id-preview-5f1cc28f--56eff0b5-e578-4791-9982-f1648c6afdb2.lovable.app-1776450900334.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -59,7 +81,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head><HeadContent /></head>
+      <head>
+        <HeadContent />
+      </head>
       <body>
         {children}
         <Scripts />
