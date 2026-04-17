@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/gapfriend/AppSidebar";
 import { CopilotBubble } from "@/components/gapfriend/CopilotBubble";
 import { StageStepper } from "@/components/gapfriend/StageStepper";
+import { ResumeBanner } from "@/components/gapfriend/ResumeBanner";
 import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/app/$projectId")({
@@ -101,6 +102,7 @@ function ProjectShell() {
           </header>
 
           <main className="flex-1 overflow-y-auto">
+            <ResumeBanner projectId={projectId} />
             <Outlet />
           </main>
         </div>

@@ -18,12 +18,14 @@ import { Route as CommunityCampaignIdRouteImport } from './routes/community.$cam
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppProjectIdRouteImport } from './routes/app.$projectId'
 import { Route as AppProjectIdIndexRouteImport } from './routes/app.$projectId.index'
+import { Route as CommunityProfileUserIdRouteImport } from './routes/community.profile.$userId'
 import { Route as AppProjectIdVibeRouteImport } from './routes/app.$projectId.vibe'
 import { Route as AppProjectIdSimulatorRouteImport } from './routes/app.$projectId.simulator'
 import { Route as AppProjectIdRoadmapRouteImport } from './routes/app.$projectId.roadmap'
 import { Route as AppProjectIdMoneyRouteImport } from './routes/app.$projectId.money'
 import { Route as AppProjectIdIdentityRouteImport } from './routes/app.$projectId.identity'
 import { Route as AppProjectIdGapsRouteImport } from './routes/app.$projectId.gaps'
+import { Route as AppProjectIdCrowdfundRouteImport } from './routes/app.$projectId.crowdfund'
 import { Route as AppProjectIdContentRouteImport } from './routes/app.$projectId.content'
 import { Route as AppProjectIdCodeRouteImport } from './routes/app.$projectId.code'
 import { Route as AppProjectIdChannelsRouteImport } from './routes/app.$projectId.channels'
@@ -76,6 +78,11 @@ const AppProjectIdIndexRoute = AppProjectIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
+const CommunityProfileUserIdRoute = CommunityProfileUserIdRouteImport.update({
+  id: '/community/profile/$userId',
+  path: '/community/profile/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppProjectIdVibeRoute = AppProjectIdVibeRouteImport.update({
   id: '/vibe',
   path: '/vibe',
@@ -104,6 +111,11 @@ const AppProjectIdIdentityRoute = AppProjectIdIdentityRouteImport.update({
 const AppProjectIdGapsRoute = AppProjectIdGapsRouteImport.update({
   id: '/gaps',
   path: '/gaps',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCrowdfundRoute = AppProjectIdCrowdfundRouteImport.update({
+  id: '/crowdfund',
+  path: '/crowdfund',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
 const AppProjectIdContentRoute = AppProjectIdContentRouteImport.update({
@@ -145,18 +157,21 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
   '/app/$projectId/board': typeof AppProjectIdBoardRoute
   '/app/$projectId/brief': typeof AppProjectIdBriefRoute
   '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
   '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
   '/app/$projectId/code': typeof AppProjectIdCodeRoute
   '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -165,18 +180,21 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app': typeof AppIndexRoute
+  '/community': typeof CommunityIndexRoute
   '/app/$projectId/board': typeof AppProjectIdBoardRoute
   '/app/$projectId/brief': typeof AppProjectIdBriefRoute
   '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
   '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
   '/app/$projectId/code': typeof AppProjectIdCodeRoute
   '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesById {
@@ -188,18 +206,21 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
   '/app/$projectId/board': typeof AppProjectIdBoardRoute
   '/app/$projectId/brief': typeof AppProjectIdBriefRoute
   '/app/$projectId/capital': typeof AppProjectIdCapitalRoute
   '/app/$projectId/channels': typeof AppProjectIdChannelsRoute
   '/app/$projectId/code': typeof AppProjectIdCodeRoute
   '/app/$projectId/content': typeof AppProjectIdContentRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -212,37 +233,44 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/community/$campaignId'
     | '/app/'
+    | '/community/'
     | '/app/$projectId/board'
     | '/app/$projectId/brief'
     | '/app/$projectId/capital'
     | '/app/$projectId/channels'
     | '/app/$projectId/code'
     | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
     | '/app/$projectId/money'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
     | '/app/$projectId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/app/onboarding'
+    | '/community/$campaignId'
     | '/app'
+    | '/community'
     | '/app/$projectId/board'
     | '/app/$projectId/brief'
     | '/app/$projectId/capital'
     | '/app/$projectId/channels'
     | '/app/$projectId/code'
     | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
     | '/app/$projectId/money'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
     | '/app/$projectId'
   id:
     | '__root__'
@@ -253,18 +281,21 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/community/$campaignId'
     | '/app/'
+    | '/community/'
     | '/app/$projectId/board'
     | '/app/$projectId/brief'
     | '/app/$projectId/capital'
     | '/app/$projectId/channels'
     | '/app/$projectId/code'
     | '/app/$projectId/content'
+    | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
     | '/app/$projectId/money'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
+    | '/community/profile/$userId'
     | '/app/$projectId/'
   fileRoutesById: FileRoutesById
 }
@@ -342,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdIndexRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/community/profile/$userId': {
+      id: '/community/profile/$userId'
+      path: '/community/profile/$userId'
+      fullPath: '/community/profile/$userId'
+      preLoaderRoute: typeof CommunityProfileUserIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/$projectId/vibe': {
       id: '/app/$projectId/vibe'
       path: '/vibe'
@@ -382,6 +420,13 @@ declare module '@tanstack/react-router' {
       path: '/gaps'
       fullPath: '/app/$projectId/gaps'
       preLoaderRoute: typeof AppProjectIdGapsRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/crowdfund': {
+      id: '/app/$projectId/crowdfund'
+      path: '/crowdfund'
+      fullPath: '/app/$projectId/crowdfund'
+      preLoaderRoute: typeof AppProjectIdCrowdfundRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
     '/app/$projectId/content': {
@@ -436,6 +481,7 @@ interface AppProjectIdRouteChildren {
   AppProjectIdChannelsRoute: typeof AppProjectIdChannelsRoute
   AppProjectIdCodeRoute: typeof AppProjectIdCodeRoute
   AppProjectIdContentRoute: typeof AppProjectIdContentRoute
+  AppProjectIdCrowdfundRoute: typeof AppProjectIdCrowdfundRoute
   AppProjectIdGapsRoute: typeof AppProjectIdGapsRoute
   AppProjectIdIdentityRoute: typeof AppProjectIdIdentityRoute
   AppProjectIdMoneyRoute: typeof AppProjectIdMoneyRoute
@@ -452,6 +498,7 @@ const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
   AppProjectIdChannelsRoute: AppProjectIdChannelsRoute,
   AppProjectIdCodeRoute: AppProjectIdCodeRoute,
   AppProjectIdContentRoute: AppProjectIdContentRoute,
+  AppProjectIdCrowdfundRoute: AppProjectIdCrowdfundRoute,
   AppProjectIdGapsRoute: AppProjectIdGapsRoute,
   AppProjectIdIdentityRoute: AppProjectIdIdentityRoute,
   AppProjectIdMoneyRoute: AppProjectIdMoneyRoute,
