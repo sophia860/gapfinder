@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, Link, useLocation, notFound } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useLocation } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { useProjects } from "@/lib/queries";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
