@@ -38,6 +38,7 @@ import {
   Lightbulb,
   Users,
   Globe,
+  HandCoins,
 } from "lucide-react";
 
 interface Props {
@@ -85,6 +86,7 @@ export function AppSidebar({ projectId }: Props) {
         { title: "Board", to: `/app/${projectId}/board`, icon: KanbanSquare },
         { title: "Money", to: `/app/${projectId}/money`, icon: Coins },
         { title: "Capital", to: `/app/${projectId}/capital`, icon: Rocket },
+        { title: "Crowdfund", to: `/app/${projectId}/crowdfund`, icon: HandCoins },
       ],
     },
     {

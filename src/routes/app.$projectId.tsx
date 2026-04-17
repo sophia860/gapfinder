@@ -22,6 +22,7 @@ const SECTION_LABELS: Record<string, string> = {
   capital: "Capital",
   content: "Content",
   simulator: "Simulator",
+  crowdfund: "Crowdfund",
 };
 
 function ProjectShell() {

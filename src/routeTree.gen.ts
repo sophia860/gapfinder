@@ -12,10 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CommunityIndexRouteImport } from './routes/community.index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as CommunityCampaignIdRouteImport } from './routes/community.$campaignId'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppProjectIdRouteImport } from './routes/app.$projectId'
 import { Route as AppProjectIdIndexRouteImport } from './routes/app.$projectId.index'
+import { Route as CommunityProfileUserIdRouteImport } from './routes/community.profile.$userId'
+import { Route as AppProjectIdCrowdfundRouteImport } from './routes/app.$projectId.crowdfund'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -32,10 +36,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityIndexRoute = CommunityIndexRouteImport.update({
+  id: '/community/',
+  path: '/community/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const CommunityCampaignIdRoute = CommunityCampaignIdRouteImport.update({
+  id: '/community/$campaignId',
+  path: '/community/$campaignId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppOnboardingRoute = AppOnboardingRouteImport.update({
   id: '/onboarding',
@@ -52,6 +66,16 @@ const AppProjectIdIndexRoute = AppProjectIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
+const CommunityProfileUserIdRoute = CommunityProfileUserIdRouteImport.update({
+  id: '/community/profile/$userId',
+  path: '/community/profile/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppProjectIdCrowdfundRoute = AppProjectIdCrowdfundRouteImport.update({
+  id: '/crowdfund',
+  path: '/crowdfund',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,14 +83,22 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app': typeof AppIndexRoute
+  '/community': typeof CommunityIndexRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesById {
@@ -76,7 +108,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
+  '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app/': typeof AppIndexRoute
+  '/community/': typeof CommunityIndexRoute
+  '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
+  '/community/profile/$userId': typeof CommunityProfileUserIdRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -87,10 +123,23 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/$projectId'
     | '/app/onboarding'
+    | '/community/$campaignId'
     | '/app/'
+    | '/community/'
+    | '/app/$projectId/crowdfund'
+    | '/community/profile/$userId'
     | '/app/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/app/onboarding' | '/app' | '/app/$projectId'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/onboarding'
+    | '/community/$campaignId'
+    | '/app'
+    | '/community'
+    | '/app/$projectId/crowdfund'
+    | '/community/profile/$userId'
+    | '/app/$projectId'
   id:
     | '__root__'
     | '/'
@@ -98,7 +147,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/$projectId'
     | '/app/onboarding'
+    | '/community/$campaignId'
     | '/app/'
+    | '/community/'
+    | '/app/$projectId/crowdfund'
+    | '/community/profile/$userId'
     | '/app/$projectId/'
   fileRoutesById: FileRoutesById
 }
@@ -106,6 +159,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CommunityCampaignIdRoute: typeof CommunityCampaignIdRoute
+  CommunityIndexRoute: typeof CommunityIndexRoute
+  CommunityProfileUserIdRoute: typeof CommunityProfileUserIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -131,12 +187,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community/': {
+      id: '/community/'
+      path: '/community'
+      fullPath: '/community/'
+      preLoaderRoute: typeof CommunityIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/community/$campaignId': {
+      id: '/community/$campaignId'
+      path: '/community/$campaignId'
+      fullPath: '/community/$campaignId'
+      preLoaderRoute: typeof CommunityCampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/onboarding': {
       id: '/app/onboarding'
@@ -159,14 +229,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdIndexRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/community/profile/$userId': {
+      id: '/community/profile/$userId'
+      path: '/community/profile/$userId'
+      fullPath: '/community/profile/$userId'
+      preLoaderRoute: typeof CommunityProfileUserIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/$projectId/crowdfund': {
+      id: '/app/$projectId/crowdfund'
+      path: '/crowdfund'
+      fullPath: '/app/$projectId/crowdfund'
+      preLoaderRoute: typeof AppProjectIdCrowdfundRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
   }
 }
 
 interface AppProjectIdRouteChildren {
+  AppProjectIdCrowdfundRoute: typeof AppProjectIdCrowdfundRoute
   AppProjectIdIndexRoute: typeof AppProjectIdIndexRoute
 }
 
 const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
+  AppProjectIdCrowdfundRoute: AppProjectIdCrowdfundRoute,
   AppProjectIdIndexRoute: AppProjectIdIndexRoute,
 }
 
@@ -192,7 +278,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  CommunityCampaignIdRoute: CommunityCampaignIdRoute,
+  CommunityIndexRoute: CommunityIndexRoute,
+  CommunityProfileUserIdRoute: CommunityProfileUserIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
