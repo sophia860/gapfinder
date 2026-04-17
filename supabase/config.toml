@@ -8,9 +8,3 @@ verify_jwt = false
 
 [functions.gapfriend-content]
 verify_jwt = false
-
-[functions.gapfriend-validate]
-verify_jwt = false
-
-[functions.gapfriend-ingest-evidence]
-verify_jwt = false
