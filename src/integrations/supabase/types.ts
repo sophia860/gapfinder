@@ -461,16 +461,183 @@ export type Database = {
           },
         ];
       };
+      gap_reports: {
+        Row: {
+          citations: Json;
+          competitor_density: Json;
+          completion_tokens: number | null;
+          created_at: string;
+          differentiation_angle: Json;
+          evidence_of_demand: Json;
+          id: string;
+          idea: string;
+          model: string;
+          next_steps: Json;
+          problem_clarity: Json;
+          prompt_tokens: number | null;
+          project_id: string;
+          raw_request: Json | null;
+          raw_response: Json | null;
+          total_tokens: number | null;
+          user_id: string;
+          verdict: Database["public"]["Enums"]["gap_report_verdict"];
+          verdict_reasoning: string;
+        };
+        Insert: {
+          citations?: Json;
+          competitor_density: Json;
+          completion_tokens?: number | null;
+          created_at?: string;
+          differentiation_angle: Json;
+          evidence_of_demand: Json;
+          id?: string;
+          idea: string;
+          model: string;
+          next_steps: Json;
+          problem_clarity: Json;
+          prompt_tokens?: number | null;
+          project_id: string;
+          raw_request?: Json | null;
+          raw_response?: Json | null;
+          total_tokens?: number | null;
+          user_id: string;
+          verdict: Database["public"]["Enums"]["gap_report_verdict"];
+          verdict_reasoning: string;
+        };
+        Update: {
+          citations?: Json;
+          competitor_density?: Json;
+          completion_tokens?: number | null;
+          created_at?: string;
+          differentiation_angle?: Json;
+          evidence_of_demand?: Json;
+          id?: string;
+          idea?: string;
+          model?: string;
+          next_steps?: Json;
+          problem_clarity?: Json;
+          prompt_tokens?: number | null;
+          project_id?: string;
+          raw_request?: Json | null;
+          raw_response?: Json | null;
+          total_tokens?: number | null;
+          user_id?: string;
+          verdict?: Database["public"]["Enums"]["gap_report_verdict"];
+          verdict_reasoning?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "gap_reports_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      ai_usage: {
+        Row: {
+          completion_tokens: number;
+          created_at: string;
+          function_name: string;
+          id: string;
+          model: string | null;
+          project_id: string | null;
+          prompt_tokens: number;
+          total_tokens: number;
+          user_id: string;
+        };
+        Insert: {
+          completion_tokens?: number;
+          created_at?: string;
+          function_name: string;
+          id?: string;
+          model?: string | null;
+          project_id?: string | null;
+          prompt_tokens?: number;
+          total_tokens?: number;
+          user_id: string;
+        };
+        Update: {
+          completion_tokens?: number;
+          created_at?: string;
+          function_name?: string;
+          id?: string;
+          model?: string | null;
+          project_id?: string | null;
+          prompt_tokens?: number;
+          total_tokens?: number;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      evidence_snippets: {
+        Row: {
+          content: string;
+          embedding: string | null;
+          fetched_at: string;
+          id: string;
+          project_id: string;
+          source: string;
+          title: string | null;
+          url: string;
+        };
+        Insert: {
+          content: string;
+          embedding?: string | null;
+          fetched_at?: string;
+          id?: string;
+          project_id: string;
+          source: string;
+          title?: string | null;
+          url: string;
+        };
+        Update: {
+          content?: string;
+          embedding?: string | null;
+          fetched_at?: string;
+          id?: string;
+          project_id?: string;
+          source?: string;
+          title?: string | null;
+          url?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "evidence_snippets_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
       owns_project: { Args: { _project_id: string }; Returns: boolean };
+      match_evidence: {
+        Args: {
+          query_embedding: string;
+          match_count: number;
+          filter_project: string;
+        };
+        Returns: {
+          id: string;
+          source: string;
+          url: string;
+          title: string | null;
+          content: string;
+          similarity: number;
+        }[];
+      };
     };
     Enums: {
       chat_role: "user" | "assistant" | "system";
       gap_status: "suggested" | "selected" | "dismissed";
+      gap_report_verdict: "build" | "kill" | "iterate";
       simulation_verdict: "strong" | "needs_work" | "kill";
       task_column: "later" | "this_week" | "in_progress" | "done";
       user_mode: "solo_founder" | "freelancer" | "existing_business";

@@ -12,6 +12,7 @@ export type Channel = Database["public"]["Tables"]["channels"]["Row"];
 export type ContentPiece = Database["public"]["Tables"]["content_pieces"]["Row"];
 export type OpportunityBrief = Database["public"]["Tables"]["opportunity_briefs"]["Row"];
 export type GapCard = Database["public"]["Tables"]["gap_cards"]["Row"];
+export type GapReport = Database["public"]["Tables"]["gap_reports"]["Row"];
 export type UserMode = Database["public"]["Enums"]["user_mode"];
 export type TaskColumn = Database["public"]["Enums"]["task_column"];
 
@@ -305,6 +306,23 @@ export function useGapCards(projectId: string | undefined) {
         .order("created_at", { ascending: true });
       if (error) throw error;
       return (data ?? []) as GapCard[];
+    },
+  });
+}
+
+/* ---------- gap reports (AI validation) ---------- */
+export function useGapReports(projectId: string | undefined) {
+  return useQuery({
+    queryKey: ["gap_reports", projectId],
+    enabled: !!projectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("gap_reports")
+        .select("*")
+        .eq("project_id", projectId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as GapReport[];
     },
   });
 }
