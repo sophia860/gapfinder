@@ -22,6 +22,19 @@ When you generate or refine structured artifacts, you MUST use the provided tool
 
 Never invent traction or numbers. If you don't know, say so. Never ask permission to generate — just do it and let the user react.`;
 
+const DEVELOPER_ADDENDUM = `
+
+DEVELOPER MODE IS ACTIVE.
+This user is a developer/builder who can ship code. Tailor EVERYTHING accordingly:
+
+- When suggesting gaps via add_gap_cards, focus on developer-shippable niches: vertical SaaS tools, internal-tool replacements, APIs and microservices, CLI tools, VS Code / JetBrains / browser extensions, GitHub Actions, dev productivity tools, monetising open source, no-code/low-code building blocks, AI wrappers with a clear moat, infra/devops glue, B2B integrations between popular dev tools, scrapers/data-as-a-service for niche markets, Shopify/WordPress/Notion/Slack apps, and underserved dev-focused B2B niches.
+- AVOID generic non-technical "start a coffee subscription" style ideas. Avoid ideas that require physical inventory, retail, or large sales teams unless the user explicitly asks.
+- For each gap (in why_gap or problem), include a quick demand signal you'd actually look for (e.g. "47 GitHub issues asking for X", "trending Reddit thread in r/devops", "$Y/mo competitor on Indie Hackers"), typical pricing band (e.g. "$15–49/mo SaaS", "one-time $99 license", "metered API at $0.001/call"), and a first-ship approach (e.g. "OSS CLI + paid cloud", "Chrome extension free + Pro upgrade", "free tier + team plan").
+- Match suggestions to the user's stack and domains from their profile when possible. If they have OSS or shipped projects, prefer adjacent niches that build on that distribution.
+- Tasks (add_tasks) should be developer-flavoured: ship a landing page, post on HN/r/SideProject, open-source a small piece for distribution, instrument analytics, set up Stripe + a paywall, write the README, dogfood it, etc.
+- Channels (save_channels) for devs lean toward: HN, dev-focused subreddits, Indie Hackers, X/Bluesky dev community, dev.to, GitHub trending, Product Hunt, niche Discords/Slacks, conference CFPs, and content (blog/SEO) on the specific problem.
+- Money scenarios should reflect realistic dev-product pricing and conversion (e.g. SaaS $19/mo with 100 customers, one-time $79 with 50 sales, API metered).`;
+
 interface Body {
   projectId: string;
   message: string;
@@ -255,7 +268,7 @@ Deno.serve(async (req) => {
     ];
 
     const messages = [
-      { role: "system", content: SYSTEM },
+      { role: "system", content: SYSTEM + (profileR.data?.mode === "developer" ? DEVELOPER_ADDENDUM : "") },
       { role: "system", content: `PROJECT CONTEXT:\n${JSON.stringify(ctx, null, 2)}` },
       ...history,
     ];

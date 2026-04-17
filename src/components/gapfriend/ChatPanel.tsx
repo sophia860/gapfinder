@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { useChatMessages } from "@/lib/queries";
+import { useChatMessages, useProfile } from "@/lib/queries";
+import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Send, Sparkles, Loader2 } from "lucide-react";
@@ -12,6 +13,9 @@ interface Props {
 
 export function ChatPanel({ projectId, projectName }: Props) {
   const { data: messages } = useChatMessages(projectId);
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  const isDev = profile?.mode === "developer";
   const qc = useQueryClient();
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -112,11 +116,18 @@ export function ChatPanel({ projectId, projectName }: Props) {
 
       <div className="p-4 border-t border-border shrink-0 space-y-3">
         <div className="flex flex-wrap gap-2">
-          {[
-            "Suggest 3 market gaps for me",
-            "Help me write an opportunity brief",
-            "What should I do this week?",
-          ].map((q) => (
+          {(isDev
+            ? [
+                "Find SaaS gaps for devs",
+                "What can I build in a weekend?",
+                "Show me underserved dev tool niches",
+              ]
+            : [
+                "Suggest 3 market gaps for me",
+                "Help me write an opportunity brief",
+                "What should I do this week?",
+              ]
+          ).map((q) => (
             <button
               key={q}
               onClick={() => setInput(q)}

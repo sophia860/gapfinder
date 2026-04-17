@@ -34,6 +34,9 @@ interface Props {
 }
 
 export function Dashboard({ projectId }: Props) {
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  const isDev = profile?.mode === "developer";
   const { data: project } = useProject(projectId);
   const { data: identity } = useIdentity(projectId);
   const { data: money } = useMoney(projectId);
