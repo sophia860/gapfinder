@@ -351,6 +351,7 @@ function json(body: unknown, status = 200) {
 
 async function runTool(
   // deno-lint-ignore no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   userId: string,
   projectId: string,

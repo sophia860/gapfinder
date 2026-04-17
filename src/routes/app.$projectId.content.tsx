@@ -57,7 +57,11 @@ function ContentPage() {
         />
         <div className="flex justify-end">
           <Button className="rounded-full" disabled={busy || !draft.trim()} onClick={generate}>
-            {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Pencil className="size-4 mr-2" />}
+            {busy ? (
+              <Loader2 className="size-4 mr-2 animate-spin" />
+            ) : (
+              <Pencil className="size-4 mr-2" />
+            )}
             Generate
           </Button>
         </div>
@@ -74,10 +78,7 @@ function ContentPage() {
             {pieces.map((p) => {
               const frames = (p.thread_frames as string[] | null) ?? [];
               return (
-                <details
-                  key={p.id}
-                  className="bg-card rounded-2xl border border-border p-5 group"
-                >
+                <details key={p.id} className="bg-card rounded-2xl border border-border p-5 group">
                   <summary className="cursor-pointer">
                     <span className="font-serif text-lg font-medium">
                       {p.title || (p.source_text?.slice(0, 60) ?? "Untitled") + "…"}

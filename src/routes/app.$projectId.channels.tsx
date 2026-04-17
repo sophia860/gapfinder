@@ -50,7 +50,11 @@ function ChannelsPage() {
           </p>
         </div>
         <Button className="rounded-full" disabled={busy} onClick={ask}>
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Globe className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <Globe className="size-4 mr-2" />
+          )}
           {channels?.length ? "Refresh" : "Suggest channels"}
         </Button>
       </header>
@@ -71,9 +75,7 @@ function ChannelsPage() {
                   </span>
                 )}
               </div>
-              {c.rationale && (
-                <p className="text-sm text-muted-foreground mb-3">{c.rationale}</p>
-              )}
+              {c.rationale && <p className="text-sm text-muted-foreground mb-3">{c.rationale}</p>}
               <div className="grid grid-cols-2 gap-3 text-xs">
                 {c.pros && (
                   <div>

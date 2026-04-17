@@ -82,9 +82,7 @@ export function BackstagePanel({ projectId }: { projectId: string }) {
         </div>
 
         <div className="mt-6 space-y-3">
-          {isLoading && (
-            <p className="text-sm text-muted-foreground font-mono">Loading…</p>
-          )}
+          {isLoading && <p className="text-sm text-muted-foreground font-mono">Loading…</p>}
           {!isLoading && insights.length === 0 && (
             <p className="text-sm text-muted-foreground">
               No insights yet. Tap "Run Backstage" to let your co-pilot study the project.

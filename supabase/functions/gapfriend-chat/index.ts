@@ -313,7 +313,10 @@ Deno.serve(async (req) => {
     ];
 
     const messages = [
-      { role: "system", content: SYSTEM + (profileR.data?.mode === "developer" ? DEVELOPER_ADDENDUM : "") },
+      {
+        role: "system",
+        content: SYSTEM + (profileR.data?.mode === "developer" ? DEVELOPER_ADDENDUM : ""),
+      },
       { role: "system", content: `PROJECT CONTEXT:\n${JSON.stringify(ctx, null, 2)}` },
       ...history,
     ];
@@ -413,6 +416,7 @@ function json(body: unknown, status = 200) {
 
 async function runTool(
   // deno-lint-ignore no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: any,
   projectId: string,
   name: string,
