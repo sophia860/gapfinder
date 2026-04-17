@@ -534,6 +534,9 @@ export type Database = {
           created_at: string;
           description: string | null;
           id: string;
+          parked_at: string | null;
+          resume_note: string | null;
+          resume_note_updated_at: string | null;
           tagline: string | null;
           updated_at: string;
           user_id: string;
@@ -544,6 +547,9 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          parked_at?: string | null;
+          resume_note?: string | null;
+          resume_note_updated_at?: string | null;
           tagline?: string | null;
           updated_at?: string;
           user_id: string;
@@ -554,6 +560,9 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          parked_at?: string | null;
+          resume_note?: string | null;
+          resume_note_updated_at?: string | null;
           tagline?: string | null;
           updated_at?: string;
           user_id?: string;

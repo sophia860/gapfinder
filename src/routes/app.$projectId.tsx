@@ -102,6 +102,7 @@ function ProjectShell() {
           </header>
 
           <main className="flex-1 overflow-y-auto">
+            <ResumeBanner projectId={projectId} />
             <Outlet />
           </main>
         </div>

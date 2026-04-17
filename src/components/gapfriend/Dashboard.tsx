@@ -21,6 +21,7 @@ import {
   Loader2,
   Check,
   X,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,6 +29,8 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
+import { deriveNextAction } from "@/lib/next-action";
 
 interface Props {
   projectId: string;
@@ -91,8 +94,37 @@ export function Dashboard({ projectId }: Props) {
   const suggestedGaps = gaps?.filter((g) => g.status === "suggested") ?? [];
   const selectedGap = gaps?.find((g) => g.status === "selected");
 
+  const nextAction = deriveNextAction({ projectId, gaps, brief, identity, tasks });
+
   return (
     <div className="px-6 lg:px-12 py-10 max-w-5xl mx-auto space-y-8 pb-20">
+      {/* Your next 1 thing */}
+      {nextAction && (
+        <section
+          aria-label="Your next 1 thing"
+          className="bg-sage/10 border border-sage/30 rounded-2xl p-5 md:p-6 flex items-start gap-4"
+        >
+          <div className="size-10 rounded-xl bg-sage/20 text-sage flex items-center justify-center shrink-0">
+            <ArrowRight className="size-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-sage">
+              Your next 1 thing
+            </p>
+            <h2 className="mt-1 font-serif text-xl md:text-2xl font-medium leading-tight">
+              {nextAction.label}
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">{nextAction.hint}</p>
+          </div>
+          <Link to={nextAction.to} className="shrink-0">
+            <Button size="sm" className="rounded-full">
+              Do it
+              <ArrowRight className="size-3.5 ml-1" />
+            </Button>
+          </Link>
+        </section>
+      )}
+
       {/* Identity hero */}
       <section className="bg-card rounded-3xl border border-border p-8 md:p-10 shadow-warm-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-72 h-72 bg-terracotta-soft/40 rounded-bl-[120px] -mr-10 -mt-10 pointer-events-none" />
