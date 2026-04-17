@@ -14,11 +14,7 @@ export type OpportunityBrief = Database["public"]["Tables"]["opportunity_briefs"
 export type GapCard = Database["public"]["Tables"]["gap_cards"]["Row"];
 export type UserMode = Database["public"]["Enums"]["user_mode"];
 export type TaskColumn = Database["public"]["Enums"]["task_column"];
-export type VibeProject = Database["public"]["Tables"]["vibe_projects"]["Row"];
-export type VibeVersion = Database["public"]["Tables"]["vibe_versions"]["Row"];
-export type VibeFile = Database["public"]["Tables"]["vibe_files"]["Row"];
-export type VibeMessage = Database["public"]["Tables"]["vibe_messages"]["Row"];
-export type VibeProjectKind = Database["public"]["Enums"]["vibe_project_kind"];
+// Vibe coding tables not yet provisioned in the database. Types intentionally omitted.
 
 /* ---------- profile ---------- */
 export function useProfile(userId: string | undefined) {
