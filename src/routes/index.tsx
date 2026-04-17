@@ -360,7 +360,7 @@ function Landing() {
         </Link>
       </header>
 
-      <main className="px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
+      <section className="px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
         <p className="font-mono text-xs uppercase tracking-widest text-terracotta mb-6">
           Issue No. 1 — for makers, founders, freelancers
         </p>
@@ -435,8 +435,8 @@ function Landing() {
               <h3 className="mt-3 font-serif text-2xl font-medium">{s.title}</h3>
               <p className="mt-2 text-muted-foreground leading-relaxed">{s.body}</p>
             </div>
-          </Reveal>
-        ))}
+          ))}
+        </section>
       </section>
 
       {/* Why GapFriend pillars */}
