@@ -8,125 +8,60 @@ export type Database = {
   };
   public: {
     Tables: {
-      backstage_insights: {
+      campaigns: {
         Row: {
-          body: string | null;
+          category: string | null;
+          cover_url: string | null;
           created_at: string;
-          due_at: string | null;
+          created_by: string;
+          currency: string;
+          deadline: string | null;
+          goal_amount: number;
           id: string;
-          kind: Database["public"]["Enums"]["backstage_kind"];
-          payload: Json;
+          pitch: string | null;
           project_id: string;
-          status: Database["public"]["Enums"]["backstage_status"];
+          status: Database["public"]["Enums"]["campaign_status"];
+          story: string | null;
           title: string;
           updated_at: string;
-          weirdness: number;
         };
         Insert: {
-          body?: string | null;
+          category?: string | null;
+          cover_url?: string | null;
           created_at?: string;
-          due_at?: string | null;
+          created_by: string;
+          currency?: string;
+          deadline?: string | null;
+          goal_amount?: number;
           id?: string;
-          kind: Database["public"]["Enums"]["backstage_kind"];
-          payload?: Json;
+          pitch?: string | null;
           project_id: string;
-          status?: Database["public"]["Enums"]["backstage_status"];
+          status?: Database["public"]["Enums"]["campaign_status"];
+          story?: string | null;
           title: string;
           updated_at?: string;
-          weirdness?: number;
         };
         Update: {
-          body?: string | null;
+          category?: string | null;
+          cover_url?: string | null;
           created_at?: string;
-          due_at?: string | null;
+          created_by?: string;
+          currency?: string;
+          deadline?: string | null;
+          goal_amount?: number;
           id?: string;
-          kind?: Database["public"]["Enums"]["backstage_kind"];
-          payload?: Json;
+          pitch?: string | null;
           project_id?: string;
-          status?: Database["public"]["Enums"]["backstage_status"];
+          status?: Database["public"]["Enums"]["campaign_status"];
+          story?: string | null;
           title?: string;
           updated_at?: string;
-          weirdness?: number;
         };
         Relationships: [
           {
-            foreignKeyName: "backstage_insights_project_id_fkey";
+            foreignKeyName: "campaigns_project_id_fkey";
             columns: ["project_id"];
-            isOneToOne: false;
-            referencedRelation: "projects";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      backstage_memory: {
-        Row: {
-          confidence: number;
-          created_at: string;
-          id: string;
-          key: string;
-          source: string | null;
-          updated_at: string;
-          user_id: string;
-          value: string;
-        };
-        Insert: {
-          confidence?: number;
-          created_at?: string;
-          id?: string;
-          key: string;
-          source?: string | null;
-          updated_at?: string;
-          user_id: string;
-          value: string;
-        };
-        Update: {
-          confidence?: number;
-          created_at?: string;
-          id?: string;
-          key?: string;
-          source?: string | null;
-          updated_at?: string;
-          user_id?: string;
-          value?: string;
-        };
-        Relationships: [];
-      };
-      backstage_runs: {
-        Row: {
-          created_at: string;
-          id: string;
-          inputs_hash: string | null;
-          insights_added: number;
-          notes: string | null;
-          observations_added: number;
-          project_id: string;
-          trigger: string | null;
-        };
-        Insert: {
-          created_at?: string;
-          id?: string;
-          inputs_hash?: string | null;
-          insights_added?: number;
-          notes?: string | null;
-          observations_added?: number;
-          project_id: string;
-          trigger?: string | null;
-        };
-        Update: {
-          created_at?: string;
-          id?: string;
-          inputs_hash?: string | null;
-          insights_added?: number;
-          notes?: string | null;
-          observations_added?: number;
-          project_id?: string;
-          trigger?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "backstage_runs_project_id_fkey";
-            columns: ["project_id"];
-            isOneToOne: false;
+            isOneToOne: true;
             referencedRelation: "projects";
             referencedColumns: ["id"];
           },
@@ -208,6 +143,36 @@ export type Database = {
           },
         ];
       };
+      comments: {
+        Row: {
+          author_id: string;
+          body: string;
+          created_at: string;
+          id: string;
+          target_id: string;
+          target_type: Database["public"]["Enums"]["comment_target"];
+          updated_at: string;
+        };
+        Insert: {
+          author_id: string;
+          body: string;
+          created_at?: string;
+          id?: string;
+          target_id: string;
+          target_type: Database["public"]["Enums"]["comment_target"];
+          updated_at?: string;
+        };
+        Update: {
+          author_id?: string;
+          body?: string;
+          created_at?: string;
+          id?: string;
+          target_id?: string;
+          target_type?: Database["public"]["Enums"]["comment_target"];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       content_pieces: {
         Row: {
           created_at: string;
@@ -245,6 +210,38 @@ export type Database = {
             columns: ["project_id"];
             isOneToOne: false;
             referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      follows: {
+        Row: {
+          created_at: string;
+          followee_campaign_id: string | null;
+          followee_user_id: string | null;
+          follower_id: string;
+          id: string;
+        };
+        Insert: {
+          created_at?: string;
+          followee_campaign_id?: string | null;
+          followee_user_id?: string | null;
+          follower_id: string;
+          id?: string;
+        };
+        Update: {
+          created_at?: string;
+          followee_campaign_id?: string | null;
+          followee_user_id?: string | null;
+          follower_id?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "follows_followee_campaign_id_fkey";
+            columns: ["followee_campaign_id"];
+            isOneToOne: false;
+            referencedRelation: "campaigns";
             referencedColumns: ["id"];
           },
         ];
@@ -425,6 +422,76 @@ export type Database = {
           },
         ];
       };
+      pledges: {
+        Row: {
+          amount: number;
+          backer_user_id: string;
+          campaign_id: string;
+          created_at: string;
+          id: string;
+          message: string | null;
+        };
+        Insert: {
+          amount: number;
+          backer_user_id: string;
+          campaign_id: string;
+          created_at?: string;
+          id?: string;
+          message?: string | null;
+        };
+        Update: {
+          amount?: number;
+          backer_user_id?: string;
+          campaign_id?: string;
+          created_at?: string;
+          id?: string;
+          message?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pledges_campaign_id_fkey";
+            columns: ["campaign_id"];
+            isOneToOne: false;
+            referencedRelation: "campaigns";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      posts: {
+        Row: {
+          author_id: string;
+          body: string;
+          campaign_id: string | null;
+          created_at: string;
+          id: string;
+          updated_at: string;
+        };
+        Insert: {
+          author_id: string;
+          body: string;
+          campaign_id?: string | null;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+        };
+        Update: {
+          author_id?: string;
+          body?: string;
+          campaign_id?: string | null;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "posts_campaign_id_fkey";
+            columns: ["campaign_id"];
+            isOneToOne: false;
+            referencedRelation: "campaigns";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
@@ -491,6 +558,33 @@ export type Database = {
           updated_at?: string;
           user_id?: string;
           working_name?: string;
+        };
+        Relationships: [];
+      };
+      reactions: {
+        Row: {
+          created_at: string;
+          id: string;
+          kind: Database["public"]["Enums"]["reaction_kind"];
+          target_id: string;
+          target_type: Database["public"]["Enums"]["reaction_target"];
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          kind?: Database["public"]["Enums"]["reaction_kind"];
+          target_id: string;
+          target_type: Database["public"]["Enums"]["reaction_target"];
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          kind?: Database["public"]["Enums"]["reaction_kind"];
+          target_id?: string;
+          target_type?: Database["public"]["Enums"]["reaction_target"];
+          user_id?: string;
         };
         Relationships: [];
       };
@@ -590,13 +684,18 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      campaign_is_public: { Args: { _campaign_id: string }; Returns: boolean };
+      owns_campaign: { Args: { _campaign_id: string }; Returns: boolean };
       owns_project: { Args: { _project_id: string }; Returns: boolean };
+      post_is_public: { Args: { _post_id: string }; Returns: boolean };
     };
     Enums: {
-      backstage_kind: "wild_niche" | "redesign" | "bug" | "reminder" | "observation";
-      backstage_status: "open" | "acted" | "dismissed" | "snoozed";
+      campaign_status: "draft" | "live" | "funded" | "closed";
       chat_role: "user" | "assistant" | "system";
+      comment_target: "campaign" | "post";
       gap_status: "suggested" | "selected" | "dismissed";
+      reaction_kind: "like" | "clap" | "fire" | "heart";
+      reaction_target: "campaign" | "post" | "comment";
       simulation_verdict: "strong" | "needs_work" | "kill";
       task_column: "later" | "this_week" | "in_progress" | "done";
       user_mode: "solo_founder" | "freelancer" | "existing_business";
@@ -725,10 +824,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      backstage_kind: ["wild_niche", "redesign", "bug", "reminder", "observation"],
-      backstage_status: ["open", "acted", "dismissed", "snoozed"],
+      campaign_status: ["draft", "live", "funded", "closed"],
       chat_role: ["user", "assistant", "system"],
+      comment_target: ["campaign", "post"],
       gap_status: ["suggested", "selected", "dismissed"],
+      reaction_kind: ["like", "clap", "fire", "heart"],
+      reaction_target: ["campaign", "post", "comment"],
       simulation_verdict: ["strong", "needs_work", "kill"],
       task_column: ["later", "this_week", "in_progress", "done"],
       user_mode: ["solo_founder", "freelancer", "existing_business"],

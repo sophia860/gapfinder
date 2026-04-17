@@ -29,6 +29,12 @@ function PortfolioHub() {
           </span>
           <span className="font-serif text-lg font-medium tracking-tight">GapFriend</span>
         </Link>
+        <Link
+          to="/community"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Community
+        </Link>
       </header>
 
       <div className="max-w-5xl mx-auto px-6 lg:px-10 py-12">

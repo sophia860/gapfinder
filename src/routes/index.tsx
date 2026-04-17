@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "An AI co-pilot for solo founders, freelancers, and small teams. Find market gaps, kill bad ideas early, and turn good ones into a tiny business.",
+          "An AI co-pilot for solo founders, freelancers, and small teams. Find market gaps, kill bad ideas early, turn good ones into a tiny business, and build your site or app.",
       },
       { property: "og:title", content: "GapFriend" },
       {
@@ -48,8 +48,8 @@ function Landing() {
         </h1>
         <p className="mt-8 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty">
           GapFriend is an AI co-pilot that helps you spot gaps in the market, pressure-test ideas
-          with synthetic customers, and turn the good ones into a name, a plan, tasks, and content —
-          without writing any code.
+          with synthetic customers, and turn the good ones into a name, a plan, tasks, content, and
+          a working website or app — without writing any code (unless you want to).
         </p>
 
         <div className="mt-10 flex flex-wrap gap-3">
@@ -66,7 +66,7 @@ function Landing() {
           </a>
         </div>
 
-        <section id="how" className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section id="how" className="mt-32 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
               n: "01",
@@ -82,6 +82,11 @@ function Landing() {
               n: "03",
               title: "Run the business",
               body: "Naming, domains, channels, break-even, tasks, and content threads — all in one calm dashboard.",
+            },
+            {
+              n: "04",
+              title: "Ship it",
+              body: "Vibe-code a website with AI or jump into a full coding workspace. No code required, but full power available.",
             },
           ].map((s) => (
             <div key={s.n}>
