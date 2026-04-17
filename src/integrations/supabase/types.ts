@@ -467,6 +467,167 @@ export type Database = {
           },
         ]
       }
+      vibe_files: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          mime: string
+          path: string
+          version_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          mime?: string
+          path: string
+          version_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          mime?: string
+          path?: string
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vibe_files_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "vibe_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vibe_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["chat_role"]
+          vibe_project_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["chat_role"]
+          vibe_project_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["chat_role"]
+          vibe_project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vibe_messages_vibe_project_id_fkey"
+            columns: ["vibe_project_id"]
+            isOneToOne: false
+            referencedRelation: "vibe_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vibe_projects: {
+        Row: {
+          created_at: string
+          current_version_id: string | null
+          id: string
+          kind: Database["public"]["Enums"]["vibe_project_kind"]
+          project_id: string
+          published_version_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_version_id?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["vibe_project_kind"]
+          project_id: string
+          published_version_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_version_id?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["vibe_project_kind"]
+          project_id?: string
+          published_version_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_vibe_projects_current_version"
+            columns: ["current_version_id"]
+            isOneToOne: false
+            referencedRelation: "vibe_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_vibe_projects_published_version"
+            columns: ["published_version_id"]
+            isOneToOne: false
+            referencedRelation: "vibe_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vibe_projects_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: true
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vibe_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          prompt: string | null
+          summary: string | null
+          vibe_project_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt?: string | null
+          summary?: string | null
+          vibe_project_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt?: string | null
+          summary?: string | null
+          vibe_project_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vibe_versions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vibe_versions_vibe_project_id_fkey"
+            columns: ["vibe_project_id"]
+            isOneToOne: false
+            referencedRelation: "vibe_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -480,6 +641,7 @@ export type Database = {
       simulation_verdict: "strong" | "needs_work" | "kill"
       task_column: "later" | "this_week" | "in_progress" | "done"
       user_mode: "solo_founder" | "freelancer" | "existing_business"
+      vibe_project_kind: "website" | "webapp" | "landing"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -612,6 +774,7 @@ export const Constants = {
       simulation_verdict: ["strong", "needs_work", "kill"],
       task_column: ["later", "this_week", "in_progress", "done"],
       user_mode: ["solo_founder", "freelancer", "existing_business"],
+      vibe_project_kind: ["website", "webapp", "landing"],
     },
   },
 } as const

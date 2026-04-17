@@ -14,6 +14,11 @@ export type OpportunityBrief = Database["public"]["Tables"]["opportunity_briefs"
 export type GapCard = Database["public"]["Tables"]["gap_cards"]["Row"];
 export type UserMode = Database["public"]["Enums"]["user_mode"];
 export type TaskColumn = Database["public"]["Enums"]["task_column"];
+export type VibeProject = Database["public"]["Tables"]["vibe_projects"]["Row"];
+export type VibeVersion = Database["public"]["Tables"]["vibe_versions"]["Row"];
+export type VibeFile = Database["public"]["Tables"]["vibe_files"]["Row"];
+export type VibeMessage = Database["public"]["Tables"]["vibe_messages"]["Row"];
+export type VibeProjectKind = Database["public"]["Enums"]["vibe_project_kind"];
 
 /* ---------- profile ---------- */
 export function useProfile(userId: string | undefined) {
@@ -307,3 +312,207 @@ export function useGapCards(projectId: string | undefined) {
     },
   });
 }
+
+/* ---------- vibe projects ---------- */
+export function useVibeProject(projectId: string | undefined) {
+  return useQuery({
+    queryKey: ["vibe-project", projectId],
+    enabled: !!projectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("vibe_projects")
+        .select("*")
+        .eq("project_id", projectId!)
+        .maybeSingle();
+      if (error) throw error;
+      return data as VibeProject | null;
+    },
+  });
+}
+
+export function useCreateVibeProject() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: {
+      project_id: string;
+      kind?: VibeProjectKind;
+    }) => {
+      const { data, error } = await supabase
+        .from("vibe_projects")
+        .insert({
+          project_id: input.project_id,
+          kind: input.kind ?? "website",
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeProject;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-project", data.project_id] });
+    },
+  });
+}
+
+export function useUpdateVibeProject() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      ...patch
+    }: Partial<VibeProject> & { id: string }) => {
+      const { data, error } = await supabase
+        .from("vibe_projects")
+        .update(patch)
+        .eq("id", id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeProject;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-project"] });
+    },
+  });
+}
+
+/* ---------- vibe versions ---------- */
+export function useVibeVersions(vibeProjectId: string | undefined) {
+  return useQuery({
+    queryKey: ["vibe-versions", vibeProjectId],
+    enabled: !!vibeProjectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("vibe_versions")
+        .select("*")
+        .eq("vibe_project_id", vibeProjectId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as VibeVersion[];
+    },
+  });
+}
+
+export function useCreateVibeVersion() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: {
+      vibe_project_id: string;
+      prompt?: string;
+      summary?: string;
+      created_by?: string;
+    }) => {
+      const { data, error } = await supabase
+        .from("vibe_versions")
+        .insert(input)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeVersion;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-versions", data.vibe_project_id] });
+    },
+  });
+}
+
+/* ---------- vibe files ---------- */
+export function useVibeFiles(versionId: string | undefined) {
+  return useQuery({
+    queryKey: ["vibe-files", versionId],
+    enabled: !!versionId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("vibe_files")
+        .select("*")
+        .eq("version_id", versionId!)
+        .order("path", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as VibeFile[];
+    },
+  });
+}
+
+export function useCreateVibeFile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: {
+      version_id: string;
+      path: string;
+      content: string;
+      mime?: string;
+    }) => {
+      const { data, error } = await supabase
+        .from("vibe_files")
+        .insert(input)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeFile;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-files", data.version_id] });
+    },
+  });
+}
+
+export function useUpdateVibeFile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      version_id,
+      ...patch
+    }: Partial<VibeFile> & { id: string; version_id: string }) => {
+      const { data, error } = await supabase
+        .from("vibe_files")
+        .update(patch)
+        .eq("id", id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeFile;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-files", data.version_id] });
+    },
+  });
+}
+
+/* ---------- vibe messages ---------- */
+export function useVibeMessages(vibeProjectId: string | undefined) {
+  return useQuery({
+    queryKey: ["vibe-messages", vibeProjectId],
+    enabled: !!vibeProjectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("vibe_messages")
+        .select("*")
+        .eq("vibe_project_id", vibeProjectId!)
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as VibeMessage[];
+    },
+  });
+}
+
+export function usePublishVibeVersion() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { vibe_project_id: string; version_id: string }) => {
+      // Update the vibe project to set published_version_id
+      const { data, error } = await supabase
+        .from("vibe_projects")
+        .update({ published_version_id: input.version_id })
+        .eq("id", input.vibe_project_id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as VibeProject;
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["vibe-project"] });
+    },
+  });
+}
+
