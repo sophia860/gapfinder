@@ -33,7 +33,9 @@ function ProjectShell() {
   if (isLoading) {
     return (
       <div className="min-h-dvh flex items-center justify-center bg-background">
-        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Loading…</div>
+        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          Loading…
+        </div>
       </div>
     );
   }
@@ -45,7 +47,9 @@ function ProjectShell() {
         <div className="text-center">
           <p className="font-mono text-xs uppercase tracking-widest text-terracotta">Not found</p>
           <h1 className="mt-3 font-serif text-3xl font-medium">Project not found</h1>
-          <Link to="/app" className="mt-4 inline-block text-sm text-terracotta hover:underline">← Back to portfolio</Link>
+          <Link to="/app" className="mt-4 inline-block text-sm text-terracotta hover:underline">
+            ← Back to portfolio
+          </Link>
         </div>
       </div>
     );
@@ -67,7 +71,12 @@ function ProjectShell() {
             <div className="flex items-center gap-3 min-w-0">
               <SidebarTrigger />
               <nav className="flex items-center gap-1.5 text-sm min-w-0" aria-label="Breadcrumb">
-                <Link to="/app" className="text-muted-foreground hover:text-foreground transition-colors shrink-0">Portfolio</Link>
+                <Link
+                  to="/app"
+                  className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                >
+                  Portfolio
+                </Link>
                 <ChevronRight className="size-3.5 text-muted-foreground shrink-0" />
                 <Link
                   to="/app/$projectId"

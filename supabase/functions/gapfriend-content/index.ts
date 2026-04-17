@@ -16,8 +16,11 @@ Deno.serve(async (req) => {
     if (!LOVABLE_API_KEY) return json({ error: "AI not configured" }, 500);
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_KEY = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { global: { headers: { Authorization: authHeader } } });
+    const SUPABASE_KEY =
+      Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+      global: { headers: { Authorization: authHeader } },
+    });
 
     const { projectId, draft, title } = await req.json();
     if (!projectId || !draft) return json({ error: "Missing input" }, 400);
@@ -28,30 +31,39 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          { role: "system", content: "You are an editor. Turn rough drafts into clean SEO long-form prose AND a punchy 6-frame thread. Honest, specific, never hyped." },
+          {
+            role: "system",
+            content:
+              "You are an editor. Turn rough drafts into clean SEO long-form prose AND a punchy 6-frame thread. Honest, specific, never hyped.",
+          },
           { role: "user", content: `Title hint: ${title ?? "(none)"}\n\nDraft:\n${draft}` },
         ],
-        tools: [{
-          type: "function",
-          function: {
-            name: "return_content",
-            description: "Return SEO version and thread frames.",
-            parameters: {
-              type: "object",
-              properties: {
-                title: { type: "string" },
-                seo_version: { type: "string", description: "Clean SEO long-form markdown, 200-500 words." },
-                thread_frames: {
-                  type: "array",
-                  items: { type: "string" },
-                  description: "6 short, sequential thread posts (max ~250 chars each).",
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "return_content",
+              description: "Return SEO version and thread frames.",
+              parameters: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  seo_version: {
+                    type: "string",
+                    description: "Clean SEO long-form markdown, 200-500 words.",
+                  },
+                  thread_frames: {
+                    type: "array",
+                    items: { type: "string" },
+                    description: "6 short, sequential thread posts (max ~250 chars each).",
+                  },
                 },
+                required: ["title", "seo_version", "thread_frames"],
+                additionalProperties: false,
               },
-              required: ["title", "seo_version", "thread_frames"],
-              additionalProperties: false,
             },
           },
-        }],
+        ],
         tool_choice: { type: "function", function: { name: "return_content" } },
       }),
     });
@@ -88,5 +100,8 @@ Deno.serve(async (req) => {
 });
 
 function json(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 }

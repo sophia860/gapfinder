@@ -163,7 +163,12 @@ export function useUpdateTask() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...patch }: Partial<Task> & { id: string }) => {
-      const { data, error } = await supabase.from("tasks").update(patch).eq("id", id).select().single();
+      const { data, error } = await supabase
+        .from("tasks")
+        .update(patch)
+        .eq("id", id)
+        .select()
+        .single();
       if (error) throw error;
       return data;
     },

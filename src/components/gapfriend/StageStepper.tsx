@@ -15,7 +15,9 @@ export function useDerivedStage(projectId: string): Stage {
   const { data: tasks } = useTasks(projectId);
 
   const briefLocked = !!(brief?.persona && brief?.problem && brief?.angle);
-  const hasActiveTasks = (tasks?.filter((t) => t.column_name === "this_week" || t.column_name === "in_progress").length ?? 0) > 0;
+  const hasActiveTasks =
+    (tasks?.filter((t) => t.column_name === "this_week" || t.column_name === "in_progress")
+      .length ?? 0) > 0;
 
   if (briefLocked && hasActiveTasks) return "execute";
   if (briefLocked) return "execute";
@@ -27,7 +29,12 @@ export function StageStepper({ projectId }: Props) {
   const navigate = useNavigate();
   const stage = useDerivedStage(projectId);
 
-  const stages: { id: Stage; label: string; icon: React.ComponentType<{ className?: string }>; to: string }[] = [
+  const stages: {
+    id: Stage;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    to: string;
+  }[] = [
     { id: "discover", label: "Discover", icon: Compass, to: `/app/${projectId}/gaps` },
     { id: "decide", label: "Decide", icon: Target, to: `/app/${projectId}/brief` },
     { id: "execute", label: "Execute", icon: Rocket, to: `/app/${projectId}/board` },

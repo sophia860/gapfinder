@@ -1,4 +1,10 @@
-import { createFileRoute, redirect, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  redirect,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { useProfile, useProjects, useCreateProject } from "@/lib/queries";
@@ -21,7 +27,12 @@ function AppGate() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (!profileLoading && profile && !profile.onboarding_completed && location.pathname !== "/app/onboarding") {
+    if (
+      !profileLoading &&
+      profile &&
+      !profile.onboarding_completed &&
+      location.pathname !== "/app/onboarding"
+    ) {
       navigate({ to: "/app/onboarding" });
     }
   }, [profile, profileLoading, location.pathname, navigate]);
@@ -38,7 +49,9 @@ function AppGate() {
   if (loading || profileLoading) {
     return (
       <div className="min-h-dvh flex items-center justify-center bg-background">
-        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Loading…</div>
+        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          Loading…
+        </div>
       </div>
     );
   }
