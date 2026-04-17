@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useProject, useIdentity, useMoney, useChannels, useTasks, useContentPieces, useBrief, useGapCards } from "@/lib/queries";
+import { useProject, useIdentity, useMoney, useChannels, useTasks, useContentPieces, useBrief, useGapCards, useProfile } from "@/lib/queries";
+import { useAuth } from "@/lib/auth";
 import { Sparkles, Globe, DollarSign, ListChecks, Pencil, Radio, Lightbulb, Beaker, Loader2, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +14,9 @@ interface Props {
 }
 
 export function Dashboard({ projectId }: Props) {
+  const { user } = useAuth();
+  const { data: profile } = useProfile(user?.id);
+  const isDev = profile?.mode === "developer";
   const { data: project } = useProject(projectId);
   const { data: identity } = useIdentity(projectId);
   const { data: money } = useMoney(projectId);
@@ -96,7 +100,9 @@ export function Dashboard({ projectId }: Props) {
               className="rounded-full"
               disabled={!!busyAction}
               onClick={() => askGapFriend(
-                "Suggest 5 specific market gaps for me based on my profile and project so far. Use the add_gap_cards tool.",
+                isDev
+                  ? "Suggest 5 specific developer-shippable market gaps for me based on my stack, domains, and shipped projects. Focus on SaaS tools, APIs, CLIs, extensions, OSS-to-product, dev infra glue, or B2B integrations between dev tools. For each, include a concrete demand signal, a typical pricing band, and a first-ship approach in why_gap or problem. Use the add_gap_cards tool."
+                  : "Suggest 5 specific market gaps for me based on my profile and project so far. Use the add_gap_cards tool.",
                 "gaps",
               )}
             >

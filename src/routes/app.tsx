@@ -121,6 +121,7 @@ function AppLayout() {
               {profile?.mode === "solo_founder" && "Solo founder"}
               {profile?.mode === "freelancer" && "Freelancer"}
               {profile?.mode === "existing_business" && "Business"}
+              {profile?.mode === "developer" && "Developer"}
             </span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

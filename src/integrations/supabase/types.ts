@@ -479,7 +479,7 @@ export type Database = {
       gap_status: "suggested" | "selected" | "dismissed"
       simulation_verdict: "strong" | "needs_work" | "kill"
       task_column: "later" | "this_week" | "in_progress" | "done"
-      user_mode: "solo_founder" | "freelancer" | "existing_business"
+      user_mode: "solo_founder" | "freelancer" | "existing_business" | "developer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -611,7 +611,7 @@ export const Constants = {
       gap_status: ["suggested", "selected", "dismissed"],
       simulation_verdict: ["strong", "needs_work", "kill"],
       task_column: ["later", "this_week", "in_progress", "done"],
-      user_mode: ["solo_founder", "freelancer", "existing_business"],
+      user_mode: ["solo_founder", "freelancer", "existing_business", "developer"],
     },
   },
 } as const
