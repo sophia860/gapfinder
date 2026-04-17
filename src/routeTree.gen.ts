@@ -16,6 +16,8 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
 import { Route as AppProjectIdRouteImport } from './routes/app.$projectId'
 import { Route as AppProjectIdIndexRouteImport } from './routes/app.$projectId.index'
+import { Route as AppProjectIdVibeRouteImport } from './routes/app.$projectId.vibe'
+import { Route as AppProjectIdCodeRouteImport } from './routes/app.$projectId.code'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -52,6 +54,16 @@ const AppProjectIdIndexRoute = AppProjectIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
+const AppProjectIdVibeRoute = AppProjectIdVibeRouteImport.update({
+  id: '/vibe',
+  path: '/vibe',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdCodeRoute = AppProjectIdCodeRouteImport.update({
+  id: '/code',
+  path: '/code',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +72,8 @@ export interface FileRoutesByFullPath {
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/': typeof AppIndexRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/app': typeof AppIndexRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
   '/app/$projectId': typeof AppProjectIdIndexRoute
 }
 export interface FileRoutesById {
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/app/': typeof AppIndexRoute
+  '/app/$projectId/code': typeof AppProjectIdCodeRoute
+  '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
   '/app/$projectId/': typeof AppProjectIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,9 +106,18 @@ export interface FileRouteTypes {
     | '/app/$projectId'
     | '/app/onboarding'
     | '/app/'
+    | '/app/$projectId/code'
+    | '/app/$projectId/vibe'
     | '/app/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/app/onboarding' | '/app' | '/app/$projectId'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/onboarding'
+    | '/app'
+    | '/app/$projectId/code'
+    | '/app/$projectId/vibe'
+    | '/app/$projectId'
   id:
     | '__root__'
     | '/'
@@ -99,6 +126,8 @@ export interface FileRouteTypes {
     | '/app/$projectId'
     | '/app/onboarding'
     | '/app/'
+    | '/app/$projectId/code'
+    | '/app/$projectId/vibe'
     | '/app/$projectId/'
   fileRoutesById: FileRoutesById
 }
@@ -159,14 +188,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdIndexRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/app/$projectId/vibe': {
+      id: '/app/$projectId/vibe'
+      path: '/vibe'
+      fullPath: '/app/$projectId/vibe'
+      preLoaderRoute: typeof AppProjectIdVibeRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/code': {
+      id: '/app/$projectId/code'
+      path: '/code'
+      fullPath: '/app/$projectId/code'
+      preLoaderRoute: typeof AppProjectIdCodeRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
   }
 }
 
 interface AppProjectIdRouteChildren {
+  AppProjectIdCodeRoute: typeof AppProjectIdCodeRoute
+  AppProjectIdVibeRoute: typeof AppProjectIdVibeRoute
   AppProjectIdIndexRoute: typeof AppProjectIdIndexRoute
 }
 
 const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
+  AppProjectIdCodeRoute: AppProjectIdCodeRoute,
+  AppProjectIdVibeRoute: AppProjectIdVibeRoute,
   AppProjectIdIndexRoute: AppProjectIdIndexRoute,
 }
 
