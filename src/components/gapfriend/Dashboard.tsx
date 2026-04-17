@@ -405,6 +405,52 @@ export function Dashboard({ projectId }: Props) {
             <Empty>Use the composer below to turn a draft into SEO + a thread.</Empty>
           )}
         </Card>
+
+        <Card
+          icon={Sparkles}
+          title="Start building"
+          subtitle="vibe or code"
+          className="md:col-span-2 lg:col-span-3"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a
+              href={`/app/${projectId}/vibe`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-terracotta-soft flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Sparkles className="size-5 text-terracotta" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Vibe Coding</h4>
+                  <p className="text-xs text-muted-foreground">For non-coders</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Describe what you want to build and I'll generate it from your project's brief and
+                identity. No code required.
+              </p>
+            </a>
+            <a
+              href={`/app/${projectId}/code`}
+              className="group p-6 rounded-xl border-2 border-border hover:border-terracotta/40 bg-gradient-to-br from-background to-muted/20 transition-all hover:shadow-lg"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="size-10 rounded-lg bg-muted flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Beaker className="size-5" />
+                </div>
+                <div>
+                  <h4 className="font-serif font-medium text-base">Coding Space</h4>
+                  <p className="text-xs text-muted-foreground">For developers</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Full in-browser IDE with file explorer, code editor, and live preview. Write or
+                tweak code directly.
+              </p>
+            </a>
+          </div>
+        </Card>
       </section>
 
       {/* Simulator + content composer */}
