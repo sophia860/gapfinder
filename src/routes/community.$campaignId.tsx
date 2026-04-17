@@ -131,9 +131,9 @@ function CampaignDetail() {
                 currency={campaign.currency}
                 backers={backers}
               />
-              {campaign.deadline && (
+              {campaign.deadline_at && (
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                  Ends {new Date(campaign.deadline).toLocaleDateString()}
+                  Ends {new Date(campaign.deadline_at).toLocaleDateString()}
                 </p>
               )}
               <BackButton campaign={campaign} />

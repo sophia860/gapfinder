@@ -348,7 +348,7 @@ function EditCampaignForm({
   const [goal, setGoal] = useState<number>(Number(campaign.goal_amount ?? 0));
   const [currency, setCurrency] = useState(campaign.currency);
   const [deadline, setDeadline] = useState(
-    campaign.deadline ? new Date(campaign.deadline).toISOString().slice(0, 10) : "",
+    campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "",
   );
   const [category, setCategory] = useState(campaign.category ?? "");
   const [coverUrl, setCoverUrl] = useState(campaign.cover_url ?? "");
@@ -361,7 +361,7 @@ function EditCampaignForm({
     setStory(campaign.story ?? "");
     setGoal(Number(campaign.goal_amount ?? 0));
     setCurrency(campaign.currency);
-    setDeadline(campaign.deadline ? new Date(campaign.deadline).toISOString().slice(0, 10) : "");
+    setDeadline(campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "");
     setCategory(campaign.category ?? "");
     setCoverUrl(campaign.cover_url ?? "");
     setStatus(campaign.status);
