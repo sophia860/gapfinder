@@ -333,10 +333,7 @@ export function useVibeProject(projectId: string | undefined) {
 export function useCreateVibeProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: {
-      project_id: string;
-      kind?: VibeProjectKind;
-    }) => {
+    mutationFn: async (input: { project_id: string; kind?: VibeProjectKind }) => {
       const { data, error } = await supabase
         .from("vibe_projects")
         .insert({
@@ -357,10 +354,7 @@ export function useCreateVibeProject() {
 export function useUpdateVibeProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({
-      id,
-      ...patch
-    }: Partial<VibeProject> & { id: string }) => {
+    mutationFn: async ({ id, ...patch }: Partial<VibeProject> & { id: string }) => {
       const { data, error } = await supabase
         .from("vibe_projects")
         .update(patch)
@@ -402,11 +396,7 @@ export function useCreateVibeVersion() {
       summary?: string;
       created_by?: string;
     }) => {
-      const { data, error } = await supabase
-        .from("vibe_versions")
-        .insert(input)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("vibe_versions").insert(input).select().single();
       if (error) throw error;
       return data as VibeVersion;
     },
@@ -442,11 +432,7 @@ export function useCreateVibeFile() {
       content: string;
       mime?: string;
     }) => {
-      const { data, error } = await supabase
-        .from("vibe_files")
-        .insert(input)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("vibe_files").insert(input).select().single();
       if (error) throw error;
       return data as VibeFile;
     },
@@ -515,4 +501,3 @@ export function usePublishVibeVersion() {
     },
   });
 }
-

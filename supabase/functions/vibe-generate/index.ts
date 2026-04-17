@@ -66,7 +66,8 @@ Deno.serve(async (req) => {
       global: { headers: { Authorization: authHeader } },
     });
 
-    const { vibe_project_id, project_id, prompt, kind, seed_from_project } = (await req.json()) as Body;
+    const { vibe_project_id, project_id, prompt, kind, seed_from_project } =
+      (await req.json()) as Body;
     if (!project_id || !prompt?.trim()) return json({ error: "Missing input" }, 400);
 
     const {

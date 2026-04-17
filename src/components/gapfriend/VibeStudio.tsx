@@ -8,13 +8,23 @@ import {
   useVibeMessages,
   useVibeFiles,
   useProject,
-  useOpportunityBrief,
+  useBrief,
   useIdentity,
   type VibeProjectKind,
 } from "@/lib/queries";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Send, Loader2, Wand2, Monitor, Tablet, Smartphone, Eye, FileCode, Image } from "lucide-react";
+import {
+  Send,
+  Loader2,
+  Wand2,
+  Monitor,
+  Tablet,
+  Smartphone,
+  Eye,
+  FileCode,
+  Image,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
@@ -52,19 +62,20 @@ export function VibeStudio({ projectId }: Props) {
     if (!vibeLoading && !vibeProject && !createVibeProject.isPending) {
       createVibeProject.mutate({ project_id: projectId, kind });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vibeLoading, vibeProject, projectId, kind]);
 
   async function generate(e: React.FormEvent, seedFromProject = false) {
     e.preventDefault();
     if ((!input.trim() && !seedFromProject) || sending) return;
-    
+
     let prompt = input.trim();
     if (seedFromProject && brief && identity) {
       prompt = `Create a ${kind} for "${identity.chosen_name || project?.working_name}" - ${identity.tagline}. Target persona: ${brief.persona}. Problem: ${brief.problem}. Angle: ${brief.angle}.`;
     }
-    
+
     if (!prompt) return;
-    
+
     setInput("");
     setSending(true);
 
@@ -96,14 +107,11 @@ export function VibeStudio({ projectId }: Props) {
   const hasMessages = (messages?.length ?? 0) > 0;
 
   // Generate preview HTML from files
-  const previewHtml = files?.find((f) => f.path === "index.html")?.content || "<p>No preview available</p>";
+  const previewHtml =
+    files?.find((f) => f.path === "index.html")?.content || "<p>No preview available</p>";
 
   const widthClass =
-    previewWidth === "mobile"
-      ? "w-[375px]"
-      : previewWidth === "tablet"
-        ? "w-[768px]"
-        : "w-full";
+    previewWidth === "mobile" ? "w-[375px]" : previewWidth === "tablet" ? "w-[768px]" : "w-full";
 
   return (
     <div className="h-[calc(100vh-3.5rem)] flex">
@@ -135,7 +143,8 @@ export function VibeStudio({ projectId }: Props) {
           {!hasMessages && (
             <>
               <div className="bg-muted/60 rounded-xl p-3 text-sm leading-relaxed">
-                Describe the {kind} you want to build. I'll generate it from your project's brief and identity.
+                Describe the {kind} you want to build. I'll generate it from your project's brief
+                and identity.
               </div>
               <div className="space-y-2">
                 {[
@@ -197,7 +206,11 @@ export function VibeStudio({ projectId }: Props) {
               disabled={!input.trim() || sending}
               className="absolute right-1.5 top-1/2 -translate-y-1/2 size-8 rounded-full bg-terracotta text-primary-foreground flex items-center justify-center hover:bg-terracotta/90 transition-colors disabled:opacity-40"
             >
-              {sending ? <Loader2 className="size-3.5 animate-spin" /> : <Send className="size-3.5" />}
+              {sending ? (
+                <Loader2 className="size-3.5 animate-spin" />
+              ) : (
+                <Send className="size-3.5" />
+              )}
             </button>
           </form>
         </div>
@@ -208,8 +221,10 @@ export function VibeStudio({ projectId }: Props) {
         <div className="h-14 border-b border-border flex items-center justify-between px-4 shrink-0 bg-background">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Preview</span>
-            {currentVersion && (
-              <span className="text-xs text-muted-foreground">v{versions?.indexOf(currentVersion)! + 1}</span>
+            {currentVersion && versions && (
+              <span className="text-xs text-muted-foreground">
+                v{versions.indexOf(currentVersion) + 1}
+              </span>
             )}
           </div>
           <div className="flex items-center gap-1">

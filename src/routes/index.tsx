@@ -48,8 +48,8 @@ function Landing() {
         </h1>
         <p className="mt-8 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty">
           GapFriend is an AI co-pilot that helps you spot gaps in the market, pressure-test ideas
-          with synthetic customers, and turn the good ones into a name, a plan, tasks, content, and a
-          working website or app — without writing any code (unless you want to).
+          with synthetic customers, and turn the good ones into a name, a plan, tasks, content, and
+          a working website or app — without writing any code (unless you want to).
         </p>
 
         <div className="mt-10 flex flex-wrap gap-3">

@@ -406,9 +406,9 @@ export function Dashboard({ projectId }: Props) {
           )}
         </Card>
 
-        <Card 
-          icon={Sparkles} 
-          title="Start building" 
+        <Card
+          icon={Sparkles}
+          title="Start building"
           subtitle="vibe or code"
           className="md:col-span-2 lg:col-span-3"
         >
@@ -427,7 +427,8 @@ export function Dashboard({ projectId }: Props) {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Describe what you want to build and I'll generate it from your project's brief and identity. No code required.
+                Describe what you want to build and I'll generate it from your project's brief and
+                identity. No code required.
               </p>
             </a>
             <a
@@ -444,7 +445,8 @@ export function Dashboard({ projectId }: Props) {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Full in-browser IDE with file explorer, code editor, and live preview. Write or tweak code directly.
+                Full in-browser IDE with file explorer, code editor, and live preview. Write or
+                tweak code directly.
               </p>
             </a>
           </div>

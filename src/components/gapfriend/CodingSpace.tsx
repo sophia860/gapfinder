@@ -64,7 +64,8 @@ export function CodingSpace({ projectId }: Props) {
   };
 
   // Generate preview HTML from files
-  const previewHtml = files?.find((f) => f.path === "index.html")?.content || "<p>No preview available</p>";
+  const previewHtml =
+    files?.find((f) => f.path === "index.html")?.content || "<p>No preview available</p>";
 
   // Determine language from file extension
   const getLanguage = (filename: string) => {
