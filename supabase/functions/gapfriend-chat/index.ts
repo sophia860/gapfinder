@@ -3,8 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 const SYSTEM = `You are GapFriend — a warm, brutally honest business co-pilot for solo founders, freelancers, and small teams.
@@ -36,7 +35,8 @@ Deno.serve(async (req) => {
     if (!authHeader) return json({ error: "Unauthorized" }, 401);
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_KEY = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
+    const SUPABASE_KEY =
+      Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) return json({ error: "AI is not configured" }, 500);
 
@@ -47,7 +47,10 @@ Deno.serve(async (req) => {
     const { projectId, message } = (await req.json()) as Body;
     if (!projectId || !message?.trim()) return json({ error: "Missing input" }, 400);
 
-    const { data: { user }, error: userErr } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
     if (userErr || !user) return json({ error: "Unauthorized" }, 401);
 
     // Persist the user message immediately
@@ -58,17 +61,23 @@ Deno.serve(async (req) => {
     });
 
     // Load context
-    const [profileR, projectR, briefR, gapsR, identityR, channelsR, moneyR, tasksR, historyR] = await Promise.all([
-      supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
-      supabase.from("projects").select("*").eq("id", projectId).maybeSingle(),
-      supabase.from("opportunity_briefs").select("*").eq("project_id", projectId).maybeSingle(),
-      supabase.from("gap_cards").select("*").eq("project_id", projectId),
-      supabase.from("identity").select("*").eq("project_id", projectId).maybeSingle(),
-      supabase.from("channels").select("*").eq("project_id", projectId),
-      supabase.from("money_settings").select("*").eq("project_id", projectId).maybeSingle(),
-      supabase.from("tasks").select("*").eq("project_id", projectId),
-      supabase.from("chat_messages").select("role,content").eq("project_id", projectId).order("created_at", { ascending: true }).limit(40),
-    ]);
+    const [profileR, projectR, briefR, gapsR, identityR, channelsR, moneyR, tasksR, historyR] =
+      await Promise.all([
+        supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
+        supabase.from("projects").select("*").eq("id", projectId).maybeSingle(),
+        supabase.from("opportunity_briefs").select("*").eq("project_id", projectId).maybeSingle(),
+        supabase.from("gap_cards").select("*").eq("project_id", projectId),
+        supabase.from("identity").select("*").eq("project_id", projectId).maybeSingle(),
+        supabase.from("channels").select("*").eq("project_id", projectId),
+        supabase.from("money_settings").select("*").eq("project_id", projectId).maybeSingle(),
+        supabase.from("tasks").select("*").eq("project_id", projectId),
+        supabase
+          .from("chat_messages")
+          .select("role,content")
+          .eq("project_id", projectId)
+          .order("created_at", { ascending: true })
+          .limit(40),
+      ]);
 
     const ctx = {
       profile: profileR.data,
@@ -88,7 +97,8 @@ Deno.serve(async (req) => {
         type: "function",
         function: {
           name: "save_opportunity_brief",
-          description: "Create or update the opportunity brief (persona, problem, angle, business_model).",
+          description:
+            "Create or update the opportunity brief (persona, problem, angle, business_model).",
           parameters: {
             type: "object",
             properties: {
@@ -184,7 +194,8 @@ Deno.serve(async (req) => {
         type: "function",
         function: {
           name: "save_money",
-          description: "Save money settings (income target, price per unit, hours/week, scenarios).",
+          description:
+            "Save money settings (income target, price per unit, hours/week, scenarios).",
           parameters: {
             type: "object",
             properties: {
@@ -225,7 +236,10 @@ Deno.serve(async (req) => {
                   type: "object",
                   properties: {
                     title: { type: "string" },
-                    column_name: { type: "string", enum: ["later", "this_week", "in_progress", "done"] },
+                    column_name: {
+                      type: "string",
+                      enum: ["later", "this_week", "in_progress", "done"],
+                    },
                     notes: { type: "string" },
                   },
                   required: ["title", "column_name"],
@@ -261,15 +275,21 @@ Deno.serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "google/gemini-2.5-pro",
           messages,
           tools,
+          reasoning: { effort: "medium" },
         }),
       });
 
       if (!aiResp.ok) {
-        if (aiResp.status === 429) return json({ error: "Rate limited — try again in a moment." }, 429);
-        if (aiResp.status === 402) return json({ error: "AI credits exhausted. Add funds in Settings → Workspace → Usage." }, 402);
+        if (aiResp.status === 429)
+          return json({ error: "Rate limited — try again in a moment." }, 429);
+        if (aiResp.status === 402)
+          return json(
+            { error: "AI credits exhausted. Add funds in Settings → Workspace → Usage." },
+            402,
+          );
         const t = await aiResp.text();
         console.error("AI error", aiResp.status, t);
         return json({ error: "AI gateway error" }, 500);
@@ -286,12 +306,20 @@ Deno.serve(async (req) => {
         break;
       }
 
-      messages.push({ role: "assistant", content: msg.content ?? "", tool_calls: toolCalls } as never);
+      messages.push({
+        role: "assistant",
+        content: msg.content ?? "",
+        tool_calls: toolCalls,
+      } as never);
 
       for (const tc of toolCalls) {
         const name = tc.function?.name as string;
         let args: Record<string, unknown> = {};
-        try { args = JSON.parse(tc.function?.arguments ?? "{}"); } catch { /* ignore */ }
+        try {
+          args = JSON.parse(tc.function?.arguments ?? "{}");
+        } catch {
+          /* ignore */
+        }
         const result = await runTool(supabase, projectId, name, args);
         usedTools.push(name);
         messages.push({
@@ -326,7 +354,8 @@ function json(body: unknown, status = 200) {
 }
 
 async function runTool(
-  supabase: ReturnType<typeof createClient>,
+  // deno-lint-ignore no-explicit-any
+  supabase: any,
   projectId: string,
   name: string,
   args: Record<string, unknown>,
@@ -350,7 +379,10 @@ async function runTool(
     if (name === "save_identity") {
       const { error } = await supabase
         .from("identity")
-        .upsert({ project_id: projectId, ...args, updated_at: new Date().toISOString() }, { onConflict: "project_id" });
+        .upsert(
+          { project_id: projectId, ...args, updated_at: new Date().toISOString() },
+          { onConflict: "project_id" },
+        );
       if (error) throw error;
       return { ok: true };
     }
@@ -367,7 +399,10 @@ async function runTool(
     if (name === "save_money") {
       const { error } = await supabase
         .from("money_settings")
-        .upsert({ project_id: projectId, ...args, updated_at: new Date().toISOString() }, { onConflict: "project_id" });
+        .upsert(
+          { project_id: projectId, ...args, updated_at: new Date().toISOString() },
+          { onConflict: "project_id" },
+        );
       if (error) throw error;
       return { ok: true };
     }
