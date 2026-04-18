@@ -286,6 +286,66 @@ export type Database = {
           },
         ]
       }
+      founder_mirror_signals: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          payload: Json
+          processed_at: string | null
+          project_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          payload?: Json
+          processed_at?: string | null
+          project_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          payload?: Json
+          processed_at?: string | null
+          project_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      founder_mirrors: {
+        Row: {
+          created_at: string
+          genome: Json
+          id: string
+          last_synthesized_at: string | null
+          signal_count: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          genome?: Json
+          id?: string
+          last_synthesized_at?: string | null
+          signal_count?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          genome?: Json
+          id?: string
+          last_synthesized_at?: string | null
+          signal_count?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       gap_cards: {
         Row: {
           created_at: string
@@ -859,6 +919,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _project_owner: { Args: { _project_id: string }; Returns: string }
+      get_or_create_founder_mirror: {
+        Args: never
+        Returns: {
+          created_at: string
+          genome: Json
+          id: string
+          last_synthesized_at: string | null
+          signal_count: number
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "founder_mirrors"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       owns_project: { Args: { _project_id: string }; Returns: boolean }
     }
     Enums: {
