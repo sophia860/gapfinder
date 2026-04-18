@@ -214,4 +214,115 @@
       overflow: visible;
     }
   }
+
+  /* Subtle animated mesh-gradient backdrop in the warm palette.
+   * Three radial blobs, drifting slowly. Pointer-events: none so it
+   * never intercepts clicks. Disabled under reduced-motion. */
+  .mesh-hero {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .mesh-hero::before,
+  .mesh-hero::after,
+  .mesh-hero > .mesh-blob {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(70px);
+    opacity: 0.55;
+    will-change: transform;
+  }
+
+  .mesh-hero::before {
+    width: 38rem;
+    height: 38rem;
+    left: -8rem;
+    top: -10rem;
+    background: radial-gradient(circle at 30% 30%, oklch(0.92 0.06 40 / 0.9), transparent 70%);
+    animation: mesh-drift-a 22s ease-in-out infinite;
+  }
+
+  .mesh-hero::after {
+    width: 32rem;
+    height: 32rem;
+    right: -6rem;
+    top: 4rem;
+    background: radial-gradient(circle at 60% 40%, oklch(0.9 0.07 65 / 0.85), transparent 70%);
+    animation: mesh-drift-b 26s ease-in-out infinite;
+  }
+
+  .mesh-hero > .mesh-blob {
+    width: 28rem;
+    height: 28rem;
+    left: 38%;
+    top: 12rem;
+    background: radial-gradient(circle at 50% 50%, oklch(0.93 0.045 145 / 0.7), transparent 70%);
+    animation: mesh-drift-c 30s ease-in-out infinite;
+  }
+
+  @keyframes mesh-drift-a {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(3rem, 2rem, 0) scale(1.06);
+    }
+  }
+  @keyframes mesh-drift-b {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-2.5rem, 1.5rem, 0) scale(1.08);
+    }
+  }
+  @keyframes mesh-drift-c {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-1.5rem, -2rem, 0) scale(1.05);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mesh-hero::before,
+    .mesh-hero::after,
+    .mesh-hero > .mesh-blob {
+      animation: none;
+    }
+  }
+
+  /* Card micro-interaction: gentle lift + warm glow on hover/focus-within.
+   * Composes with existing border/shadow utilities. */
+  .glow-card {
+    transition:
+      transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 350ms ease-out,
+      border-color 350ms ease-out;
+  }
+
+  .glow-card:hover,
+  .glow-card:focus-within {
+    transform: translateY(-3px);
+    box-shadow:
+      0 12px 40px -12px oklch(0.62 0.155 35 / 0.18),
+      0 0 0 1px oklch(0.62 0.155 35 / 0.18);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow-card,
+    .glow-card:hover,
+    .glow-card:focus-within {
+      transform: none;
+      transition: none;
+    }
+  }
 }

@@ -57,6 +57,60 @@ function SectionFallback({ minHeight = "60vh" }: { minHeight?: string }) {
   return <div aria-hidden="true" style={{ minHeight }} />;
 }
 
+/**
+ * Glassmorphic site header. Sits at the top of the page, becomes more
+ * opaque + condensed once the user scrolls past ~12px. Pure CSS for the
+ * effect; a tiny scroll listener flips a class.
+ */
+function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={`sticky top-0 z-40 w-full border-b transition-all duration-300 ${
+        scrolled
+          ? "border-border/70 bg-background/70 backdrop-blur-md supports-[backdrop-filter]:bg-background/55 py-3"
+          : "border-transparent bg-background/0 py-6"
+      }`}
+    >
+      <div className="px-6 lg:px-12 flex items-center justify-between">
+        <Link to="/" className="flex items-baseline gap-2">
+          <span className="font-serif text-xl font-medium tracking-tight">GapFriend</span>
+          <span className="text-[10px] font-mono uppercase tracking-widest text-terracotta">
+            v1
+          </span>
+        </Link>
+        <nav
+          aria-label="Primary"
+          className="hidden md:flex items-center gap-7 text-sm text-muted-foreground"
+        >
+          <a href="#features" className="hover:text-foreground transition-colors">
+            Features
+          </a>
+          <a href="#why" className="hover:text-foreground transition-colors">
+            Why GapFriend
+          </a>
+          <a href="#pricing" className="hover:text-foreground transition-colors">
+            Pricing
+          </a>
+        </nav>
+        <Link to="/auth">
+          <Button variant="ghost" className="rounded-full">
+            Sign in
+          </Button>
+        </Link>
+      </div>
+    </header>
+  );
+}
+
 function Landing() {
   return (
     <div className="site-marketing relative min-h-dvh bg-background text-foreground">
