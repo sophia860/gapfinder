@@ -40,6 +40,7 @@ import {
   Users,
   Globe,
   HandCoins,
+  CircleDot,
 } from "lucide-react";
 
 interface Props {
@@ -92,7 +93,10 @@ export function AppSidebar({ projectId }: Props) {
     },
     {
       label: "Library",
-      items: [{ title: "Content", to: `/app/${projectId}/content`, icon: Pencil }],
+      items: [
+        { title: "Content", to: `/app/${projectId}/content`, icon: Pencil },
+        { title: "Mirror", to: `/app/${projectId}/mirror`, icon: CircleDot },
+      ],
     },
   ];
 
