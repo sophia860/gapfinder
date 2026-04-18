@@ -721,3 +721,85 @@ export function useProfileByUserId(userId: string | undefined) {
     },
   });
 }
+
+/* ---------- community: dashboard aggregates ---------- */
+
+/**
+ * Trending founders: ranked by number of distinct followers.
+ * Falls back gracefully when there are no follow rows yet — returns
+ * recent campaign creators so the rail is never empty.
+ */
+export function useTrendingFounders(limit = 6) {
+  return useQuery({
+    queryKey: ["community", "trending-founders", limit],
+    queryFn: async () => {
+      const { data: follows, error } = await supabase
+        .from("follows")
+        .select("followee_user_id")
+        .not("followee_user_id", "is", null)
+        .order("created_at", { ascending: false })
+        .limit(500);
+      if (error) throw error;
+
+      const counts = new Map<string, number>();
+      for (const row of follows ?? []) {
+        const id = row.followee_user_id as string | null;
+        if (!id) continue;
+        counts.set(id, (counts.get(id) ?? 0) + 1);
+      }
+
+      const ranked = [...counts.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, limit)
+        .map(([userId, followers]) => ({ userId, followers }));
+
+      if (ranked.length < limit) {
+        const { data: recentCampaigns } = await supabase
+          .from("campaigns")
+          .select("created_by, created_at")
+          .neq("status", "draft")
+          .order("created_at", { ascending: false })
+          .limit(40);
+        const seen = new Set(ranked.map((r) => r.userId));
+        for (const c of recentCampaigns ?? []) {
+          if (ranked.length >= limit) break;
+          if (seen.has(c.created_by)) continue;
+          ranked.push({ userId: c.created_by, followers: 0 });
+          seen.add(c.created_by);
+        }
+      }
+      return ranked;
+    },
+  });
+}
+
+/** Recent posts across all live campaigns — drives the updates feed. */
+export function useRecentCommunityPosts(limit = 12) {
+  return useQuery({
+    queryKey: ["community", "recent-posts", limit],
+    queryFn: async () => {
+      const { data: posts, error } = await supabase
+        .from("posts")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+      if (error) throw error;
+      const list = (posts ?? []) as Post[];
+      const campaignIds = Array.from(
+        new Set(list.map((p) => p.campaign_id).filter(Boolean) as string[]),
+      );
+      let campaignsById = new Map<string, Campaign>();
+      if (campaignIds.length) {
+        const { data: campaigns } = await supabase
+          .from("campaigns")
+          .select("*")
+          .in("id", campaignIds);
+        campaignsById = new Map((campaigns ?? []).map((c) => [c.id, c as Campaign]));
+      }
+      return list.map((post) => ({
+        post,
+        campaign: post.campaign_id ? (campaignsById.get(post.campaign_id) ?? null) : null,
+      }));
+    },
+  });
+}
