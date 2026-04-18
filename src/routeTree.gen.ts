@@ -22,6 +22,7 @@ import { Route as CommunityProfileUserIdRouteImport } from './routes/community.p
 import { Route as AppProjectIdVibeRouteImport } from './routes/app.$projectId.vibe'
 import { Route as AppProjectIdSimulatorRouteImport } from './routes/app.$projectId.simulator'
 import { Route as AppProjectIdRoadmapRouteImport } from './routes/app.$projectId.roadmap'
+import { Route as AppProjectIdRepoRouteImport } from './routes/app.$projectId.repo'
 import { Route as AppProjectIdMoneyRouteImport } from './routes/app.$projectId.money'
 import { Route as AppProjectIdMirrorRouteImport } from './routes/app.$projectId.mirror'
 import { Route as AppProjectIdIdentityRouteImport } from './routes/app.$projectId.identity'
@@ -97,6 +98,11 @@ const AppProjectIdSimulatorRoute = AppProjectIdSimulatorRouteImport.update({
 const AppProjectIdRoadmapRoute = AppProjectIdRoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdRepoRoute = AppProjectIdRepoRouteImport.update({
+  id: '/repo',
+  path: '/repo',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
 const AppProjectIdMoneyRoute = AppProjectIdMoneyRouteImport.update({
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
   '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/app/$projectId/identity'
     | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/app/$projectId/identity'
     | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/app/$projectId/identity'
     | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -413,6 +425,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdRoadmapRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/app/$projectId/repo': {
+      id: '/app/$projectId/repo'
+      path: '/repo'
+      fullPath: '/app/$projectId/repo'
+      preLoaderRoute: typeof AppProjectIdRepoRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
     '/app/$projectId/money': {
       id: '/app/$projectId/money'
       path: '/money'
@@ -505,6 +524,7 @@ interface AppProjectIdRouteChildren {
   AppProjectIdIdentityRoute: typeof AppProjectIdIdentityRoute
   AppProjectIdMirrorRoute: typeof AppProjectIdMirrorRoute
   AppProjectIdMoneyRoute: typeof AppProjectIdMoneyRoute
+  AppProjectIdRepoRoute: typeof AppProjectIdRepoRoute
   AppProjectIdRoadmapRoute: typeof AppProjectIdRoadmapRoute
   AppProjectIdSimulatorRoute: typeof AppProjectIdSimulatorRoute
   AppProjectIdVibeRoute: typeof AppProjectIdVibeRoute
@@ -523,6 +543,7 @@ const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
   AppProjectIdIdentityRoute: AppProjectIdIdentityRoute,
   AppProjectIdMirrorRoute: AppProjectIdMirrorRoute,
   AppProjectIdMoneyRoute: AppProjectIdMoneyRoute,
+  AppProjectIdRepoRoute: AppProjectIdRepoRoute,
   AppProjectIdRoadmapRoute: AppProjectIdRoadmapRoute,
   AppProjectIdSimulatorRoute: AppProjectIdSimulatorRoute,
   AppProjectIdVibeRoute: AppProjectIdVibeRoute,
