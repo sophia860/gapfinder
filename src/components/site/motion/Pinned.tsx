@@ -65,11 +65,7 @@ export function PinnedPhrases({
             <p
               key={i}
               data-phrase
-              className={
-                i === 0
-                  ? "absolute inset-0 flex items-center justify-center text-center"
-                  : "absolute inset-0 flex items-center justify-center text-center"
-              }
+              className="absolute inset-0 flex items-center justify-center text-center"
             >
               {p}
             </p>
