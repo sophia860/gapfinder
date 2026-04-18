@@ -388,7 +388,7 @@ function Landing() {
             How it works
           </a>
         </div>
-      </main>
+      </section>
 
       {/* Feature blocks */}
       <section
