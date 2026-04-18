@@ -9,7 +9,7 @@
  * - Under reduced motion, the strip is rendered as a static line.
  */
 import { type ReactNode, useLayoutEffect, useRef } from "react";
-import { gsap, ScrollTrigger, ensureGsapRegistered, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ensureGsapRegistered, prefersReducedMotion } from "@/lib/gsap";
 
 export function ScrollVelocityMarquee({
   children,
@@ -36,14 +36,27 @@ export function ScrollVelocityMarquee({
     let offset = 0;
     let direction = -1;
     let lastTime = performance.now();
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+
+    const onScroll = () => {
+      const now = performance.now();
+      const dt = Math.max(1, now - lastTime);
+      const dy = window.scrollY - lastScrollY;
+      // px/sec, smoothed
+      scrollVelocity = scrollVelocity * 0.6 + (dy / dt) * 1000 * 0.4;
+      lastScrollY = window.scrollY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     const tick = () => {
       const now = performance.now();
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
-      const velocity = ScrollTrigger.getVelocity() / 800; // dampened
-      // Velocity flips direction depending on sign for that "reactive" feel.
+      const velocity = scrollVelocity / 800; // dampened
+      // Decay so the boost fades when scrolling stops.
+      scrollVelocity *= 0.92;
       if (Math.abs(velocity) > 0.5) direction = velocity > 0 ? -1 : 1;
 
       const speed = baseSpeed + Math.min(Math.abs(velocity) * 200, 600);
@@ -58,7 +71,10 @@ export function ScrollVelocityMarquee({
     };
 
     gsap.ticker.add(tick);
-    return () => gsap.ticker.remove(tick);
+    return () => {
+      gsap.ticker.remove(tick);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [baseSpeed, disabled]);
 
   return (
