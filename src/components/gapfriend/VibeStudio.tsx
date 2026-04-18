@@ -27,6 +27,20 @@ const ENERGY_OPTIONS: { value: EnergyMode; label: string; icon: React.ReactNode;
   { value: "execution", label: "Quiet Execution", icon: <Target className="size-4" />, desc: "Sharp, decisive, minimal" },
 ];
 
+const ENERGY_MODES: EnergyMode[] = ["calm", "creative", "execution"];
+
+function isVibeProfile(value: unknown): value is VibeProfile {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    ENERGY_MODES.includes(v.energy as EnergyMode) &&
+    Array.isArray(v.colors) &&
+    Array.isArray(v.fonts) &&
+    Array.isArray(v.tone_keywords) &&
+    Array.isArray(v.past_patterns)
+  );
+}
+
 const DEFAULT_VIBE: VibeProfile = {
   energy: "calm",
   colors: ["#e8d5c0", "#c2410f", "#3f2a1e", "#f8f1e3"],
@@ -77,8 +91,8 @@ export function VibeStudio({ projectId }: Props) {
         .select("vibe_profile, updated_at")
         .eq("project_id", projectId)
         .maybeSingle();
-      if (data?.vibe_profile) {
-        setVibe(data.vibe_profile as unknown as VibeProfile);
+      if (isVibeProfile(data?.vibe_profile)) {
+        setVibe(data.vibe_profile);
       }
       return data;
     },
