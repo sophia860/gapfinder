@@ -883,6 +883,67 @@ export type Database = {
         }
         Relationships: []
       }
+      coding_sessions: {
+        Row: {
+          checkpoint_id: string
+          created_at: string
+          id: string
+          project_id: string
+          session_vibe_snapshot: Json
+        }
+        Insert: {
+          checkpoint_id: string
+          created_at?: string
+          id?: string
+          project_id: string
+          session_vibe_snapshot?: Json
+        }
+        Update: {
+          checkpoint_id?: string
+          created_at?: string
+          id?: string
+          project_id?: string
+          session_vibe_snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coding_sessions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_vibes: {
+        Row: {
+          id: string
+          project_id: string
+          updated_at: string | null
+          vibe_profile: Json
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          updated_at?: string | null
+          vibe_profile?: Json
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          updated_at?: string | null
+          vibe_profile?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_vibes_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vibe_files: {
         Row: {
           content: string

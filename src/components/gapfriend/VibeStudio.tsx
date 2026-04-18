@@ -78,7 +78,7 @@ export function VibeStudio({ projectId }: Props) {
         .eq("project_id", projectId)
         .maybeSingle();
       if (data?.vibe_profile) {
-        setVibe(data.vibe_profile as VibeProfile);
+        setVibe(data.vibe_profile as unknown as VibeProfile);
       }
       return data;
     },
