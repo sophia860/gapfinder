@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Zap, Target, FolderKanban, Compass, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -255,6 +255,60 @@ function LaunchpadVisual() {
   );
 }
 
+/**
+ * Glassmorphic site header. Sits at the top of the page, becomes more
+ * opaque + condensed once the user scrolls past ~12px. Pure CSS for the
+ * effect; a tiny scroll listener flips a class.
+ */
+function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={`sticky top-0 z-40 w-full border-b transition-all duration-300 ${
+        scrolled
+          ? "border-border/70 bg-background/70 backdrop-blur-md supports-[backdrop-filter]:bg-background/55 py-3"
+          : "border-transparent bg-background/0 py-6"
+      }`}
+    >
+      <div className="px-6 lg:px-12 flex items-center justify-between">
+        <Link to="/" className="flex items-baseline gap-2">
+          <span className="font-serif text-xl font-medium tracking-tight">GapFriend</span>
+          <span className="text-[10px] font-mono uppercase tracking-widest text-terracotta">
+            v1
+          </span>
+        </Link>
+        <nav
+          aria-label="Primary"
+          className="hidden md:flex items-center gap-7 text-sm text-muted-foreground"
+        >
+          <a href="#features" className="hover:text-foreground transition-colors">
+            Features
+          </a>
+          <a href="#why" className="hover:text-foreground transition-colors">
+            Why GapFriend
+          </a>
+          <a href="#pricing" className="hover:text-foreground transition-colors">
+            Pricing
+          </a>
+        </nav>
+        <Link to="/auth">
+          <Button variant="ghost" className="rounded-full">
+            Sign in
+          </Button>
+        </Link>
+      </div>
+    </header>
+  );
+}
+
 function Landing() {
   const features = [
     {
@@ -335,58 +389,40 @@ function Landing() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <header className="px-6 lg:px-12 py-6 flex items-center justify-between">
-        <Link to="/" className="flex items-baseline gap-2">
-          <span className="font-serif text-xl font-medium tracking-tight">GapFriend</span>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-terracotta">
-            v1
-          </span>
-        </Link>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition-colors">
-            Features
-          </a>
-          <a href="#why" className="hover:text-foreground transition-colors">
-            Why GapFriend
-          </a>
-          <a href="#pricing" className="hover:text-foreground transition-colors">
-            Pricing
-          </a>
-        </nav>
-        <Link to="/auth">
-          <Button variant="ghost" className="rounded-full">
-            Sign in
-          </Button>
-        </Link>
-      </header>
+      <SiteHeader />
 
-      <section className="px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
-        <p className="font-mono text-xs uppercase tracking-widest text-terracotta mb-6">
-          Issue No. 1 — for makers, founders, freelancers
-        </p>
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight text-balance">
-          Find a real gap.
-          <br />
-          <span className="italic text-terracotta">Build something</span> honest.
-        </h1>
-        <p className="mt-8 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty">
-          GapFriend is an AI co-pilot that helps you spot gaps in the market, pressure-test ideas
-          with synthetic customers, and turn the good ones into a name, a plan, tasks, content, and
-          a working website or app — without writing any code (unless you want to).
-        </p>
+      <section className="relative px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
+        <div className="mesh-hero" aria-hidden="true">
+          <div className="mesh-blob" />
+        </div>
+        <div className="relative z-10">
+          <p className="font-mono text-xs uppercase tracking-widest text-terracotta mb-6">
+            Issue No. 1 — for makers, founders, freelancers
+          </p>
+          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-[0.95] tracking-tight text-balance">
+            Find a real gap.
+            <br />
+            <span className="italic text-terracotta">Build something</span> honest.
+          </h1>
+          <p className="mt-8 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty">
+            GapFriend is an AI co-pilot that helps you spot gaps in the market, pressure-test ideas
+            with synthetic customers, and turn the good ones into a name, a plan, tasks, content,
+            and a working website or app — without writing any code (unless you want to).
+          </p>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link to="/auth">
-            <Button size="lg" className="rounded-full px-7 h-12 text-base">
-              Start free →
-            </Button>
-          </Link>
-          <a
-            href="#how"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-background h-12 px-7 text-base font-medium hover:bg-secondary transition-colors"
-          >
-            How it works
-          </a>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link to="/auth">
+              <Button size="lg" className="rounded-full px-7 h-12 text-base">
+                Start free →
+              </Button>
+            </Link>
+            <a
+              href="#how"
+              className="inline-flex items-center justify-center rounded-full border border-border bg-background h-12 px-7 text-base font-medium hover:bg-secondary transition-colors"
+            >
+              How it works
+            </a>
+          </div>
         </div>
       </section>
 
@@ -454,7 +490,7 @@ function Landing() {
           <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pillars.map((p, i) => (
               <Reveal key={p.title} delayMs={i * 60}>
-                <div className="h-full rounded-2xl border border-border bg-background p-6 hover:shadow-warm transition-shadow">
+                <div className="h-full rounded-2xl border border-border bg-background p-6 glow-card">
                   <div className="size-10 rounded-full bg-terracotta-soft text-terracotta flex items-center justify-center">
                     <p.icon className="size-5" aria-hidden="true" />
                   </div>
@@ -481,7 +517,7 @@ function Landing() {
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delayMs={i * 80}>
-              <figure className="h-full rounded-2xl border border-border bg-paper p-6 flex flex-col">
+              <figure className="h-full rounded-2xl border border-border bg-paper p-6 flex flex-col glow-card">
                 <blockquote className="font-serif text-xl leading-snug text-balance">
                   "{t.quote}"
                 </blockquote>
