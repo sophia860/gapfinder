@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.gapfriend-backstage]
 verify_jwt = false
+
+[functions.github-repo-agent]
+verify_jwt = false

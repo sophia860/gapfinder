@@ -286,6 +286,66 @@ export type Database = {
           },
         ]
       }
+      founder_mirror_signals: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          payload: Json
+          processed_at: string | null
+          project_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          payload?: Json
+          processed_at?: string | null
+          project_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          payload?: Json
+          processed_at?: string | null
+          project_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      founder_mirrors: {
+        Row: {
+          created_at: string
+          genome: Json
+          id: string
+          last_synthesized_at: string | null
+          signal_count: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          genome?: Json
+          id?: string
+          last_synthesized_at?: string | null
+          signal_count?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          genome?: Json
+          id?: string
+          last_synthesized_at?: string | null
+          signal_count?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       gap_cards: {
         Row: {
           created_at: string
@@ -634,6 +694,62 @@ export type Database = {
         }
         Relationships: []
       }
+      repo_shipments: {
+        Row: {
+          branch_name: string
+          created_at: string
+          error: string | null
+          files_changed: number
+          id: string
+          pr_number: number | null
+          pr_url: string | null
+          project_id: string
+          repo_full_name: string
+          status: string
+          summary: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          branch_name: string
+          created_at?: string
+          error?: string | null
+          files_changed?: number
+          id?: string
+          pr_number?: number | null
+          pr_url?: string | null
+          project_id: string
+          repo_full_name: string
+          status?: string
+          summary?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          branch_name?: string
+          created_at?: string
+          error?: string | null
+          files_changed?: number
+          id?: string
+          pr_number?: number | null
+          pr_url?: string | null
+          project_id?: string
+          repo_full_name?: string
+          status?: string
+          summary?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "repo_shipments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       simulations: {
         Row: {
           created_at: string
@@ -724,6 +840,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_github_connections: {
+        Row: {
+          access_token: string | null
+          auth_kind: string
+          created_at: string
+          default_branch: string | null
+          github_login: string | null
+          id: string
+          installation_id: string | null
+          last_synced_at: string | null
+          repo_full_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token?: string | null
+          auth_kind?: string
+          created_at?: string
+          default_branch?: string | null
+          github_login?: string | null
+          id?: string
+          installation_id?: string | null
+          last_synced_at?: string | null
+          repo_full_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token?: string | null
+          auth_kind?: string
+          created_at?: string
+          default_branch?: string | null
+          github_login?: string | null
+          id?: string
+          installation_id?: string | null
+          last_synced_at?: string | null
+          repo_full_name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       vibe_files: {
         Row: {
@@ -859,6 +1017,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _project_owner: { Args: { _project_id: string }; Returns: string }
+      get_or_create_founder_mirror: {
+        Args: never
+        Returns: {
+          created_at: string
+          genome: Json
+          id: string
+          last_synthesized_at: string | null
+          signal_count: number
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "founder_mirrors"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       owns_project: { Args: { _project_id: string }; Returns: boolean }
     }
     Enums: {

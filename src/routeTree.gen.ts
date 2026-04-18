@@ -22,7 +22,9 @@ import { Route as CommunityProfileUserIdRouteImport } from './routes/community.p
 import { Route as AppProjectIdVibeRouteImport } from './routes/app.$projectId.vibe'
 import { Route as AppProjectIdSimulatorRouteImport } from './routes/app.$projectId.simulator'
 import { Route as AppProjectIdRoadmapRouteImport } from './routes/app.$projectId.roadmap'
+import { Route as AppProjectIdRepoRouteImport } from './routes/app.$projectId.repo'
 import { Route as AppProjectIdMoneyRouteImport } from './routes/app.$projectId.money'
+import { Route as AppProjectIdMirrorRouteImport } from './routes/app.$projectId.mirror'
 import { Route as AppProjectIdIdentityRouteImport } from './routes/app.$projectId.identity'
 import { Route as AppProjectIdGapsRouteImport } from './routes/app.$projectId.gaps'
 import { Route as AppProjectIdCrowdfundRouteImport } from './routes/app.$projectId.crowdfund'
@@ -98,9 +100,19 @@ const AppProjectIdRoadmapRoute = AppProjectIdRoadmapRouteImport.update({
   path: '/roadmap',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
+const AppProjectIdRepoRoute = AppProjectIdRepoRouteImport.update({
+  id: '/repo',
+  path: '/repo',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
 const AppProjectIdMoneyRoute = AppProjectIdMoneyRouteImport.update({
   id: '/money',
   path: '/money',
+  getParentRoute: () => AppProjectIdRoute,
+} as any)
+const AppProjectIdMirrorRoute = AppProjectIdMirrorRouteImport.update({
+  id: '/mirror',
+  path: '/mirror',
   getParentRoute: () => AppProjectIdRoute,
 } as any)
 const AppProjectIdIdentityRoute = AppProjectIdIdentityRouteImport.update({
@@ -167,7 +179,9 @@ export interface FileRoutesByFullPath {
   '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -190,7 +204,9 @@ export interface FileRoutesByTo {
   '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -216,7 +232,9 @@ export interface FileRoutesById {
   '/app/$projectId/crowdfund': typeof AppProjectIdCrowdfundRoute
   '/app/$projectId/gaps': typeof AppProjectIdGapsRoute
   '/app/$projectId/identity': typeof AppProjectIdIdentityRoute
+  '/app/$projectId/mirror': typeof AppProjectIdMirrorRoute
   '/app/$projectId/money': typeof AppProjectIdMoneyRoute
+  '/app/$projectId/repo': typeof AppProjectIdRepoRoute
   '/app/$projectId/roadmap': typeof AppProjectIdRoadmapRoute
   '/app/$projectId/simulator': typeof AppProjectIdSimulatorRoute
   '/app/$projectId/vibe': typeof AppProjectIdVibeRoute
@@ -243,7 +261,9 @@ export interface FileRouteTypes {
     | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
+    | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -266,7 +286,9 @@ export interface FileRouteTypes {
     | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
+    | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -291,7 +313,9 @@ export interface FileRouteTypes {
     | '/app/$projectId/crowdfund'
     | '/app/$projectId/gaps'
     | '/app/$projectId/identity'
+    | '/app/$projectId/mirror'
     | '/app/$projectId/money'
+    | '/app/$projectId/repo'
     | '/app/$projectId/roadmap'
     | '/app/$projectId/simulator'
     | '/app/$projectId/vibe'
@@ -401,11 +425,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectIdRoadmapRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
+    '/app/$projectId/repo': {
+      id: '/app/$projectId/repo'
+      path: '/repo'
+      fullPath: '/app/$projectId/repo'
+      preLoaderRoute: typeof AppProjectIdRepoRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
     '/app/$projectId/money': {
       id: '/app/$projectId/money'
       path: '/money'
       fullPath: '/app/$projectId/money'
       preLoaderRoute: typeof AppProjectIdMoneyRouteImport
+      parentRoute: typeof AppProjectIdRoute
+    }
+    '/app/$projectId/mirror': {
+      id: '/app/$projectId/mirror'
+      path: '/mirror'
+      fullPath: '/app/$projectId/mirror'
+      preLoaderRoute: typeof AppProjectIdMirrorRouteImport
       parentRoute: typeof AppProjectIdRoute
     }
     '/app/$projectId/identity': {
@@ -484,7 +522,9 @@ interface AppProjectIdRouteChildren {
   AppProjectIdCrowdfundRoute: typeof AppProjectIdCrowdfundRoute
   AppProjectIdGapsRoute: typeof AppProjectIdGapsRoute
   AppProjectIdIdentityRoute: typeof AppProjectIdIdentityRoute
+  AppProjectIdMirrorRoute: typeof AppProjectIdMirrorRoute
   AppProjectIdMoneyRoute: typeof AppProjectIdMoneyRoute
+  AppProjectIdRepoRoute: typeof AppProjectIdRepoRoute
   AppProjectIdRoadmapRoute: typeof AppProjectIdRoadmapRoute
   AppProjectIdSimulatorRoute: typeof AppProjectIdSimulatorRoute
   AppProjectIdVibeRoute: typeof AppProjectIdVibeRoute
@@ -501,7 +541,9 @@ const AppProjectIdRouteChildren: AppProjectIdRouteChildren = {
   AppProjectIdCrowdfundRoute: AppProjectIdCrowdfundRoute,
   AppProjectIdGapsRoute: AppProjectIdGapsRoute,
   AppProjectIdIdentityRoute: AppProjectIdIdentityRoute,
+  AppProjectIdMirrorRoute: AppProjectIdMirrorRoute,
   AppProjectIdMoneyRoute: AppProjectIdMoneyRoute,
+  AppProjectIdRepoRoute: AppProjectIdRepoRoute,
   AppProjectIdRoadmapRoute: AppProjectIdRoadmapRoute,
   AppProjectIdSimulatorRoute: AppProjectIdSimulatorRoute,
   AppProjectIdVibeRoute: AppProjectIdVibeRoute,
