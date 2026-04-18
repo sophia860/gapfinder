@@ -206,6 +206,7 @@ function ProjectCrowdfund() {
   // Run the LangGraph-style agent on first load.
   useEffect(() => {
     if (!campaign?.id || !user?.id || agentRunning) return;
+    // Agent failures are intentionally swallowed — next-actions degrade gracefully to empty.
     void runAgent(campaign.id, user.id, "manual");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign?.id, user?.id]);
@@ -1239,7 +1240,7 @@ function CreateCampaignPanel({
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Campaigns start <strong>private by default</strong>. Build at your own pace, run the
-          synthetic swarm for pre-launch feedback, then publish when you&apos;re ready.
+          synthetic swarm for pre-launch feedback, then publish when you're ready.
         </p>
       </div>
 

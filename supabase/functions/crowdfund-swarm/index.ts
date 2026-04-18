@@ -121,13 +121,13 @@ Deno.serve(async (req) => {
     if (camErr || !campaign) return json({ error: "Campaign not found or access denied" }, 403);
 
     // Self-throttle: skip if a completed swarm run happened in the last 5 minutes.
-    const fiveMinAgo = new Date(Date.now() - 5 * 60_000).toISOString();
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60_000).toISOString();
     const { data: recentRuns } = await supabase
       .from("campaign_swarm_runs")
       .select("id")
       .eq("campaign_id", campaignId)
       .eq("status", "complete")
-      .gte("created_at", fiveMinAgo)
+      .gte("created_at", fiveMinutesAgo)
       .limit(1);
     if (recentRuns && recentRuns.length > 0) {
       return json({ skipped: true, reason: "throttled" });
