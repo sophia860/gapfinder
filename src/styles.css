@@ -176,27 +176,42 @@
 }
 
 @layer utilities {
-  /* Scroll-triggered fade/slide-in. Elements start hidden and reveal when
-   * they enter the viewport via IntersectionObserver toggling .is-visible. */
-  .reveal {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 700ms ease-out,
-      transform 700ms ease-out;
-    will-change: opacity, transform;
+  /* Masked text reveal wrappers used by RevealLines / RevealWords. The outer
+   * mask clips the inner element so the y-translate animates a "rising into
+   * view" effect. Static fallback (visible text) ships when JS doesn't run. */
+  .reveal-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    line-height: inherit;
+  }
+  .reveal-inner {
+    display: inline-block;
+    will-change: transform;
   }
 
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+  /* Film-grain overlay sourced from a tiny inline SVG noise pattern. Sits
+   * above the background but below content; non-interactive. */
+  .grain-overlay {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 160px 160px;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+  }
+
+  /* Hide native cursor on the marketing surface only when the InkCursor
+   * is mounted. The .ink-cursor-on class is toggled at the <html> level. */
+  .ink-cursor-on .site-marketing,
+  .ink-cursor-on .site-marketing * {
+    cursor: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
+    .reveal-inner {
+      transform: none !important;
+    }
+    .reveal-mask {
+      overflow: visible;
     }
   }
 }
