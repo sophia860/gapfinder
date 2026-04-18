@@ -490,7 +490,7 @@ function WidgetTile(props: {
   onDrop: () => void;
 }) {
   const { widget } = props;
-  const span = `col-span-12 sm:col-span-${Math.min(12, widget.w)} lg:col-span-${Math.min(12, widget.w)}`;
+  const colSpan = Math.min(12, Math.max(1, widget.w));
   return (
     <div
       ref={props.registerRef}
@@ -499,10 +499,10 @@ function WidgetTile(props: {
       onDragStart={props.onDragStart}
       onDragOver={props.onDragOver}
       onDrop={props.onDrop}
-      className={`${span} group rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 outline-none transition focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+      className={`group rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 outline-none transition focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
         props.focused ? "ring-1 ring-[var(--accent)]" : ""
       }`}
-      style={{ minHeight: widget.h * 80 }}
+      style={{ minHeight: widget.h * 80, gridColumn: `span ${colSpan} / span ${colSpan}` }}
       aria-label={`Widget ${widget.id}`}
     >
       <div className="flex items-center justify-between">
