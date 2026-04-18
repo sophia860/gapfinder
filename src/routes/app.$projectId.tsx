@@ -26,6 +26,7 @@ const SECTION_LABELS: Record<string, string> = {
   simulator: "Simulator",
   vibe: "Vibe coding",
   code: "Coding space",
+  mirror: "Founder Mirror",
 };
 
 function ProjectShell() {
