@@ -24,7 +24,56 @@ export type ReactionTarget = Database["public"]["Enums"]["reaction_target"];
 export type ReactionKind = Database["public"]["Enums"]["reaction_kind"];
 export type UserMode = Database["public"]["Enums"]["user_mode"];
 export type TaskColumn = Database["public"]["Enums"]["task_column"];
+export type BackstageInsight = Database["public"]["Tables"]["backstage_insights"]["Row"];
+export type BackstageKind = Database["public"]["Enums"]["backstage_kind"];
+export type BackstageStatus = Database["public"]["Enums"]["backstage_status"];
 // Vibe coding tables not yet provisioned in the database. Types intentionally omitted.
+
+/* ---------- backstage insights ---------- */
+export function useBackstageInsights(projectId: string | undefined) {
+  return useQuery({
+    queryKey: ["backstage", projectId],
+    enabled: !!projectId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("backstage_insights")
+        .select("*")
+        .eq("project_id", projectId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as BackstageInsight[];
+    },
+  });
+}
+
+export function useTriggerBackstage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { projectId: string; trigger?: string }) => {
+      const { data, error } = await supabase.functions.invoke("gapfriend-backstage", {
+        body: { projectId: input.projectId, trigger: input.trigger },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => qc.invalidateQueries({ queryKey: ["backstage", vars.projectId] }),
+  });
+}
+
+export function useUpdateInsightStatus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { id: string; projectId: string; status: BackstageStatus }) => {
+      const { error } = await supabase
+        .from("backstage_insights")
+        .update({ status: input.status })
+        .eq("id", input.id);
+      if (error) throw error;
+      return input;
+    },
+    onSuccess: (data) => qc.invalidateQueries({ queryKey: ["backstage", data.projectId] }),
+  });
+}
 
 /* ---------- profile ---------- */
 export function useProfile(userId: string | undefined) {
