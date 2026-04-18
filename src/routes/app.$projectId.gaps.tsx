@@ -54,8 +54,8 @@ function GapsPage() {
           </p>
           <h1 className="font-serif text-4xl font-medium mt-1">Market gaps</h1>
           <p className="text-muted-foreground mt-2 max-w-xl">
-            Specific, real problems that don't have a great answer yet. Pick one and turn it into
-            an opportunity brief.
+            Specific, real problems that don't have a great answer yet. Pick one and turn it into an
+            opportunity brief.
           </p>
         </div>
         <Button
@@ -67,7 +67,11 @@ function GapsPage() {
             )
           }
         >
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Lightbulb className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <Lightbulb className="size-4 mr-2" />
+          )}
           Suggest gaps
         </Button>
       </header>

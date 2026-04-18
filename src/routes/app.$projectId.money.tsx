@@ -39,7 +39,13 @@ function MoneyPage() {
     }
   }
 
-  const scenarios = (money?.scenarios as Array<{ name: string; units?: number; revenue?: number; note?: string }> | null) ?? [];
+  const scenarios =
+    (money?.scenarios as Array<{
+      name: string;
+      units?: number;
+      revenue?: number;
+      note?: string;
+    }> | null) ?? [];
 
   const breakeven =
     money?.income_target && money?.price_per_unit
@@ -57,7 +63,11 @@ function MoneyPage() {
           </p>
         </div>
         <Button className="rounded-full" disabled={busy} onClick={ask}>
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Coins className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <Coins className="size-4 mr-2" />
+          )}
           {money ? "Refresh" : "Propose"}
         </Button>
       </header>
@@ -65,16 +75,21 @@ function MoneyPage() {
       <div className="grid md:grid-cols-3 gap-4">
         <Stat
           label="Monthly target"
-          value={money?.income_target ? `${money.currency} ${Number(money.income_target).toLocaleString()}` : "—"}
+          value={
+            money?.income_target
+              ? `${money.currency} ${Number(money.income_target).toLocaleString()}`
+              : "—"
+          }
         />
         <Stat
           label="Price per unit"
-          value={money?.price_per_unit ? `${money.currency} ${Number(money.price_per_unit).toLocaleString()}` : "—"}
+          value={
+            money?.price_per_unit
+              ? `${money.currency} ${Number(money.price_per_unit).toLocaleString()}`
+              : "—"
+          }
         />
-        <Stat
-          label="Break-even units"
-          value={breakeven ? `${breakeven} / month` : "—"}
-        />
+        <Stat label="Break-even units" value={breakeven ? `${breakeven} / month` : "—"} />
       </div>
 
       <div className="bg-card rounded-3xl border border-border p-7 shadow-warm-sm">

@@ -72,7 +72,11 @@ function IdentityPage() {
           </p>
         </div>
         <Button className="rounded-full" disabled={busy} onClick={ask}>
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Target className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <Target className="size-4 mr-2" />
+          )}
           {identity?.chosen_name ? "Refine" : "Generate options"}
         </Button>
       </header>

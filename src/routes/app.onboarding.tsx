@@ -121,12 +121,37 @@ const QUESTIONS: Record<
     },
   ],
   developer: [
-    { key: "stack", label: "What's your stack — what do you reach for first?", placeholder: "e.g. TypeScript + Next.js + Postgres, or Python + FastAPI" },
-    { key: "domains", label: "Domains or industries you actually understand?", placeholder: "e.g. devops, fintech APIs, e-commerce, indie game dev, biotech tooling" },
-    { key: "oss_or_projects", label: "Any OSS, side projects, or things you've shipped?", placeholder: "e.g. a CLI with 200 stars, a Chrome extension with 1k users, nothing yet" },
-    { key: "build_speed", label: "How fast can you realistically ship a v1?", placeholder: "e.g. weekend MVPs, 2–4 weeks for a polished tool, slower with day job" },
-    { key: "constraints", label: "Time + money you can put in over the next 3 months?", placeholder: "e.g. ~15 hours/week, $200 infra budget" },
-    { key: "monetization", label: "How would you prefer to make money?", placeholder: "e.g. SaaS subscription, one-time license, paid OSS sponsor tier, API metered, B2B contracts" },
+    {
+      key: "stack",
+      label: "What's your stack — what do you reach for first?",
+      placeholder: "e.g. TypeScript + Next.js + Postgres, or Python + FastAPI",
+    },
+    {
+      key: "domains",
+      label: "Domains or industries you actually understand?",
+      placeholder: "e.g. devops, fintech APIs, e-commerce, indie game dev, biotech tooling",
+    },
+    {
+      key: "oss_or_projects",
+      label: "Any OSS, side projects, or things you've shipped?",
+      placeholder: "e.g. a CLI with 200 stars, a Chrome extension with 1k users, nothing yet",
+    },
+    {
+      key: "build_speed",
+      label: "How fast can you realistically ship a v1?",
+      placeholder: "e.g. weekend MVPs, 2–4 weeks for a polished tool, slower with day job",
+    },
+    {
+      key: "constraints",
+      label: "Time + money you can put in over the next 3 months?",
+      placeholder: "e.g. ~15 hours/week, $200 infra budget",
+    },
+    {
+      key: "monetization",
+      label: "How would you prefer to make money?",
+      placeholder:
+        "e.g. SaaS subscription, one-time license, paid OSS sponsor tier, API metered, B2B contracts",
+    },
   ],
 };
 

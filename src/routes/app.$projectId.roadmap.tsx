@@ -55,7 +55,11 @@ function RoadmapPage() {
           </p>
         </div>
         <Button className="rounded-full" disabled={busy} onClick={ask}>
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <MapIcon className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <MapIcon className="size-4 mr-2" />
+          )}
           Plan 6 weeks
         </Button>
       </header>

@@ -1,5 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useTasks, useUpdateTask, useCreateTask, useDeleteTask, type TaskColumn } from "@/lib/queries";
+import {
+  useTasks,
+  useUpdateTask,
+  useCreateTask,
+  useDeleteTask,
+  type TaskColumn,
+} from "@/lib/queries";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { KanbanSquare, Plus, Trash2, ArrowRight, ArrowLeft } from "lucide-react";
@@ -73,7 +79,10 @@ function BoardPage() {
         {COLUMNS.map((col) => {
           const items = tasks?.filter((t) => t.column_name === col.key) ?? [];
           return (
-            <div key={col.key} className="bg-card rounded-2xl border border-border p-4 min-h-[200px]">
+            <div
+              key={col.key}
+              className="bg-card rounded-2xl border border-border p-4 min-h-[200px]"
+            >
               <div className="flex items-center gap-2 mb-3">
                 <KanbanSquare className="size-3.5 text-muted-foreground" />
                 <h2 className="text-[11px] uppercase tracking-widest font-mono">{col.label}</h2>

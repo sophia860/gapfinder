@@ -52,7 +52,11 @@ function BriefPage() {
           </p>
         </div>
         <Button className="rounded-full" disabled={busy} onClick={ask}>
-          {busy ? <Loader2 className="size-4 mr-2 animate-spin" /> : <Compass className="size-4 mr-2" />}
+          {busy ? (
+            <Loader2 className="size-4 mr-2 animate-spin" />
+          ) : (
+            <Compass className="size-4 mr-2" />
+          )}
           {brief ? "Refine brief" : "Draft brief"}
         </Button>
       </header>
@@ -64,7 +68,10 @@ function BriefPage() {
         <Field label="Business model" value={brief?.business_model} />
         {!brief && (
           <p className="text-sm text-muted-foreground italic">
-            No brief yet. {selectedGap ? `Picked: "${selectedGap.title}".` : "Pick a gap first, or just draft one now."}
+            No brief yet.{" "}
+            {selectedGap
+              ? `Picked: "${selectedGap.title}".`
+              : "Pick a gap first, or just draft one now."}
           </p>
         )}
       </div>

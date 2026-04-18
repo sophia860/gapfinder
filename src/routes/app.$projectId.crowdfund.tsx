@@ -361,7 +361,9 @@ function EditCampaignForm({
     setStory(campaign.story ?? "");
     setGoal(Number(campaign.goal_amount ?? 0));
     setCurrency(campaign.currency);
-    setDeadline(campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "");
+    setDeadline(
+      campaign.deadline_at ? new Date(campaign.deadline_at).toISOString().slice(0, 10) : "",
+    );
     setCategory(campaign.category ?? "");
     setCoverUrl(campaign.cover_url ?? "");
     setStatus(campaign.status);
