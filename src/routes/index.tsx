@@ -360,7 +360,7 @@ function Landing() {
         </Link>
       </header>
 
-      <main className="px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
+      <section className="px-6 lg:px-12 pt-16 pb-24 max-w-5xl mx-auto">
         <p className="font-mono text-xs uppercase tracking-widest text-terracotta mb-6">
           Issue No. 1 — for makers, founders, freelancers
         </p>
