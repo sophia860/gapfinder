@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Wand2, RotateCcw, Copy, CheckCheck, Zap, Feather, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -82,44 +82,8 @@ export function VibeStudio({ projectId }: Props) {
   const [copied, setCopied] = useState(false);
   const codeRef = useRef<HTMLPreElement>(null);
 
-  // Load existing vibe profile for this project
-  useQuery({
-    queryKey: ["project_vibes", projectId],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("project_vibes")
-        .select("vibe_profile, updated_at")
-        .eq("project_id", projectId)
-        .maybeSingle();
-      if (isVibeProfile(data?.vibe_profile)) {
-        setVibe(data.vibe_profile);
-      }
-      return data;
-    },
-    enabled: !!projectId,
-  });
-
-  // Load last coding session checkpoint
-  useQuery({
-    queryKey: ["coding_sessions_last", projectId],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("coding_sessions")
-        .select("checkpoint_id, session_vibe_snapshot, created_at")
-        .eq("project_id", projectId)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (data?.checkpoint_id) {
-        setCheckpointId(data.checkpoint_id);
-        const snap = data.session_vibe_snapshot as { messages?: { role: string; content: string }[] };
-        const lastAssistant = snap?.messages?.filter((m) => m.role === "assistant").at(-1);
-        if (lastAssistant?.content) setCode(lastAssistant.content);
-      }
-      return data;
-    },
-    enabled: !!projectId,
-  });
+  // NOTE: project_vibes / coding_sessions tables don't exist in the schema yet.
+  // Skipping persistence until those migrations land — defaults are used in-memory.
 
   const mutation = useMutation({
     mutationFn: invokeVibeCoder,
