@@ -7,8 +7,9 @@
  * hero stays interactive quickly. The static fallbacks keep page height
  * stable so ScrollTrigger pin positions don't jump after hydration.
  */
-import { createFileRoute } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Nav } from "@/components/site/landing/Nav";
 import { Hero } from "@/components/site/landing/Hero";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
