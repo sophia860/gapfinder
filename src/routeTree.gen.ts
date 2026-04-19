@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SwarmRouteImport } from './routes/swarm'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
@@ -35,6 +36,11 @@ import { Route as AppProjectIdCapitalRouteImport } from './routes/app.$projectId
 import { Route as AppProjectIdBriefRouteImport } from './routes/app.$projectId.brief'
 import { Route as AppProjectIdBoardRouteImport } from './routes/app.$projectId.board'
 
+const SwarmRoute = SwarmRouteImport.update({
+  id: '/swarm',
+  path: '/swarm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/swarm': typeof SwarmRoute
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/swarm': typeof SwarmRoute
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
   '/app': typeof AppIndexRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/swarm': typeof SwarmRoute
   '/app/$projectId': typeof AppProjectIdRouteWithChildren
   '/app/onboarding': typeof AppOnboardingRoute
   '/community/$campaignId': typeof CommunityCampaignIdRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/swarm'
     | '/app/$projectId'
     | '/app/onboarding'
     | '/community/$campaignId'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/swarm'
     | '/app/onboarding'
     | '/community/$campaignId'
     | '/app'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
+    | '/swarm'
     | '/app/$projectId'
     | '/app/onboarding'
     | '/community/$campaignId'
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  SwarmRoute: typeof SwarmRoute
   CommunityCampaignIdRoute: typeof CommunityCampaignIdRoute
   CommunityIndexRoute: typeof CommunityIndexRoute
   CommunityProfileUserIdRoute: typeof CommunityProfileUserIdRoute
@@ -334,6 +347,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/swarm': {
+      id: '/swarm'
+      path: '/swarm'
+      fullPath: '/swarm'
+      preLoaderRoute: typeof SwarmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -572,6 +592,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  SwarmRoute: SwarmRoute,
   CommunityCampaignIdRoute: CommunityCampaignIdRoute,
   CommunityIndexRoute: CommunityIndexRoute,
   CommunityProfileUserIdRoute: CommunityProfileUserIdRoute,
