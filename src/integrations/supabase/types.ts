@@ -797,6 +797,222 @@ export type Database = {
           },
         ]
       }
+      swarm_agents: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          parent_agent_id: string | null
+          role: Database["public"]["Enums"]["swarm_agent_role"]
+          status: Database["public"]["Enums"]["swarm_agent_status"]
+          steps_run: number
+          swarm_id: string
+          system_prompt: string
+          tokens_used: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          parent_agent_id?: string | null
+          role?: Database["public"]["Enums"]["swarm_agent_role"]
+          status?: Database["public"]["Enums"]["swarm_agent_status"]
+          steps_run?: number
+          swarm_id: string
+          system_prompt: string
+          tokens_used?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          parent_agent_id?: string | null
+          role?: Database["public"]["Enums"]["swarm_agent_role"]
+          status?: Database["public"]["Enums"]["swarm_agent_status"]
+          steps_run?: number
+          swarm_id?: string
+          system_prompt?: string
+          tokens_used?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "swarm_agents_parent_agent_id_fkey"
+            columns: ["parent_agent_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_agents_swarm_id_fkey"
+            columns: ["swarm_id"]
+            isOneToOne: false
+            referencedRelation: "swarms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      swarm_messages: {
+        Row: {
+          content: string
+          created_at: string
+          from_agent_id: string | null
+          id: string
+          kind: string
+          swarm_id: string
+          task_id: string | null
+          to_agent_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          from_agent_id?: string | null
+          id?: string
+          kind?: string
+          swarm_id: string
+          task_id?: string | null
+          to_agent_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          from_agent_id?: string | null
+          id?: string
+          kind?: string
+          swarm_id?: string
+          task_id?: string | null
+          to_agent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "swarm_messages_from_agent_id_fkey"
+            columns: ["from_agent_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_messages_swarm_id_fkey"
+            columns: ["swarm_id"]
+            isOneToOne: false
+            referencedRelation: "swarms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_messages_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_messages_to_agent_id_fkey"
+            columns: ["to_agent_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      swarm_tasks: {
+        Row: {
+          assigned_agent_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          parent_task_id: string | null
+          priority: number
+          result: string | null
+          status: Database["public"]["Enums"]["swarm_task_status"]
+          swarm_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_agent_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          parent_task_id?: string | null
+          priority?: number
+          result?: string | null
+          status?: Database["public"]["Enums"]["swarm_task_status"]
+          swarm_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_agent_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          parent_task_id?: string | null
+          priority?: number
+          result?: string | null
+          status?: Database["public"]["Enums"]["swarm_task_status"]
+          swarm_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "swarm_tasks_assigned_agent_id_fkey"
+            columns: ["assigned_agent_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_tasks_parent_task_id_fkey"
+            columns: ["parent_task_id"]
+            isOneToOne: false
+            referencedRelation: "swarm_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "swarm_tasks_swarm_id_fkey"
+            columns: ["swarm_id"]
+            isOneToOne: false
+            referencedRelation: "swarms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      swarms: {
+        Row: {
+          created_at: string
+          goal: string
+          id: string
+          max_agents: number
+          model: string
+          name: string
+          status: Database["public"]["Enums"]["swarm_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goal: string
+          id?: string
+          max_agents?: number
+          model?: string
+          name: string
+          status?: Database["public"]["Enums"]["swarm_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goal?: string
+          id?: string
+          max_agents?: number
+          model?: string
+          name?: string
+          status?: Database["public"]["Enums"]["swarm_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       tasks: {
         Row: {
           column_name: Database["public"]["Enums"]["task_column"]
@@ -1037,6 +1253,7 @@ export type Database = {
         }
       }
       owns_project: { Args: { _project_id: string }; Returns: boolean }
+      owns_swarm: { Args: { _swarm_id: string }; Returns: boolean }
     }
     Enums: {
       backstage_kind:
@@ -1053,6 +1270,21 @@ export type Database = {
       reaction_kind: "like" | "love" | "fire" | "clap" | "heart"
       reaction_target: "campaign" | "post" | "comment"
       simulation_verdict: "strong" | "needs_work" | "kill"
+      swarm_agent_role:
+        | "supervisor"
+        | "researcher"
+        | "coder"
+        | "critic"
+        | "executor"
+        | "specialist"
+      swarm_agent_status: "idle" | "thinking" | "blocked" | "done" | "error"
+      swarm_status: "idle" | "running" | "paused" | "done" | "failed"
+      swarm_task_status:
+        | "pending"
+        | "in_progress"
+        | "blocked"
+        | "done"
+        | "failed"
       task_column: "later" | "this_week" | "in_progress" | "done"
       user_mode:
         | "solo_founder"
@@ -1201,6 +1433,23 @@ export const Constants = {
       reaction_kind: ["like", "love", "fire", "clap", "heart"],
       reaction_target: ["campaign", "post", "comment"],
       simulation_verdict: ["strong", "needs_work", "kill"],
+      swarm_agent_role: [
+        "supervisor",
+        "researcher",
+        "coder",
+        "critic",
+        "executor",
+        "specialist",
+      ],
+      swarm_agent_status: ["idle", "thinking", "blocked", "done", "error"],
+      swarm_status: ["idle", "running", "paused", "done", "failed"],
+      swarm_task_status: [
+        "pending",
+        "in_progress",
+        "blocked",
+        "done",
+        "failed",
+      ],
       task_column: ["later", "this_week", "in_progress", "done"],
       user_mode: [
         "solo_founder",
